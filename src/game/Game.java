@@ -25,7 +25,7 @@ public class Game extends JPanel {
 
     private double gameTime;
     private double lastTime;
-    
+
     BufferedImage rocket;
     BufferedImage fireUp, fireDown, fireleft, fireRight;
 
