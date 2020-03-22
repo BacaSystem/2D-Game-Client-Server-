@@ -1,3 +1,5 @@
 # PROZE20L_Baczynski_Krysiak
 
-Project for PROZE
+**Gra Lunar Lander**
+
+Etap 1 - Funkcjonalność i zasady. Punktacja.
