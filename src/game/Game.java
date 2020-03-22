@@ -36,11 +36,11 @@ public class Game extends JPanel {
         gameState = State.Game;
 
         try {
-            rocket = ImageIO.read(new File("/img/ship.png"));
-            fireDown = ImageIO.read(new File("/img/fire_down.png"));
-            fireleft  = ImageIO.read(new File("/img/fire_left.png"));
-            fireRight = ImageIO.read(new File("/img/fire_right.png"));
-            fireUp = ImageIO.read(new File("/img/fire_up.png"));
+            rocket = ImageIO.read(new File("img/ship.png"));
+            fireDown = ImageIO.read(new File("img/fire_down.png"));
+            fireleft  = ImageIO.read(new File("img/fire_left.png"));
+            fireRight = ImageIO.read(new File("img/fire_right.png"));
+            fireUp = ImageIO.read(new File("img/fire_up.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
