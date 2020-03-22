@@ -98,6 +98,7 @@ public class Game extends JPanel implements KeyListener {
 
     }
 
+    //Function will observe if any key is pressed
     @Override
     public void keyPressed(KeyEvent e) {
 
