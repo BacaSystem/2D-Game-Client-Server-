@@ -42,6 +42,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
     //Method from ActionListener to listen button actions
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        dispose();
         var source = actionEvent.getSource();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -50,10 +51,13 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 portText = port.getText();
 
                 if(source == online){
-
+                    System.out.println("Online Button");
+                    new MenuWindow();
                 }
                 else if(source == offline){
                     System.out.println("Offline Button");
+                    System.out.println(ipText);
+                    System.out.println(portText);
                     //New window - Game
                     new GameWindow();
                  }
