@@ -63,7 +63,9 @@ public class Game extends JPanel implements KeyListener, Runnable {
     }
 
     public void draw(Graphics2D g2d) {
-        g2d.fillRect(0, 0, 20, 20);
+        g2d.drawString("FPS: " + fps, 5, 10);
+        frameCount++;
+        
         g2d.drawImage(rocket, 100, 100, null);
         if (isFireDown) {
             g2d.drawImage(fireDown, 100, 100, null);
