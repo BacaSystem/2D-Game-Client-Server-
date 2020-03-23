@@ -205,7 +205,6 @@ public class Game extends JPanel implements KeyListener, Runnable {
         }
 
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
