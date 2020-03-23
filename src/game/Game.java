@@ -24,6 +24,8 @@ public class Game extends JPanel implements KeyListener, Runnable {
     private int fps = 60;
     private int frameCount = 0;
 
+    private int x = 300, y = 100;
+
     private boolean isFireLeft = false, isFireRight = false, isFireUp = false, isFireDown = false;
 
     BufferedImage rocket;
@@ -65,19 +67,19 @@ public class Game extends JPanel implements KeyListener, Runnable {
     public void draw(Graphics2D g2d) {
         g2d.drawString("FPS: " + fps, 5, 10);
         frameCount++;
-        
-        g2d.drawImage(rocket, 100, 100, null);
+
+        g2d.drawImage(rocket, x, y, null);
         if (isFireDown) {
-            g2d.drawImage(fireDown, 100, 100, null);
+            g2d.drawImage(fireDown, x, y, null);
         }
         if (isFireLeft) {
-            g2d.drawImage(fireleft, 100, 100, null);
+            g2d.drawImage(fireleft, x, y, null);
         }
         if (isFireRight) {
-            g2d.drawImage(fireRight, 100, 100, null);
+            g2d.drawImage(fireRight, x, y, null);
         }
         if (isFireUp) {
-            g2d.drawImage(fireUp, 100, 100, null);
+            g2d.drawImage(fireUp, x, y, null);
         }
     }
 
@@ -192,18 +194,22 @@ public class Game extends JPanel implements KeyListener, Runnable {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             System.out.println("Right key pressed");
             isFireRight = true;
+            x++;
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             System.out.println("Left key pressed");
             isFireLeft = true;
+            x--;
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             System.out.println("Up key pressed");
             isFireUp = true;
+            y--;
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             System.out.println("Down key pressed");
             isFireDown = true;
+            y++;
         }
 
     }
