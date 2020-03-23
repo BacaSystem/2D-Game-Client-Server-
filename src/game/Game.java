@@ -3,6 +3,7 @@ package game;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -12,21 +13,16 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Game extends JPanel implements KeyListener {
+public class Game extends JPanel implements KeyListener, Runnable {
 
     public static int width;
     public static int height;
 
-    //Framerate
-    public static final long NANOSEC = 1000000000L;
-    public static final long MILISECINNANO = 1000000L;
-    private final double FPS = 30;
-    private final double UPDATE_TIME = NANOSEC / FPS;
-
     private State gameState;
+    private Thread gameThread;
 
-    private double gameTime;
-    private double lastTime;
+    private int fps = 60;
+    private int frameCount = 0;
 
     private boolean isFireLeft = false, isFireRight = false, isFireUp = false, isFireDown = false;
 
@@ -40,6 +36,10 @@ public class Game extends JPanel implements KeyListener {
 
         gameState = State.Game;
 
+        init();
+    }
+
+    private void init(){
         try {
             rocket = ImageIO.read(new File("img/ship.png"));
             fireDown = ImageIO.read(new File("img/fire_down.png"));
@@ -51,30 +51,116 @@ public class Game extends JPanel implements KeyListener {
         }
     }
 
-    public void draw(Graphics2D g2d)
-    {
-        g2d.fillRect(0,0,20,20);
-        g2d.drawImage(rocket, 100 , 100, null);
-        if(isFireDown) {
-            g2d.drawImage(fireDown, 100 , 100, null);
-        }
-        if(isFireLeft) {
-            g2d.drawImage(fireleft, 100 , 100, null);
-        }
-        if(isFireRight) {
-            g2d.drawImage(fireRight, 100 , 100, null);
-        }
-        if(isFireUp) {
-            g2d.drawImage(fireUp, 100 , 100, null);
-        }
-
+    public void update(){
 
     }
+
+    @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g2d);
         draw(g2d);
     }
+
+    public void draw(Graphics2D g2d) {
+        g2d.fillRect(0, 0, 20, 20);
+        g2d.drawImage(rocket, 100, 100, null);
+        if (isFireDown) {
+            g2d.drawImage(fireDown, 100, 100, null);
+        }
+        if (isFireLeft) {
+            g2d.drawImage(fireleft, 100, 100, null);
+        }
+        if (isFireRight) {
+            g2d.drawImage(fireRight, 100, 100, null);
+        }
+        if (isFireUp) {
+            g2d.drawImage(fireUp, 100, 100, null);
+        }
+    }
+
+    @Override
+    public void addNotify(){
+        super.addNotify();
+
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
+    @Override
+    public void run() {
+        //This value would probably be stored elsewhere.
+        final double GAME_HERTZ = 30.0;
+        //Calculate how many ns each frame should take for our target game hertz.
+        final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+        //At the very most we will update the game this many times before a new render.
+        //If you're worried about visual hitches more than perfect timing, set this to 1.
+        final int MAX_UPDATES_BEFORE_RENDER = 5;
+        //We will need the last update time.
+        double lastUpdateTime = System.nanoTime();
+        //Store the last time we rendered.
+        double lastRenderTime = System.nanoTime();
+
+        //If we are able to get as high as this FPS, don't render again.
+        final double TARGET_FPS = 60;
+        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+
+        //Simple way of finding FPS.
+        int lastSecondTime = (int) (lastUpdateTime / 1000000000);
+
+        boolean paused = false;
+
+        while (true)
+        {
+            double now = System.nanoTime();
+            int updateCount = 0;
+
+            if (!paused)
+            {
+                //Do as many game updates as we need to, potentially playing catchup.
+                while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER )
+                {
+                    update();
+                    lastUpdateTime += TIME_BETWEEN_UPDATES;
+                    updateCount++;
+                }
+
+                //If for some reason an update takes forever, we don't want to do an insane number of catchups.
+                //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
+                if ( now - lastUpdateTime > TIME_BETWEEN_UPDATES)
+                {
+                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+                }
+
+                repaint();
+                lastRenderTime = now;
+
+                //Update the frames we got.
+                int thisSecond = (int) (lastUpdateTime / 1000000000);
+                if (thisSecond > lastSecondTime)
+                {
+                    System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+                    fps = frameCount;
+                    frameCount = 0;
+                    lastSecondTime = thisSecond;
+                }
+
+                //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
+                while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES)
+                {
+                    Thread.yield();
+
+                    //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
+                    //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
+                    //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
+                    try {Thread.sleep(1);} catch(Exception e) {}
+
+                    now = System.nanoTime();
+                }
+            }
+        }
+    }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -124,7 +210,7 @@ public class Game extends JPanel implements KeyListener {
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             System.out.println("Right key Released");
-            isFireLeft = false;
+            isFireRight = false;
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             System.out.println("Left key Released");
