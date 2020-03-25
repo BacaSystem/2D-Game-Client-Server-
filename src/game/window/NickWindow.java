@@ -28,8 +28,9 @@ public class NickWindow extends JFrame implements ActionListener{
         add(new JLabel("Your nick: ", JLabel.LEFT));
         nick = (JTextField) add(new JTextField(10));
 
-        play = (JButton) add(new JButton("Play"));
         back = (JButton) add(new JButton("Back"));
+        play = (JButton) add(new JButton("Play"));
+
 
         play.addActionListener(this);
         back.addActionListener(this);
@@ -54,7 +55,7 @@ public class NickWindow extends JFrame implements ActionListener{
                     player.setNick(nickText);
                     System.out.println(player.getNick());
                     System.out.println("0---------0");
-                     new MenuWindow();
+                    new game.Menu(false);
                 }
                 else if(source == play){
                     //To samo, co powyżej, testy

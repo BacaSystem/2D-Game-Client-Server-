@@ -52,7 +52,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
 
                 if(source == online){
                     System.out.println("Online Button");
-                    new MenuWindow();
+                    new game.Menu(false);
                 }
                 else if(source == offline){
                     System.out.println("Offline Button");
