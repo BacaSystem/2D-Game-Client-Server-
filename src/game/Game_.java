@@ -137,12 +137,12 @@ public class Game_ extends JPanel implements KeyListener, Runnable {
 
         boolean paused = false;
 
-        while (true)
+        while (!STOP)
         {
             double now = System.nanoTime();
             int updateCount = 0;
 
-            if (!STOP)
+            if (!paused)
             {
                 //Do as many game updates as we need to, potentially playing catchup.
                 while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER )
