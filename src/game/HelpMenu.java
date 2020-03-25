@@ -10,8 +10,6 @@ public class HelpMenu extends JPanel {
 
         add(new JLabel("Pomoc drogowa"));
         add(backToMenuButton(menuListner));
-
-        setVisible(true);
     }
 
     private JButton backToMenuButton(ActionListener menuListner) {

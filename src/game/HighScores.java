@@ -18,10 +18,7 @@ public class HighScores extends JPanel implements ActionListener {
 
         test = (JButton) add(new JButton("Test button"));
         test.addActionListener(this);
-
-
-
-        setVisible(true);
+        
     }
 
     private JButton backToMenuButton(ActionListener menuListner) {

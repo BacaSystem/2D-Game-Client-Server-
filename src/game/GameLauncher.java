@@ -14,7 +14,6 @@ public class GameLauncher {
     }
 
     public static void main (String[] args) {
-        //var player = new Player();
         SwingUtilities.invokeLater(new Runnable() { // Run new Thread
             @Override
             public void run() {

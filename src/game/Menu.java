@@ -29,7 +29,7 @@ public class Menu extends JFrame implements ActionListener {
 
     public Menu(boolean game) {
         size = new Dimension(1280, 720);
-        setWindowSize();
+        setWindowSizeAndFocus();
         MakeUI();
         System.out.println("wszedlem w konstruktor MENU");
 
@@ -39,7 +39,7 @@ public class Menu extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    private void setWindowSize() {
+    private void setWindowSizeAndFocus() {
         this.setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Main Menu");
@@ -101,19 +101,13 @@ public class Menu extends JFrame implements ActionListener {
                 break;
 
             case "NewGame":
-                nickPanel = new NickMenu((int) size.getWidth(), (int) size.getHeight(), this);
+                nickPanel = new NickMenu(this);
                 this.remove(menuPanel);
                 this.add(nickPanel);
                 this.revalidate();
                 setWindowSize(true);
                 this.repaint();
                 break;
-            /*case "NewGame":
-                dispose();
-                System.out.println("New Game");
-                new GameWindow();
-                break;
-            */
 
             case "StartGameButton":
                 if (!nickPanel.isNickEmpty())
@@ -129,8 +123,8 @@ public class Menu extends JFrame implements ActionListener {
                     setWindowSize(false);
                     this.revalidate();
                     this.repaint();
-                    break;
                 }
+                break;
 
 
             case "HighScores":
@@ -162,13 +156,6 @@ public class Menu extends JFrame implements ActionListener {
                 this.repaint();
                 break;
 
-            case "Game":
-                //gamePanel = new Game(...)
-                this.remove(menuPanel);
-                //this.add(gamePanel);
-                this.revalidate();
-                this.repaint();
-                break;
 
             case "BackToMainMenuFromHelpPanel":
                 this.remove(helpPanel);

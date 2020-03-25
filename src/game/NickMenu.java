@@ -15,23 +15,13 @@ public class NickMenu extends JPanel {
     private String nickText;
     private Player player = Player.getInstance();  //Wywolanie singletona Player, czyli odwołanie się do obiektu player
 
-    public NickMenu(int panelWidth, int panelHeight, ActionListener menuListner) {
-
-
-        this.setSize(400, 200); // 1280x720px
-        //setPreferredSize(400,200);
+    public NickMenu(ActionListener menuListner) {
 
         add(new JLabel("Your nick: ", JLabel.LEFT));
         nick = (JTextField) add(new JTextField(10));
 
-        //back = (JButton) add(new JButton("Back"));
         add(backToMenuButton(menuListner));
         add(startGameButton(menuListner));
-        //play = (JButton) add(new JButton("Play"));
-
-        //back.addActionListener(this);
-
-        setVisible(true);
     }
 
     private JButton backToMenuButton(ActionListener menuListner) {
