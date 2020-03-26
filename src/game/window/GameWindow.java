@@ -16,7 +16,7 @@ public class GameWindow extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Stop thread when user exists frame
 
-        Game game = new Game();
+        Game game = new Game(1280, 720);
         add(game);
 
         this.setVisible(true);

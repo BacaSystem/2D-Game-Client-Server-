@@ -1,11 +1,8 @@
-package game;
+package game.menu;
 
-import game.Player;
-import game.window.GameWindow;
+import game.data.Player;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class NickMenu extends JPanel {

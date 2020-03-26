@@ -1,6 +1,6 @@
 package game.window;
 
-import game.Player;
+import game.data.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +55,7 @@ public class NickWindow extends JFrame implements ActionListener{
                     player.setNick(nickText);
                     System.out.println(player.getNick());
                     System.out.println("0---------0");
-                    new game.Menu(false);
+                    new Menu(false);
                 }
                 else if(source == play){
                     //To samo, co powyżej, testy

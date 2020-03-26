@@ -1,73 +1,87 @@
 package game;
 
+import game.controller.KeyHandler;
+import game.states.State;
+import game.states.StatesManager;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class Game extends JPanel implements KeyListener, Runnable {
+public class Game extends JPanel implements Runnable {
 
     public static int width;
     public static int height;
 
-    private State gameState;
+    public boolean running = false;
+
+    private StatesManager manager;
+    private KeyHandler key;
+
+    private BufferedImage img;
+    private Graphics2D g;
+
     private Thread gameThread;
 
     private int fps = 60;
-    private int frameCount = 0;
+    public int frameCount = 0;
 
     private int x = 300, y = 100;
 
     private boolean isFireLeft = false, isFireRight = false, isFireUp = false, isFireDown = false;
 
-    BufferedImage rocket;
-    BufferedImage fireUp, fireDown, fireleft, fireRight;
 
-    public Game() {
+
+    public Game(int width, int height) {
+        this.width = width;
+        this.height = height;
+
         this.setDoubleBuffered(true);
         this.setFocusable(true);
-        addKeyListener(this);
-
-        gameState = State.Game;
-
-        init();
+        requestFocus();
     }
 
-    private void init(){
-        try {
-            rocket = ImageIO.read(new File("img/ship.png"));
-            fireDown = ImageIO.read(new File("img/fire_down.png"));
-            fireleft  = ImageIO.read(new File("img/fire_left.png"));
-            fireRight = ImageIO.read(new File("img/fire_right.png"));
-            fireUp = ImageIO.read(new File("img/fire_up.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void init(){
+        running = true;
+
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        g = (Graphics2D) img.createGraphics();
+
+        key = new KeyHandler(this);
+
+        manager = new StatesManager();
     }
 
     public void update(){
-
+        manager.update();
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        super.paintComponent(g2d);
-        draw(g2d);
+    public void input(KeyHandler key){
+        manager.input(key);
     }
 
-    public void draw(Graphics2D g2d) {
-        g2d.drawString("FPS: " + fps, 5, 10);
+    public void render(){
+        if(g != null){
+            g.setColor(new Color(100, 100, 100));
+            g.fillRect(0,0, width, height);
+            g.drawString("FPS: " + fps, 5, 10);
+            manager.render(g);
+
+        }
+    }
+
+    public void draw() {
+
+        Graphics g2 = (Graphics2D) this.getGraphics();
+        g2.drawImage(img, 0, 0, width, height, null);
         frameCount++;
 
+        /**
         g2d.drawImage(rocket, x, y, null);
         if (isFireDown) {
             g2d.drawImage(fireDown, x, y, null);
@@ -80,8 +94,18 @@ public class Game extends JPanel implements KeyListener, Runnable {
         }
         if (isFireUp) {
             g2d.drawImage(fireUp, x, y, null);
-        }
+        } **/
     }
+
+    /**
+
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        super.paintComponent(g2d);
+        draw(g2d);
+    }
+     **/
 
     @Override
     public void addNotify(){
@@ -93,6 +117,8 @@ public class Game extends JPanel implements KeyListener, Runnable {
 
     @Override
     public void run() {
+        init();
+
         //This value would probably be stored elsewhere.
         final double GAME_HERTZ = 30.0;
         //Calculate how many ns each frame should take for our target game hertz.
@@ -114,7 +140,7 @@ public class Game extends JPanel implements KeyListener, Runnable {
 
         boolean paused = false;
 
-        while (true)
+        while (running)
         {
             double now = System.nanoTime();
             int updateCount = 0;
@@ -125,6 +151,7 @@ public class Game extends JPanel implements KeyListener, Runnable {
                 while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER )
                 {
                     update();
+                    input(key);
                     lastUpdateTime += TIME_BETWEEN_UPDATES;
                     updateCount++;
                 }
@@ -136,7 +163,10 @@ public class Game extends JPanel implements KeyListener, Runnable {
                     lastUpdateTime = now - TIME_BETWEEN_UPDATES;
                 }
 
-                repaint();
+                //repaint();
+                input(key);
+                render();
+                draw();
                 lastRenderTime = now;
 
                 //Update the frames we got.
@@ -165,7 +195,7 @@ public class Game extends JPanel implements KeyListener, Runnable {
         }
     }
 
-
+ /**
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -232,4 +262,5 @@ public class Game extends JPanel implements KeyListener, Runnable {
             isFireDown = false;
         }
     }
+    **/
 }

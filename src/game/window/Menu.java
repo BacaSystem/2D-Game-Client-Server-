@@ -1,6 +1,9 @@
-package game;
+package game.window;
 
-import game.window.NickWindow;
+import game.Game_;
+import game.menu.HelpMenu;
+import game.menu.HighScores;
+import game.menu.NickMenu;
 
 import javax.swing.*;
 import java.awt.*;

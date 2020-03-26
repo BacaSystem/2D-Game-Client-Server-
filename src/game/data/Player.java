@@ -1,4 +1,4 @@
-package game;
+package game.data;
 
 
 //Singleton class, Gracz. Istnieje tylko jedna jedyna instancja klasy Gracz. Przechouje nick i wynik aktualnego gracza

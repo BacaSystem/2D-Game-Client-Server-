@@ -1,4 +1,7 @@
-package game.window;
+package game.launcher;
+
+import game.window.GameWindow;
+import game.window.Menu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +55,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
 
                 if(source == online){
                     System.out.println("Online Button");
-                    new game.Menu(false);
+                    new Menu(false);
                 }
                 else if(source == offline){
                     System.out.println("Offline Button");

@@ -1,4 +1,4 @@
-package game;
+package game.menu;
 
 import game.window.GameWindow;
 

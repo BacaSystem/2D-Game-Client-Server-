@@ -1,5 +1,7 @@
 package game;
 
+import game.states.State;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +11,6 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Game_ extends JPanel implements KeyListener, Runnable {
 
@@ -39,7 +38,6 @@ public class Game_ extends JPanel implements KeyListener, Runnable {
         this.setDoubleBuffered(true);
 
 
-        gameState = State.Game;
         add(backToMenuButton(menuListner));
 
         //this.setFocusable(true);

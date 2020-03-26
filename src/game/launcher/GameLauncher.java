@@ -1,10 +1,6 @@
-package game;
-
-import game.window.LauncherWindow;
+package game.launcher;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-import java.awt.*;
 
 public class GameLauncher {
 
