@@ -12,12 +12,4 @@ public class HelpPanel extends JPanel {
         add(new JLabel("Pomoc drogowa"));
         add(new Button(menuListner, "Back To Menu", "MainMenu"));
     }
-
-    private JButton backToMenuButton(ActionListener menuListner) {
-        JButton backToMainMenuButton = new JButton("Back to Menu");
-        backToMainMenuButton.setFocusable(false);
-        backToMainMenuButton.addActionListener(menuListner);
-        backToMainMenuButton.setActionCommand("MainMenu");
-        return backToMainMenuButton;
-    }
 }
