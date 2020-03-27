@@ -1,5 +1,6 @@
 package game.launcher;
 
+import game.data.Player;
 import game.window.GameWindow;
 import game.window.Menu;
 
@@ -11,8 +12,11 @@ import java.awt.event.ActionListener;
 public class LauncherWindow extends JFrame implements ActionListener {
     private JButton online;
     private JButton offline;
-    private JTextField ip, port;
-    private String ipText, portText;
+    private JTextField ip, port, nick;
+    private String ipText, portText, nickText;
+
+    private Player player = Player.getInstance();  //Wywolanie singletona Player, czyli odwołanie się do obiektu player
+
 
     public LauncherWindow(){
         //Window setting
@@ -26,6 +30,9 @@ public class LauncherWindow extends JFrame implements ActionListener {
         //layout setting - buttons, textfields
         {
             setLayout(new FlowLayout(FlowLayout.CENTER, 60, 50));
+
+            add(new JLabel("Nick: ", JLabel.LEFT));
+            nick = (JTextField) add(new JTextField(10));
 
             offline = (JButton) add(new JButton("Offline Game"));
             online = (JButton) add(new JButton("Online Game"));
@@ -42,10 +49,20 @@ public class LauncherWindow extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    private void setPlayerNick() {
+        var Nick = nick.getText();
+        if (!isTextFieldNickEmpty()) {
+            player.setNick(Nick);
+        }
+    }
+
+    private boolean isTextFieldNickEmpty() {
+        return nick.getText().trim().isEmpty();
+    }
+
     //Method from ActionListener to listen button actions
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        dispose();
         var source = actionEvent.getSource();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -54,10 +71,17 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 portText = port.getText();
 
                 if(source == online){
-                    System.out.println("Online Button");
-                    new Menu(false);
+                    if(!isTextFieldNickEmpty()) {
+                        System.out.println("Online Button");
+                        setPlayerNick();
+                        System.out.println(player.getNick());
+                        dispose();
+                        new Menu(false);
+                    }
+
                 }
                 else if(source == offline){
+                    dispose();
                     System.out.println("Offline Button");
                     System.out.println(ipText);
                     System.out.println(portText);

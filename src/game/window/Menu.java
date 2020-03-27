@@ -104,21 +104,9 @@ public class Menu extends JFrame implements ActionListener {
                 break;
 
             case "NewGame":
-                nickPanel = new NickMenu(this);
-                this.remove(menuPanel);
-                this.add(nickPanel);
-                this.revalidate();
-                setWindowSize(true);
-                this.repaint();
-                break;
-
-            case "StartGameButton":
-                if (!nickPanel.isNickEmpty())
-                {
-                    nickPanel.setNickOnPlayer();
                     gamePanel = new Game_((int) size.getWidth(), (int) size.getHeight(), this);
 
-                    this.remove(nickPanel);
+                    this.remove(menuPanel);
                     this.add(gamePanel);
                     gamePanel.setFocusable(true);
                     gamePanel.requestFocus();
@@ -126,7 +114,6 @@ public class Menu extends JFrame implements ActionListener {
                     setWindowSize(false);
                     this.revalidate();
                     this.repaint();
-                }
                 break;
 
 
@@ -178,14 +165,6 @@ public class Menu extends JFrame implements ActionListener {
                 this.repaint();
                 break;
 
-            case "BackToMainMenuFromNickMenu":
-                this.remove(nickPanel);
-                nickPanel = null;
-                this.add(menuPanel);
-                setWindowSize(false);
-                this.revalidate();
-                this.repaint();
-                break;
         }
     }
 
