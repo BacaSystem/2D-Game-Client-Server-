@@ -5,9 +5,13 @@ import game.window.GameWindow;
 import game.window.Menu;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.text.BadLocationException;
 
 public class LauncherWindow extends JFrame implements ActionListener {
     private JButton online;
@@ -16,7 +20,6 @@ public class LauncherWindow extends JFrame implements ActionListener {
     private String ipText, portText, nickText;
 
     private Player player = Player.getInstance();  //Wywolanie singletona Player, czyli odwołanie się do obiektu player
-
 
     public LauncherWindow(){
         //Window setting
@@ -34,8 +37,11 @@ public class LauncherWindow extends JFrame implements ActionListener {
             add(new JLabel("Nick: ", JLabel.LEFT));
             nick = (JTextField) add(new JTextField(10));
 
+
             offline = (JButton) add(new JButton("Offline Game"));
+            offline.setEnabled(false);
             online = (JButton) add(new JButton("Online Game"));
+            online.setEnabled(false);
 
             add(new JLabel("Adress IP: ", JLabel.LEFT));
             ip = (JTextField) add(new JTextField(10));
@@ -45,6 +51,35 @@ public class LauncherWindow extends JFrame implements ActionListener {
 
             offline.addActionListener(this);
             online.addActionListener(this);
+
+            nick.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent documentEvent) {
+                    changed(documentEvent);
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent documentEvent) {
+                    changed(documentEvent);
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent documentEvent) {
+                    changed(documentEvent);
+                }
+                public void changed(DocumentEvent documentEvent) {
+                    String currText = nick.getText();
+
+                    if (currText.isEmpty()) {
+                        online.setEnabled(false);
+                        offline.setEnabled(false);
+                    } else {
+                        online.setEnabled(true);
+                        offline.setEnabled(true);
+                    }
+                }
+            });
+
         }
         setVisible(true);
     }
@@ -90,5 +125,17 @@ public class LauncherWindow extends JFrame implements ActionListener {
                  }
             }
         });
+    }
+
+    private void changed() {
+        if (nick.getText().trim().isEmpty()){
+            online.setEnabled(false);
+            offline.setEnabled(false);
+        }
+        else {
+            online.setEnabled(true);
+            offline.setEnabled(true);
+        }
+
     }
 }
