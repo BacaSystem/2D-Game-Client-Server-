@@ -57,11 +57,14 @@ public class Menu extends JFrame implements ActionListener {
     void setPanelsToNull() {
         if (gamePanel != null) {
             gamePanel.stopTheGame();
+            gamePanel = null;
+        } if (menuPanel != null) {
+            menuPanel = null;
+        } if (highScoresPanel != null) {
+            highScoresPanel = null;
+        } if (helpPanel != null) {
+            helpPanel = null;
         }
-        menuPanel = null;
-        highScoresPanel = null;
-        gamePanel = null;
-        helpPanel = null;
     }
 
     @Override
