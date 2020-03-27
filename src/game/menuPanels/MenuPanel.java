@@ -11,6 +11,7 @@ public class MenuPanel extends JPanel {
     private String[] buttonNames = {"New Game", "High Scores", "Help", "Exit"};
     private String[] buttonActionNames = {"NewGame", "HighScores", "Help", "Exit"};
     private int howManyButtons = buttonActionNames.length;
+    GridBagLayout grid = new GridBagLayout();
 
     public MenuPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -23,12 +24,12 @@ public class MenuPanel extends JPanel {
         buttonPanel.add(new JLabel("LANDER", SwingConstants.CENTER));
         for (var i = 0; i < howManyButtons; i++) {
             buttonPanel.add(new Button(menuListner, buttonNames[i], buttonActionNames[i]));
-
         }
 
         layout.add(buttonPanel);
         panel.add(layout, BorderLayout.CENTER);
         this.add(panel);
+        setLayout(grid);
 
 
         //setPreferredSize(new Dimension(panelWidth, panelHeight));

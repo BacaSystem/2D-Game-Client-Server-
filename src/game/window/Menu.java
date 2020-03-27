@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 public class Menu extends JFrame implements ActionListener {
 
+
     //ComponentListner -> Dzięki temu interfejsowi możemy dokonywać autoskalowania, do ogarnięcia
 
     private Dimension size;
@@ -37,7 +38,7 @@ public class Menu extends JFrame implements ActionListener {
         setSize(1280, 720); // 1280x720px
         setLocationRelativeTo(null); // Centered
         setResizable(true);
-        setLayout(new FlowLayout(FlowLayout.CENTER, 60, 50));
+        //setLayout(new FlowLayout(FlowLayout.CENTER, 60, 50));
     }
 
     private void setWindowSize(boolean isNickWindow) {

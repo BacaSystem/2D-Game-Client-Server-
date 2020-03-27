@@ -10,7 +10,7 @@ public class Button extends JButton {
         this.addActionListener(menuListener);
         this.setActionCommand(buttonAction);
         this.setText(buttonName);
-        this.setPreferredSize(new Dimension(300,50));
+        this.setPreferredSize(new Dimension(400,50));
         //this.setPreferredSize(new Dimension(width, height));
     }
 }
