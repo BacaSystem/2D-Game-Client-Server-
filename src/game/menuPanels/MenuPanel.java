@@ -1,6 +1,7 @@
 package game.menuPanels;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import game.Button;
@@ -13,6 +14,7 @@ public class MenuPanel extends JPanel {
     private int howManyButtons = buttonActionNames.length;
 
     public MenuPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
+        setPreferredSize(new Dimension(panelWidth, panelHeight));
         GameNameLabel = new JLabel("LANDER", SwingConstants.CENTER);
 
         for (var i = 0; i < howManyButtons; i++) {

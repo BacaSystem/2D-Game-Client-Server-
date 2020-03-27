@@ -37,12 +37,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
         this.setDoubleBuffered(true);
 
-
         add(backToMenuButton(menuListner));
-
-        //this.setFocusable(true);
-        //this.requestFocusInWindow();
-
 
         addKeyListener(this);
 
