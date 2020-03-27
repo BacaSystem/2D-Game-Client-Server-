@@ -1,32 +1,23 @@
-package game.menu;
-
-import game.window.GameWindow;
+package game.menuPanels;
+import game.Button;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HighScores extends JPanel implements ActionListener {
+public class HighScoresPanel extends JPanel implements ActionListener {
     private JButton test;
 
-    public HighScores(int panelWidth, int panelHeight, ActionListener menuListner) {
+    public HighScoresPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
         setPreferredSize(new Dimension(panelWidth, panelHeight));
 
         add(new JLabel("NO SIEMA"));
-        add(backToMenuButton(menuListner));
+        add(new Button(menuListner, "Back To Menu", "MainMenu"));
 
         test = (JButton) add(new JButton("Test button"));
         test.addActionListener(this);
         
-    }
-
-    private JButton backToMenuButton(ActionListener menuListner) {
-        JButton backToMainMenuButton = new JButton("Back to Menu");
-        backToMainMenuButton.setFocusable(false);
-        backToMainMenuButton.addActionListener(menuListner);
-        backToMainMenuButton.setActionCommand("BackToMainMenuFromHighScoresPanel");
-        return backToMainMenuButton;
     }
 
     @Override

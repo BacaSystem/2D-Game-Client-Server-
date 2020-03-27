@@ -1,22 +1,23 @@
-package game.menu;
+package game.menuPanels;
+import game.Button;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class HelpMenu extends JPanel {
-    public HelpMenu(int panelWidth, int panelHeight, ActionListener menuListner) {
+public class HelpPanel extends JPanel {
+    public HelpPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
         setPreferredSize(new Dimension(panelWidth, panelHeight));
 
         add(new JLabel("Pomoc drogowa"));
-        add(backToMenuButton(menuListner));
+        add(new Button(menuListner, "Back To Menu", "MainMenu"));
     }
 
     private JButton backToMenuButton(ActionListener menuListner) {
         JButton backToMainMenuButton = new JButton("Back to Menu");
         backToMainMenuButton.setFocusable(false);
         backToMainMenuButton.addActionListener(menuListner);
-        backToMainMenuButton.setActionCommand("BackToMainMenuFromHelpPanel");
+        backToMainMenuButton.setActionCommand("MainMenu");
         return backToMainMenuButton;
     }
 }

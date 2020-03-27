@@ -1,9 +1,9 @@
 package game.window;
 
-import game.Game_;
-import game.menu.HelpMenu;
-import game.menu.HighScores;
-import game.menu.NickMenu;
+import game.menuPanels.GamePanel;
+import game.menuPanels.HelpPanel;
+import game.menuPanels.HighScoresPanel;
+import game.menuPanels.MenuPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,19 +14,10 @@ public class Menu extends JFrame implements ActionListener {
 
     private Dimension size;
 
-    private JPanel menuPanel;
-
-    private JLabel GameNameLabel;
-
-    private JButton newGameButton;
-    private JButton highScoresButton;
-    private JButton helpButton;
-    private JButton exitButton;
-
-    private HighScores highScoresPanel;
-    private HelpMenu helpPanel;
-    private NickMenu nickPanel;
-    private Game_ gamePanel;
+    private MenuPanel menuPanel = null;
+    private HighScoresPanel highScoresPanel = null;
+    private HelpPanel helpPanel = null;
+    private GamePanel gamePanel = null;
 
     private boolean isGameView;
 
@@ -63,63 +54,62 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     private void MakeUI() {
-        menuPanel = new JPanel();
-        GameNameLabel = new JLabel("LANDER", SwingConstants.CENTER);
+        menuPanel = new MenuPanel((int) size.getWidth(), (int) size.getHeight(), this);
+        this.add(menuPanel);
 
-        newGameButton = new JButton("New Game");
-        newGameButton.setActionCommand("NewGame");
-        newGameButton.addActionListener(this);
-        newGameButton.setFocusable(false);
+    }
 
-        highScoresButton = new JButton("HighScores");
-        highScoresButton.setActionCommand("HighScores");
-        highScoresButton.addActionListener(this);
-        newGameButton.setFocusable(false);
-
-        helpButton = new JButton("Help");
-        helpButton.setActionCommand("Help");
-        helpButton.addActionListener(this);
-        helpButton.setFocusable(false);
-
-        exitButton = new JButton("Exit");
-        exitButton.setActionCommand("Exit");
-        exitButton.addActionListener(this);
-        exitButton.setFocusable(false);
-
-        menuPanel.add(GameNameLabel);
-        menuPanel.add(newGameButton);
-        menuPanel.add(highScoresButton);
-        menuPanel.add(helpButton);
-        menuPanel.add(exitButton);
-        getContentPane().add(menuPanel);
-
+    void setPanelsToNull() {
+        if (gamePanel != null) {
+            gamePanel.stopTheGame();
+        }
+        menuPanel = null;
+        highScoresPanel = null;
+        gamePanel = null;
+        helpPanel = null;
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        System.out.println("eloPozniej");
         String action = actionEvent.getActionCommand();
         switch (action) {
             case "Exit":
+                this.getContentPane().removeAll();
+                setPanelsToNull();
                 System.exit(0);
                 break;
 
-            case "NewGame":
-                    gamePanel = new Game_((int) size.getWidth(), (int) size.getHeight(), this);
+            case "MainMenu":
+                this.getContentPane().removeAll();
+                setPanelsToNull();
+                menuPanel = new MenuPanel((int) size.getWidth(), (int) size.getHeight(), this);
+                this.add(menuPanel);
+                this.revalidate();
+                this.repaint();
+                break;
 
-                    this.remove(menuPanel);
-                    this.add(gamePanel);
-                    gamePanel.setFocusable(true);
-                    gamePanel.requestFocus();
-                    gamePanel.requestFocusInWindow();
-                    setWindowSize(false);
-                    this.revalidate();
-                    this.repaint();
+
+            case "NewGame":
+                System.out.println("nowa gra");
+                this.getContentPane().removeAll();
+                setPanelsToNull();
+
+                gamePanel = new GamePanel((int) size.getWidth(), (int) size.getHeight(), this);
+                this.add(gamePanel);
+                gamePanel.setFocusable(true);
+                gamePanel.requestFocus();
+                gamePanel.requestFocusInWindow();
+                setWindowSize(false);
+                this.revalidate();
+                this.repaint();
                 break;
 
 
             case "HighScores":
-                highScoresPanel = new HighScores((int) size.getWidth(), (int) size.getHeight(), this);
-                this.remove(menuPanel);
+                this.getContentPane().removeAll();
+                setPanelsToNull();
+                highScoresPanel = new HighScoresPanel((int) size.getWidth(), (int) size.getHeight(), this);
                 this.add(highScoresPanel);
                 setWindowSize(false);
                 this.revalidate();
@@ -127,39 +117,10 @@ public class Menu extends JFrame implements ActionListener {
                 break;
 
             case "Help":
-                helpPanel = new HelpMenu((int) size.getWidth(), (int) size.getHeight(), this);
-                this.remove(menuPanel);
+                this.getContentPane().removeAll();
+                setPanelsToNull();
+                helpPanel = new HelpPanel((int) size.getWidth(), (int) size.getHeight(), this);
                 this.add(helpPanel);
-                setWindowSize(false);
-                this.revalidate();
-                this.repaint();
-                break;
-
-
-
-            case "BackToMainMenuFromHighScoresPanel":
-                this.remove(highScoresPanel);
-                highScoresPanel = null;
-                this.add(menuPanel);
-                setWindowSize(false);
-                this.revalidate();
-                this.repaint();
-                break;
-
-
-            case "BackToMainMenuFromHelpPanel":
-                this.remove(helpPanel);
-                helpPanel = null;
-                this.add(menuPanel);
-                setWindowSize(false);
-                this.revalidate();
-                this.repaint();
-                break;
-            case "BackToMainMenuFromGamePanel":
-                this.remove(gamePanel);
-                gamePanel.stopTheGame();
-                gamePanel = null;
-                this.add(menuPanel);
                 setWindowSize(false);
                 this.revalidate();
                 this.repaint();
@@ -167,6 +128,5 @@ public class Menu extends JFrame implements ActionListener {
 
         }
     }
-
 
 }

@@ -1,4 +1,4 @@
-package game;
+package game.menuPanels;
 
 import game.states.State;
 
@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Game_ extends JPanel implements KeyListener, Runnable {
+public class GamePanel extends JPanel implements KeyListener, Runnable {
 
     public static int width;
     public static int height;
@@ -31,7 +31,7 @@ public class Game_ extends JPanel implements KeyListener, Runnable {
     BufferedImage rocket;
     BufferedImage fireUp, fireDown, fireleft, fireRight;
 
-    public Game_(int panelWidth, int panelHeight, ActionListener menuListner) {
+    public GamePanel(int panelWidth, int panelHeight, ActionListener menuListner) {
 
         setPreferredSize(new Dimension(panelWidth, panelHeight));
 
@@ -74,7 +74,7 @@ public class Game_ extends JPanel implements KeyListener, Runnable {
         JButton backToMainMenuButton = new JButton("Back to Menu");
         backToMainMenuButton.setFocusable(false);
         backToMainMenuButton.addActionListener(menuListner);
-        backToMainMenuButton.setActionCommand("BackToMainMenuFromGamePanel");
+        backToMainMenuButton.setActionCommand("MainMenu");
         return backToMainMenuButton;
     }
 
