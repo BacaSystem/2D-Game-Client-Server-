@@ -21,7 +21,7 @@ public class Menu extends JFrame implements ActionListener {
     private HelpPanel helpPanel = null;
     private GamePanel gamePanel = null;
 
-    public Menu(boolean game) {
+    public Menu() {
         size = new Dimension(1280, 720);
         setWindowSizeAndFocus();
         MakeUI();

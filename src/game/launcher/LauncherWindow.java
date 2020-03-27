@@ -111,7 +111,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                         setPlayerNick();
                         System.out.println(player.getNick());
                         dispose();
-                        new Menu(false);
+                        new Menu();
                     }
 
                 }
