@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 
 public class Menu extends JFrame implements ActionListener {
 
+    //ComponentListner -> Dzięki temu interfejsowi możemy dokonywać autoskalowania, do ogarnięcia
+
     private Dimension size;
 
     private MenuPanel menuPanel = null;
