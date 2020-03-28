@@ -13,9 +13,6 @@ import java.awt.event.ActionListener;
 
 public class Menu extends JFrame implements ActionListener {
 
-
-    //ComponentListner -> Dzięki temu interfejsowi możemy dokonywać autoskalowania, do ogarnięcia
-
     private Dimension size;
 
     private MenuPanel menuPanel = null;
@@ -42,14 +39,10 @@ public class Menu extends JFrame implements ActionListener {
         //setLayout(new FlowLayout(FlowLayout.CENTER, 60, 50));
     }
 
-    private void setWindowSize(boolean isNickWindow) {
-        if (!isNickWindow) {
-            size = new Dimension(1280, 720);
-            setSize(1280, 720); // 1280x720px
-        }
-        else {
-            setSize(400, 200); // 1280x720px
-        }
+    private void setWindowSize() {
+        size = new Dimension(1280, 720);
+        setSize(1280, 720); // 1280x720px
+
     }
 
     private void MakeUI() {
@@ -90,6 +83,7 @@ public class Menu extends JFrame implements ActionListener {
                 this.revalidate();
                 this.repaint();
                 this.setResizable(false);
+                setWindowSize();
                 break;
 
 
@@ -103,7 +97,7 @@ public class Menu extends JFrame implements ActionListener {
                 gamePanel.setFocusable(true);
                 gamePanel.requestFocus();
                 gamePanel.requestFocusInWindow();
-                setWindowSize(false);
+                setWindowSize();
                 this.revalidate();
                 this.repaint();
                 this.setResizable(true);
@@ -115,7 +109,7 @@ public class Menu extends JFrame implements ActionListener {
                 setPanelsToNull();
                 highScoresPanel = new HighScoresPanel((int) size.getWidth(), (int) size.getHeight(), this);
                 this.add(highScoresPanel);
-                setWindowSize(false);
+                setWindowSize();
                 this.revalidate();
                 this.repaint();
                 this.setResizable(false);
@@ -126,7 +120,7 @@ public class Menu extends JFrame implements ActionListener {
                 setPanelsToNull();
                 helpPanel = new HelpPanel((int) size.getWidth(), (int) size.getHeight(), this);
                 this.add(helpPanel);
-                setWindowSize(false);
+                setWindowSize();
                 this.revalidate();
                 this.repaint();
                 this.setResizable(false);
