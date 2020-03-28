@@ -28,7 +28,7 @@ public class Menu extends JFrame implements ActionListener {
         setWindowSizeAndFocus();
         MakeUI();
         System.out.println("wszedlem w konstruktor MENU");
-
+        this.setResizable(false);
         setVisible(true);
     }
 
@@ -89,6 +89,7 @@ public class Menu extends JFrame implements ActionListener {
                 this.add(menuPanel);
                 this.revalidate();
                 this.repaint();
+                this.setResizable(false);
                 break;
 
 
@@ -105,6 +106,7 @@ public class Menu extends JFrame implements ActionListener {
                 setWindowSize(false);
                 this.revalidate();
                 this.repaint();
+                this.setResizable(true);
                 break;
 
 
@@ -116,6 +118,7 @@ public class Menu extends JFrame implements ActionListener {
                 setWindowSize(false);
                 this.revalidate();
                 this.repaint();
+                this.setResizable(false);
                 break;
 
             case MenuWindowStates.HELP:
@@ -126,6 +129,7 @@ public class Menu extends JFrame implements ActionListener {
                 setWindowSize(false);
                 this.revalidate();
                 this.repaint();
+                this.setResizable(false);
                 break;
 
             default:
