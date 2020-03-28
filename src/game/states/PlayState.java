@@ -1,5 +1,6 @@
 package game.states;
 
+import game.Constant.GraphicsConstants;
 import game.controller.KeyHandler;
 
 import javax.imageio.ImageIO;
@@ -24,13 +25,13 @@ public class PlayState extends State{
 
     private void init(){
         try {
-            rocket = ImageIO.read(new File("img/ship.png"));
-            fireDown = ImageIO.read(new File("img/fire_down.png"));
-            fireLeft  = ImageIO.read(new File("img/fire_left.png"));
-            fireRight = ImageIO.read(new File("img/fire_right.png"));
-            fireUp = ImageIO.read(new File("img/fire_up.png"));
+            rocket = ImageIO.read(new File(GraphicsConstants.SHIP_IMAGE));
+            fireDown = ImageIO.read(new File(GraphicsConstants.FIRE_DOWN_IMAGE));
+            fireLeft  = ImageIO.read(new File(GraphicsConstants.FIRE_LEFT_IMAGE));
+            fireRight = ImageIO.read(new File(GraphicsConstants.FIRE_RIGHT_IMAGE));
+            fireUp = ImageIO.read(new File(GraphicsConstants.FIRE_UP_IMAGE));
 
-            gameOverImg = ImageIO.read(new File("img/game_over.png"));
+            gameOverImg = ImageIO.read(new File(GraphicsConstants.GAME_OVER_IMAGE));
         } catch (IOException e) {
             e.printStackTrace();
         }

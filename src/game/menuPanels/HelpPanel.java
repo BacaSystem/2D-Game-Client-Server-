@@ -1,4 +1,5 @@
 package game.menuPanels;
+import game.Constant.MenuWindowStates;
 import game.Button;
 import game.data.GetConfigProperties;
 
@@ -15,22 +16,14 @@ public class HelpPanel extends JPanel {
         add(new JLabel("Pomoc drogowa"));
         add(new JLabel(getHelp("helpText", "tytul")), grid);
         add(new JLabel(getHelp("helpText", "punkt1")), grid);
-        add(new JLabel(getHelp("helpText", "punkt2")), grid);
-        add(new Button(menuListner, "Back To Menu", "MainMenu"), grid);
+        add(new JLabel(getHelp("helpTextf", "punkt2")), grid);
+        add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU), grid);
 
         setLayout(grid);
     }
 
 
     private String getHelp(String fileName, String key) {
-        String text = "";
-        try {
-            return GetConfigProperties.getValue(fileName, key);
-
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
-        }
-
-        return "There was no text in Help File, sorry.";
+        return GetConfigProperties.getValue(fileName, key);
     }
 }

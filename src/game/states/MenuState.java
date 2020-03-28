@@ -1,5 +1,6 @@
 package game.states;
 
+import game.Constant.GraphicsConstants;
 import game.controller.KeyHandler;
 
 import javax.imageio.ImageIO;
@@ -19,7 +20,7 @@ public class MenuState extends State {
 
     private void init(){
         try {
-            menuText = ImageIO.read(new File("img/menu_text.png"));
+            menuText = ImageIO.read(new File(GraphicsConstants.MENU_TEXT_IMAGE));
         } catch (IOException e) {
             e.printStackTrace();
         }

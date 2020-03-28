@@ -4,12 +4,14 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+
+import game.Constant.MenuWindowStates;
 import game.Button;
 
 public class MenuPanel extends JPanel {
 
-    private String[] buttonNames = {"New Game", "High Scores", "Help", "Exit"};
-    private String[] buttonActionNames = {"NewGame", "HighScores", "Help", "Exit"};
+    private String[] buttonNames = {MenuWindowStates.NEW_GAME_BUTTON, MenuWindowStates.HIGH_SCORES_BUTTON, MenuWindowStates.HELP_BUTTON, MenuWindowStates.EXIT_BUTTON};
+    private String[] buttonActionNames = {MenuWindowStates.NEW_GAME, MenuWindowStates.HIGH_SCORES, MenuWindowStates.HELP, MenuWindowStates.EXIT};
     private int howManyButtons = buttonActionNames.length;
     GridBagLayout grid = new GridBagLayout();
 

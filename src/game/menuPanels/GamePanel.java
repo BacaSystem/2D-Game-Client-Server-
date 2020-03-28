@@ -1,5 +1,7 @@
 package game.menuPanels;
 
+import game.Constant.GraphicsConstants;
+import game.Constant.MenuWindowStates;
 import game.states.State;
 
 import javax.imageio.ImageIO;
@@ -47,11 +49,11 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
 
     private void init(){
         try {
-            rocket = ImageIO.read(new File("img/ship.png"));
-            fireDown = ImageIO.read(new File("img/fire_down.png"));
-            fireleft  = ImageIO.read(new File("img/fire_left.png"));
-            fireRight = ImageIO.read(new File("img/fire_right.png"));
-            fireUp = ImageIO.read(new File("img/fire_up.png"));
+            rocket = ImageIO.read(new File(GraphicsConstants.SHIP_IMAGE));
+            fireDown = ImageIO.read(new File(GraphicsConstants.FIRE_DOWN_IMAGE));
+            fireleft  = ImageIO.read(new File(GraphicsConstants.FIRE_LEFT_IMAGE));
+            fireRight = ImageIO.read(new File(GraphicsConstants.FIRE_RIGHT_IMAGE));
+            fireUp = ImageIO.read(new File(GraphicsConstants.FIRE_UP_IMAGE));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,10 +68,10 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
     }
 
     private JButton backToMenuButton(ActionListener menuListner) {
-        JButton backToMainMenuButton = new JButton("Back to Menu");
+        JButton backToMainMenuButton = new JButton(MenuWindowStates.MENU_BUTTON);
         backToMainMenuButton.setFocusable(false);
         backToMainMenuButton.addActionListener(menuListner);
-        backToMainMenuButton.setActionCommand("MainMenu");
+        backToMainMenuButton.setActionCommand(MenuWindowStates.MENU);
         return backToMainMenuButton;
     }
 

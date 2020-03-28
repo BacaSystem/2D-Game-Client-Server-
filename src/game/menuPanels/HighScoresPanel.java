@@ -1,4 +1,5 @@
 package game.menuPanels;
+import game.Constant.MenuWindowStates;
 import game.Button;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ public class HighScoresPanel extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(panelWidth, panelHeight));
 
         add(new JLabel("NO SIEMA"));
-        add(new Button(menuListner, "Back To Menu", "MainMenu"));
+        add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU));
 
         test = (JButton) add(new JButton("Test button"));
         test.addActionListener(this);

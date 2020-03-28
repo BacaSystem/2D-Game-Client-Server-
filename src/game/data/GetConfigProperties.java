@@ -8,27 +8,21 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class GetConfigProperties {
-    public static String getValue(String fileName, String key) throws IOException {
+    public static String getValue(String fileName, String key) {
         String result = "";
+        String propFileName = fileName + ".properties";
         InputStream inputStream = null;
         Properties p = new Properties();
         ClassLoader classLoader = GetConfigProperties.class.getClassLoader();
         try {
-            String propFileName = fileName + ".properties";
-
-            inputStream = classLoader.getResourceAsStream(propFileName);
-            if (inputStream != null) {
-                p.load(new InputStreamReader(classLoader.getResourceAsStream(propFileName), StandardCharsets.UTF_8));
-            } else {
-                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
-            }
+            System.out.println("zaczynam traja");
+            p.load(new InputStreamReader(classLoader.getResourceAsStream(propFileName), StandardCharsets.UTF_8));
+            System.out.println("w traju");
             result = p.getProperty(key);
+            System.out.println("zara wyjde z traja");
 
         } catch (Exception e) {
-            System.out.println("Exception: " + e);
-        } finally {
-            assert inputStream != null;
-            inputStream.close();
+            System.out.println("Error: " + e);
         }
         return result;
     }

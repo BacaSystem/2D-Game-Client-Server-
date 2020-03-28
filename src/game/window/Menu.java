@@ -1,5 +1,6 @@
 package game.window;
 
+import game.Constant.MenuWindowStates;
 import game.menuPanels.GamePanel;
 import game.menuPanels.HelpPanel;
 import game.menuPanels.HighScoresPanel;
@@ -75,13 +76,13 @@ public class Menu extends JFrame implements ActionListener {
         System.out.println("eloPozniej");
         String action = actionEvent.getActionCommand();
         switch (action) {
-            case "Exit":
+            case MenuWindowStates.EXIT:
                 this.getContentPane().removeAll();
                 setPanelsToNull();
                 System.exit(0);
                 break;
 
-            case "MainMenu":
+            case MenuWindowStates.MENU:
                 this.getContentPane().removeAll();
                 setPanelsToNull();
                 menuPanel = new MenuPanel((int) size.getWidth(), (int) size.getHeight(), this);
@@ -91,7 +92,7 @@ public class Menu extends JFrame implements ActionListener {
                 break;
 
 
-            case "NewGame":
+            case MenuWindowStates.NEW_GAME:
                 System.out.println("nowa gra");
                 this.getContentPane().removeAll();
                 setPanelsToNull();
@@ -107,7 +108,7 @@ public class Menu extends JFrame implements ActionListener {
                 break;
 
 
-            case "HighScores":
+            case MenuWindowStates.HIGH_SCORES:
                 this.getContentPane().removeAll();
                 setPanelsToNull();
                 highScoresPanel = new HighScoresPanel((int) size.getWidth(), (int) size.getHeight(), this);
@@ -117,7 +118,7 @@ public class Menu extends JFrame implements ActionListener {
                 this.repaint();
                 break;
 
-            case "Help":
+            case MenuWindowStates.HELP:
                 this.getContentPane().removeAll();
                 setPanelsToNull();
                 helpPanel = new HelpPanel((int) size.getWidth(), (int) size.getHeight(), this);
@@ -127,6 +128,8 @@ public class Menu extends JFrame implements ActionListener {
                 this.repaint();
                 break;
 
+            default:
+                throw new IllegalStateException("Unexpected value: " + action);
         }
     }
 
