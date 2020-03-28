@@ -26,13 +26,15 @@ public class LauncherWindow extends JFrame implements ActionListener {
         setTitle("Launcher");
         {
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setSize(400, 300);
+            setSize(400, 400);
             setLocationRelativeTo(null);
             setResizable(false);
         }
         //layout setting - buttons, textfields
         {
             setLayout(new FlowLayout(FlowLayout.CENTER, 60, 50));
+
+
 
             add(new JLabel("Nick: ", JLabel.LEFT));
             nick = (JTextField) add(new JTextField(10));

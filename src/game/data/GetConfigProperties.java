@@ -11,15 +11,10 @@ public class GetConfigProperties {
     public static String getValue(String fileName, String key) {
         String result = "";
         String propFileName = fileName + ".properties";
-        InputStream inputStream = null;
         Properties p = new Properties();
-        ClassLoader classLoader = GetConfigProperties.class.getClassLoader();
         try {
-            System.out.println("zaczynam traja");
-            p.load(new InputStreamReader(classLoader.getResourceAsStream(propFileName), StandardCharsets.UTF_8));
-            System.out.println("w traju");
+            p.load(new InputStreamReader(GetConfigProperties.class.getClassLoader().getResourceAsStream(propFileName), StandardCharsets.UTF_8));
             result = p.getProperty(key);
-            System.out.println("zara wyjde z traja");
 
         } catch (Exception e) {
             System.out.println("Error: " + e);
