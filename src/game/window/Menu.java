@@ -3,6 +3,7 @@ package game.window;
 import game.Constant.DefaultGameSettings;
 import game.Constant.LoadLevel;
 import game.Constant.MenuWindowStates;
+import game.data.GetConfigProperties;
 import game.menuPanels.GamePanel;
 import game.menuPanels.HelpPanel;
 import game.menuPanels.HighScoresPanel;
@@ -29,38 +30,38 @@ public class Menu extends JFrame implements ActionListener {
     public Menu() {
         setWindowSizeAndFocus();
         MakeUI();
-        System.out.println("wszedlem w konstruktor MENU");
-        this.setResizable(false);
-        setVisible(true);
     }
 
     private void setWindowSizeAndFocus() {
+
         this.setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Main Menu");
         setWindowSize(false);
-         // Centered
-        setResizable(true);
         setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        setVisible(true);
 
-        //setLocation(,1);
     }
 
     private void setWindowSize(boolean game) {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         if (!game) {
             setSize(defaultWidth, defaultHeight); // 1280x720px
-
+            setLocation((dim.width-defaultWidth)/2,(dim.height-defaultHeight)/2);
+            this.setResizable(false);
         } else {
             setSize(gameWidth, gameHight); // 1280x720px
+            this.setResizable(true);
+            setLocation((dim.width-gameWidth)/2,(dim.height-gameHight)/2);
         }
-        setLocationRelativeTo(null);
+
+
 
     }
 
     private void MakeUI() {
         menuPanel = new MenuPanel( defaultWidth, defaultHeight, this);
         this.add(menuPanel);
-
     }
 
     void setPanelsToNull() {
@@ -94,8 +95,8 @@ public class Menu extends JFrame implements ActionListener {
                 this.add(menuPanel);
                 this.revalidate();
                 this.repaint();
-                this.setResizable(false);
                 setWindowSize(false);
+                //GetConfigProperties.setValue("highScoreTable","2");
                 break;
 
 
@@ -112,7 +113,6 @@ public class Menu extends JFrame implements ActionListener {
                 setWindowSize(true);
                 this.revalidate();
                 this.repaint();
-                this.setResizable(true);
                 break;
 
 
@@ -124,7 +124,6 @@ public class Menu extends JFrame implements ActionListener {
                 setWindowSize(false);
                 this.revalidate();
                 this.repaint();
-                this.setResizable(false);
                 break;
 
             case MenuWindowStates.HELP:
@@ -135,7 +134,7 @@ public class Menu extends JFrame implements ActionListener {
                 setWindowSize(false);
                 this.revalidate();
                 this.repaint();
-                this.setResizable(false);
+
                 break;
 
             default:

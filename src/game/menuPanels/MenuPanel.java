@@ -13,7 +13,6 @@ public class MenuPanel extends JPanel {
     private String[] buttonNames = {MenuWindowStates.NEW_GAME_BUTTON, MenuWindowStates.HIGH_SCORES_BUTTON, MenuWindowStates.HELP_BUTTON, MenuWindowStates.EXIT_BUTTON};
     private String[] buttonActionNames = {MenuWindowStates.NEW_GAME, MenuWindowStates.HIGH_SCORES, MenuWindowStates.HELP, MenuWindowStates.EXIT};
     private int howManyButtons = buttonActionNames.length;
-    GridBagLayout grid = new GridBagLayout();
 
     public MenuPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -32,7 +31,6 @@ public class MenuPanel extends JPanel {
         panel.add(layout, BorderLayout.CENTER);
         setLayout(new GridLayout(5, 1, 20, 20));
         this.add(panel);
-        setLayout(grid);
 
 
         //setPreferredSize(new Dimension(panelWidth, panelHeight));

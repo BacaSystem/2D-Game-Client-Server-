@@ -1,9 +1,7 @@
 package game.data;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -19,6 +17,8 @@ public class GetConfigProperties {
         } catch (Exception e) {
             System.out.println("Error: " + e + result);
         }
+        System.out.println(result);
         return result;
     }
+
 }

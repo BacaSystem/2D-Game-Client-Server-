@@ -1,37 +1,53 @@
 package game.menuPanels;
+import game.data.HighScores;
 import game.Constant.MenuWindowStates;
 import game.Button;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HighScoresPanel extends JPanel implements ActionListener {
-    private JButton test;
+public class HighScoresPanel extends JPanel {
+    private HighScores scoresData = HighScores.getInstance();
+    private String[] nicks;
+    private String[] scores;
 
     public HighScoresPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
-        setPreferredSize(new Dimension(panelWidth, panelHeight));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5, 6, 5, 6));
 
-        add(new JLabel("NO SIEMA"));
-        add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU));
+        JPanel layout = new JPanel(new GridBagLayout());
+        layout.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        test = (JButton) add(new JButton("Test button"));
-        test.addActionListener(this);
+        JPanel verticalPanel = new JPanel(new GridLayout(10, 1, 10, 1));
+
+        getData();
+        //HERE add components
+        for(int i=0; i<5; i++) {
+            //System.out.println(nicks[i] + scores[i]);
+            JPanel recordPanel = new JPanel();
+            recordPanel.add(new JLabel((i+1) + "."));
+            recordPanel.add(new JLabel(nicks[i]));
+            recordPanel.add(new JLabel(scores[i] ,SwingConstants.RIGHT));
+            verticalPanel.add(recordPanel);
+        }
+
+        verticalPanel.add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU));
+
+        //END OF COMPONENTS
+
+        layout.add(verticalPanel);
+        panel.add(layout, BorderLayout.CENTER);
+        setLayout(new GridLayout(5, 1, 20, 20));
+        this.add(panel);
         
     }
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        var source = actionEvent.getSource();
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if(source == test){
-                    System.out.println("TEŚCIK");
-                }
+    void getData() {
+        HighScores.updateData();
+        nicks = new String[]{HighScores.NAME_1 ,HighScores.NAME_2, HighScores.NAME_3, HighScores.NAME_4, HighScores.NAME_5};
+        scores = new String[]{HighScores.SCORE_1, HighScores.SCORE_2, HighScores.SCORE_3, HighScores.SCORE_4, HighScores.SCORE_5};
 
-            }
-        });
     }
 }

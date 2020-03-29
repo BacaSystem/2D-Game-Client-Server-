@@ -4,21 +4,34 @@ import game.Button;
 import game.data.GetConfigProperties;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
 public class HelpPanel extends JPanel {
 
     public HelpPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
-        // setPreferredSize(new Dimension(panelWidth, panelHeight));
-        GridLayout grid = new GridLayout();
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(5, 6, 5, 6));
 
-        add(new JLabel("Pomoc drogowa"));
-        add(new JLabel(getHelp("helpText", "tytul")));
+        JPanel layout = new JPanel(new GridBagLayout());
+        layout.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JPanel buttonPanel = new JPanel(new GridLayout(10, 1, 10, 5));
+
+        //HERE add components
+        //buttonPanel.add(new JLabel("HELP PAGE", SwingConstants.CENTER));
+        buttonPanel.add(new JLabel(getHelp("helpText", "tytul"), SwingConstants.CENTER));
         JTextArea help = new JTextArea(getHelp("helptext", "punkt"));
         help.setEditable(false);
-        add(help);
-        add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU));
+        buttonPanel.add(help);
+        buttonPanel.add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU));
+
+        //END OF COMPONENTS
+        layout.add(buttonPanel);
+        panel.add(layout, BorderLayout.CENTER);
+        setLayout(new GridLayout(5, 1, 20, 20));
+        this.add(panel);
     }
 
     private String getHelp(String fileName, String key) {

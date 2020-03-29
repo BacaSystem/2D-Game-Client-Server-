@@ -2,6 +2,9 @@ package game.Constant;
 
 import game.data.GetConfigProperties;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.valueOf;
+
 public final class MenuWindowStates {
     private static final String fileName = "menu";
 
@@ -17,8 +20,8 @@ public final class MenuWindowStates {
     public static final String HIGH_SCORES_BUTTON = GetConfigProperties.getValue(fileName, "highScores");
     public static final String EXIT_BUTTON = GetConfigProperties.getValue(fileName, "exit");
 
-    public static final int WIDTH = Integer.parseInt(GetConfigProperties.getValue(fileName, "width"));
-    public static final int HEIGHT = Integer.parseInt(GetConfigProperties.getValue(fileName, "height"));
+    public static final int WIDTH = parseInt(GetConfigProperties.getValue(fileName, "width"));
+    public static final int HEIGHT = parseInt(GetConfigProperties.getValue(fileName, "height"));
 
     private MenuWindowStates() {
         throw new AssertionError();
