@@ -1,5 +1,6 @@
 package game.launcher;
 
+import game.Constant.LauncherConst;
 import game.data.Player;
 import game.window.GameWindow;
 import game.window.Menu;
@@ -17,16 +18,16 @@ public class LauncherWindow extends JFrame implements ActionListener {
     private JButton online;
     private JButton offline;
     private JTextField ip, port, nick;
-    private String ipText, portText, nickText;
+    private String ipText, portText;
 
     private Player player = Player.getInstance();  //Wywolanie singletona Player, czyli odwołanie się do obiektu player
 
     public LauncherWindow(){
         //Window setting
-        setTitle("Launcher");
+        setTitle(LauncherConst.LAUNCHER_TITLE);
         {
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setSize(400, 400);
+            setSize(LauncherConst.WIDTH, LauncherConst.HEIGHT);
             setLocationRelativeTo(null);
             setResizable(false);
         }
@@ -36,19 +37,19 @@ public class LauncherWindow extends JFrame implements ActionListener {
 
 
 
-            add(new JLabel("Nick: ", JLabel.LEFT));
+            add(new JLabel(LauncherConst.NICK_LABEL, JLabel.LEFT));
             nick = (JTextField) add(new JTextField(10));
 
 
-            offline = (JButton) add(new JButton("Offline Game"));
+            offline = (JButton) add(new JButton(LauncherConst.ONLINE_LABEL));
             offline.setEnabled(false);
-            online = (JButton) add(new JButton("Online Game"));
+            online = (JButton) add(new JButton(LauncherConst.OFFLINE_LABEL));
             online.setEnabled(false);
 
-            add(new JLabel("Adress IP: ", JLabel.LEFT));
+            add(new JLabel(LauncherConst.IP_LABEL, JLabel.LEFT));
             ip = (JTextField) add(new JTextField(10));
 
-            add(new JLabel("Port: ", JLabel.LEFT));
+            add(new JLabel(LauncherConst.PORT_LABEL, JLabel.LEFT));
             port = (JTextField) add(new JTextField(10));
 
             offline.addActionListener(this);
@@ -72,7 +73,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 public void changed(DocumentEvent documentEvent) {
                     String currText = nick.getText();
 
-                    if (currText.isEmpty()) {
+                    if (currText.trim().isEmpty()) {
                         online.setEnabled(false);
                         offline.setEnabled(false);
                     } else {
@@ -127,17 +128,5 @@ public class LauncherWindow extends JFrame implements ActionListener {
                  }
             }
         });
-    }
-
-    private void changed() {
-        if (nick.getText().trim().isEmpty()){
-            online.setEnabled(false);
-            offline.setEnabled(false);
-        }
-        else {
-            online.setEnabled(true);
-            offline.setEnabled(true);
-        }
-
     }
 }

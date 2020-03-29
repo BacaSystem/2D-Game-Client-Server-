@@ -30,6 +30,7 @@ public class MenuPanel extends JPanel {
 
         layout.add(buttonPanel);
         panel.add(layout, BorderLayout.CENTER);
+        setLayout(new GridLayout(5, 1, 20, 20));
         this.add(panel);
         setLayout(grid);
 

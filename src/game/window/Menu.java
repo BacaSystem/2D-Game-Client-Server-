@@ -1,5 +1,7 @@
 package game.window;
 
+import game.Constant.DefaultGameSettings;
+import game.Constant.LoadLevel;
 import game.Constant.MenuWindowStates;
 import game.menuPanels.GamePanel;
 import game.menuPanels.HelpPanel;
@@ -14,6 +16,10 @@ import java.awt.event.ActionListener;
 public class Menu extends JFrame implements ActionListener {
 
     private Dimension size;
+    private int defaultWidth = MenuWindowStates.WIDTH;
+    private int defaultHeight = MenuWindowStates.HEIGHT;
+    private int gameWidth = DefaultGameSettings.WIDTH;
+    private int gameHight = DefaultGameSettings.HEIGHT;
 
     private MenuPanel menuPanel = null;
     private HighScoresPanel highScoresPanel = null;
@@ -21,7 +27,6 @@ public class Menu extends JFrame implements ActionListener {
     private GamePanel gamePanel = null;
 
     public Menu() {
-        size = new Dimension(1280, 720);
         setWindowSizeAndFocus();
         MakeUI();
         System.out.println("wszedlem w konstruktor MENU");
@@ -33,20 +38,27 @@ public class Menu extends JFrame implements ActionListener {
         this.setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Main Menu");
-        setSize(1280, 720); // 1280x720px
-        setLocationRelativeTo(null); // Centered
+        setWindowSize(false);
+         // Centered
         setResizable(true);
-        //setLayout(new FlowLayout(FlowLayout.CENTER, 60, 50));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+
+        //setLocation(,1);
     }
 
-    private void setWindowSize() {
-        size = new Dimension(1280, 720);
-        setSize(1280, 720); // 1280x720px
+    private void setWindowSize(boolean game) {
+        if (!game) {
+            setSize(defaultWidth, defaultHeight); // 1280x720px
+
+        } else {
+            setSize(gameWidth, gameHight); // 1280x720px
+        }
+        setLocationRelativeTo(null);
 
     }
 
     private void MakeUI() {
-        menuPanel = new MenuPanel((int) size.getWidth(), (int) size.getHeight(), this);
+        menuPanel = new MenuPanel( defaultWidth, defaultHeight, this);
         this.add(menuPanel);
 
     }
@@ -78,12 +90,12 @@ public class Menu extends JFrame implements ActionListener {
             case MenuWindowStates.MENU:
                 this.getContentPane().removeAll();
                 setPanelsToNull();
-                menuPanel = new MenuPanel((int) size.getWidth(), (int) size.getHeight(), this);
+                menuPanel = new MenuPanel(defaultWidth, defaultHeight, this);
                 this.add(menuPanel);
                 this.revalidate();
                 this.repaint();
                 this.setResizable(false);
-                setWindowSize();
+                setWindowSize(false);
                 break;
 
 
@@ -92,12 +104,12 @@ public class Menu extends JFrame implements ActionListener {
                 this.getContentPane().removeAll();
                 setPanelsToNull();
 
-                gamePanel = new GamePanel((int) size.getWidth(), (int) size.getHeight(), this);
+                gamePanel = new GamePanel( gameWidth, gameHight, this);
                 this.add(gamePanel);
                 gamePanel.setFocusable(true);
                 gamePanel.requestFocus();
                 gamePanel.requestFocusInWindow();
-                setWindowSize();
+                setWindowSize(true);
                 this.revalidate();
                 this.repaint();
                 this.setResizable(true);
@@ -107,9 +119,9 @@ public class Menu extends JFrame implements ActionListener {
             case MenuWindowStates.HIGH_SCORES:
                 this.getContentPane().removeAll();
                 setPanelsToNull();
-                highScoresPanel = new HighScoresPanel((int) size.getWidth(), (int) size.getHeight(), this);
+                highScoresPanel = new HighScoresPanel( defaultWidth, defaultHeight, this);
                 this.add(highScoresPanel);
-                setWindowSize();
+                setWindowSize(false);
                 this.revalidate();
                 this.repaint();
                 this.setResizable(false);
@@ -118,9 +130,9 @@ public class Menu extends JFrame implements ActionListener {
             case MenuWindowStates.HELP:
                 this.getContentPane().removeAll();
                 setPanelsToNull();
-                helpPanel = new HelpPanel((int) size.getWidth(), (int) size.getHeight(), this);
+                helpPanel = new HelpPanel( defaultWidth,defaultHeight, this);
                 this.add(helpPanel);
-                setWindowSize();
+                setWindowSize(false);
                 this.revalidate();
                 this.repaint();
                 this.setResizable(false);

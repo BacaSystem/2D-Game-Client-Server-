@@ -42,6 +42,8 @@ public class Player {
         return this.score;
     }
 
+
+
     //"Niszczy gracza". Zeruje jego nick i wynik. Metodę tę należy wywołać zaraz po ty, gdy nie potrzebujemy już
     //danych naszego gracza
     public void destroyPlayer() {

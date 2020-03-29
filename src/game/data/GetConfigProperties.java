@@ -17,7 +17,7 @@ public class GetConfigProperties {
             result = p.getProperty(key);
 
         } catch (Exception e) {
-            System.out.println("Error: " + e);
+            System.out.println("Error: " + e + result);
         }
         return result;
     }

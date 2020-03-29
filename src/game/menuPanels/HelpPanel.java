@@ -11,11 +11,13 @@ public class HelpPanel extends JPanel {
 
     public HelpPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
         // setPreferredSize(new Dimension(panelWidth, panelHeight));
+        GridLayout grid = new GridLayout();
 
         add(new JLabel("Pomoc drogowa"));
         add(new JLabel(getHelp("helpText", "tytul")));
-        add(new JLabel(getHelp("helpText", "punkt1")));
-        add(new JLabel(getHelp("helpText", "punkt2")));
+        JTextArea help = new JTextArea(getHelp("helptext", "punkt"));
+        help.setEditable(false);
+        add(help);
         add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU));
     }
 
