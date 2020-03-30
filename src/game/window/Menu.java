@@ -47,16 +47,13 @@ public class Menu extends JFrame implements ActionListener {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         if (!game) {
             setSize(defaultWidth, defaultHeight); // 1280x720px
-            setLocation((dim.width-defaultWidth)/2,(dim.height-defaultHeight)/2);
+            //setLocation((dim.width-defaultWidth)/2,(dim.height-defaultHeight)/2);
             this.setResizable(false);
         } else {
             setSize(gameWidth, gameHight); // 1280x720px
             this.setResizable(true);
-            setLocation((dim.width-gameWidth)/2,(dim.height-gameHight)/2);
+            //setLocation((dim.width-gameWidth)/2,(dim.height-gameHight)/2);
         }
-
-
-
     }
 
     private void MakeUI() {
@@ -64,7 +61,8 @@ public class Menu extends JFrame implements ActionListener {
         this.add(menuPanel);
     }
 
-    void setPanelsToNull() {
+    private void setPanelsToNull() {
+        this.getContentPane().removeAll();
         if (gamePanel != null) {
             gamePanel.stopTheGame();
             gamePanel = null;
@@ -77,64 +75,52 @@ public class Menu extends JFrame implements ActionListener {
         }
     }
 
+    private void setPanelOptions(boolean game, JPanel panel) {
+        this.add(panel);
+        if(game) {
+            panel.setFocusable(true);
+            panel.requestFocus();
+            panel.requestFocusInWindow();
+        }
+        setWindowSize(game);
+        this.revalidate();
+        this.repaint();
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        System.out.println("eloPozniej");
         String action = actionEvent.getActionCommand();
         switch (action) {
             case MenuWindowStates.EXIT:
-                this.getContentPane().removeAll();
                 setPanelsToNull();
                 System.exit(0);
                 break;
 
             case MenuWindowStates.MENU:
-                this.getContentPane().removeAll();
                 setPanelsToNull();
                 menuPanel = new MenuPanel(defaultWidth, defaultHeight, this);
-                this.add(menuPanel);
-                this.revalidate();
-                this.repaint();
-                setWindowSize(false);
-                //GetConfigProperties.setValue("highScoreTable","2");
+                setPanelOptions(false,menuPanel);
                 break;
 
 
             case MenuWindowStates.NEW_GAME:
-                System.out.println("nowa gra");
-                this.getContentPane().removeAll();
                 setPanelsToNull();
-
                 gamePanel = new GamePanel( gameWidth, gameHight, this);
-                this.add(gamePanel);
-                gamePanel.setFocusable(true);
-                gamePanel.requestFocus();
-                gamePanel.requestFocusInWindow();
-                setWindowSize(true);
-                this.revalidate();
-                this.repaint();
+                setPanelOptions(true,gamePanel);
                 break;
 
 
             case MenuWindowStates.HIGH_SCORES:
-                this.getContentPane().removeAll();
                 setPanelsToNull();
                 highScoresPanel = new HighScoresPanel( defaultWidth, defaultHeight, this);
-                this.add(highScoresPanel);
-                setWindowSize(false);
-                this.revalidate();
-                this.repaint();
+                setPanelOptions(false,highScoresPanel);
                 break;
 
             case MenuWindowStates.HELP:
-                this.getContentPane().removeAll();
                 setPanelsToNull();
                 helpPanel = new HelpPanel( defaultWidth,defaultHeight, this);
-                this.add(helpPanel);
-                setWindowSize(false);
-                this.revalidate();
-                this.repaint();
-
+                setPanelOptions(false,helpPanel);
                 break;
 
             default:
