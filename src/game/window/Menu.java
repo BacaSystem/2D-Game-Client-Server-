@@ -61,7 +61,7 @@ public class Menu extends JFrame implements ActionListener {
         this.add(menuPanel);
     }
 
-    private void setPanelsToNull() {
+    private void removeAllPanels() {
         this.getContentPane().removeAll();
         if (gamePanel != null) {
             gamePanel.stopTheGame();
@@ -93,32 +93,32 @@ public class Menu extends JFrame implements ActionListener {
         String action = actionEvent.getActionCommand();
         switch (action) {
             case MenuWindowStates.EXIT:
-                setPanelsToNull();
+                removeAllPanels();
                 System.exit(0);
                 break;
 
             case MenuWindowStates.MENU:
-                setPanelsToNull();
+                removeAllPanels();
                 menuPanel = new MenuPanel(defaultWidth, defaultHeight, this);
                 setPanelOptions(false,menuPanel);
                 break;
 
 
             case MenuWindowStates.NEW_GAME:
-                setPanelsToNull();
+                removeAllPanels();
                 gamePanel = new GamePanel( gameWidth, gameHight, this);
                 setPanelOptions(true,gamePanel);
                 break;
 
 
             case MenuWindowStates.HIGH_SCORES:
-                setPanelsToNull();
+                removeAllPanels();
                 highScoresPanel = new HighScoresPanel( defaultWidth, defaultHeight, this);
                 setPanelOptions(false,highScoresPanel);
                 break;
 
             case MenuWindowStates.HELP:
-                setPanelsToNull();
+                removeAllPanels();
                 helpPanel = new HelpPanel( defaultWidth,defaultHeight, this);
                 setPanelOptions(false,helpPanel);
                 break;
