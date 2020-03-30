@@ -1,7 +1,6 @@
 package game.data;
 
 import java.io.*;
-import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -13,11 +12,13 @@ public class GetConfigProperties {
         try {
             p.load(new InputStreamReader(GetConfigProperties.class.getClassLoader().getResourceAsStream(propFileName), StandardCharsets.UTF_8));
             result = p.getProperty(key);
-
+            if (result == null) {
+                System.out.println("WARNING, empty key '" + key + "' or doesn't exist in config '" + fileName + "'");
+            }
         } catch (Exception e) {
-            System.out.println("Error: " + e + result);
+            System.out.println("Error, File '" + fileName + "' not found" + e );
         }
-        System.out.println(result);
+        //System.out.println(result);
         return result;
     }
 

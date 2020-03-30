@@ -1,10 +1,5 @@
 package game.data;
 
-import game.data.GetConfigProperties;
-
-import static java.lang.Integer.parseInt;
-import static java.lang.Integer.valueOf;
-
 public class HighScores {
     private static String fileName = "highScores";
 
