@@ -1,10 +1,7 @@
 package game.window;
 
 import game.Constant.DefaultGameSettings;
-import game.Constant.LoadLevel;
 import game.Constant.MenuWindowStates;
-import game.data.GetConfigProperties;
-import game.menuPanels.GamePanel;
 import game.menuPanels.HelpPanel;
 import game.menuPanels.HighScoresPanel;
 import game.menuPanels.MenuPanel;
@@ -14,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 
 public class GameWindow extends JFrame implements ActionListener{
 
