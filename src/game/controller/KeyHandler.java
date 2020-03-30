@@ -46,6 +46,7 @@ public class KeyHandler implements KeyListener {
     public Key space = new Key();
     public Key enter = new Key();
     public Key escape = new Key();
+    public Key cheat_0 = new Key();
 
     public KeyHandler(Game game){
         game.addKeyListener(this);
@@ -72,6 +73,7 @@ public class KeyHandler implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_SPACE) space.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_ENTER) enter.toggle(pressed);
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE) escape.toggle(pressed);
+        if(e.getKeyCode() == KeyEvent.VK_0) cheat_0.toggle(pressed);
 
     }
 

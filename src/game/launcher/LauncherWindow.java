@@ -41,10 +41,10 @@ public class LauncherWindow extends JFrame implements ActionListener {
             nick = (JTextField) add(new JTextField(10));
 
 
-            offline = (JButton) add(new JButton(LauncherConst.ONLINE_LABEL));
-            offline.setEnabled(false);
-            online = (JButton) add(new JButton(LauncherConst.OFFLINE_LABEL));
+            online = (JButton) add(new JButton(LauncherConst.ONLINE_LABEL));
             online.setEnabled(false);
+            offline = (JButton) add(new JButton(LauncherConst.OFFLINE_LABEL));
+            offline.setEnabled(false);
 
             add(new JLabel(LauncherConst.IP_LABEL, JLabel.LEFT));
             ip = (JTextField) add(new JTextField(10));

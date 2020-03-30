@@ -1,5 +1,6 @@
 package game;
 
+import game.Constant.DefaultGameSettings;
 import game.controller.KeyHandler;
 import game.states.State;
 import game.states.StatesManager;
@@ -9,6 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +27,10 @@ public class Game extends JPanel implements Runnable {
     private StatesManager manager;
     private KeyHandler key;
 
-    private BufferedImage img;
+    private BufferedImage img = null;
+    private BufferedImage scaled;
     private Graphics2D g;
+    private Graphics2D g2;
 
     private Thread gameThread;
 
@@ -41,6 +47,8 @@ public class Game extends JPanel implements Runnable {
         this.width = width;
         this.height = height;
 
+        //Toolkit.getDefaultToolkit().setDynamicLayout(false);
+
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         requestFocus();
@@ -50,7 +58,9 @@ public class Game extends JPanel implements Runnable {
         running = true;
 
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        g = (Graphics2D) img.createGraphics();
+        g = img.createGraphics();
+
+        g2 = (Graphics2D) this.getGraphics();
 
         key = new KeyHandler(this);
 
@@ -59,6 +69,9 @@ public class Game extends JPanel implements Runnable {
 
     public void update(){
         manager.update();
+
+        width = getWidth();
+        height = getHeight();
     }
 
     public void input(KeyHandler key){
@@ -69,15 +82,15 @@ public class Game extends JPanel implements Runnable {
         if(g != null){
             g.setColor(new Color(100, 100, 100));
             g.fillRect(0,0, width, height);
-            g.drawString("FPS: " + fps, 5, 10);
-            manager.render(g);
 
+            manager.render(g);
         }
     }
 
     public void draw() {
-
-        Graphics g2 = (Graphics2D) this.getGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawString("FPS: " + fps, 5, 10);
         g2.drawImage(img, 0, 0, width, height, null);
         frameCount++;
 
