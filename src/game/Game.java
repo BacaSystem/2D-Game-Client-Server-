@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Game extends JPanel implements Runnable {
+public class Game extends Canvas implements Runnable {
 
     public static int width;
     public static int height;
@@ -28,7 +28,7 @@ public class Game extends JPanel implements Runnable {
     private KeyHandler key;
 
     private BufferedImage img = null;
-    private BufferedImage scaled;
+    private BufferStrategy bs = null;
     private Graphics2D g;
     private Graphics2D g2;
 
@@ -50,7 +50,10 @@ public class Game extends JPanel implements Runnable {
 
         //Toolkit.getDefaultToolkit().setDynamicLayout(false);
 
-        this.setDoubleBuffered(true);
+        //this.setDoubleBuffered(true);
+
+
+
         //this.setFocusable(true);
         //requestFocus();
     }
@@ -79,14 +82,36 @@ public class Game extends JPanel implements Runnable {
         manager.input(key);
     }
 
-    public void render(){
+    public void render(Graphics g){
+        /*
         if(g != null){
             g.setColor(new Color(100, 100, 100));
             g.fillRect(0,0, width, height);
 
             manager.render(g);
         }
+         */
+
+        Graphics2D g2d = (Graphics2D) g;
+        setBackground(new Color(60, 70, 90));
+        g.clearRect(0,0, getWidth(), getHeight());
+
+        AffineTransform saveTransform = g2d.getTransform();
+        AffineTransform scaleMatrix = new AffineTransform();
+        float sx =(1f+(getSize().width-DefaultGameSettings.WIDTH)/(float)DefaultGameSettings.WIDTH);
+        float sy =(1f+(getSize().height-DefaultGameSettings.HEIGHT)/(float)DefaultGameSettings.HEIGHT);
+        scaleMatrix.scale(sx, sy);
+        g2d.setTransform(scaleMatrix);
+
+        g2d.drawString("FPS: " + fps, 5, 10);
+
+        manager.render(g2d);
+
+        g2d.setTransform(saveTransform);
+        frameCount++;
     }
+
+
 
     public void draw() {
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
@@ -94,7 +119,7 @@ public class Game extends JPanel implements Runnable {
         g2.drawString("FPS: " + fps, 5, 10);
         g2.drawImage(img, 0, 0, width, height, null);
         frameCount++;
-
+        }
         /**
         g2d.drawImage(rocket, x, y, null);
         if (isFireDown) {
@@ -109,7 +134,7 @@ public class Game extends JPanel implements Runnable {
         if (isFireUp) {
             g2d.drawImage(fireUp, x, y, null);
         } **/
-    }
+
 
     /**
 
@@ -124,6 +149,9 @@ public class Game extends JPanel implements Runnable {
     @Override
     public void addNotify(){
         super.addNotify();
+
+        createBufferStrategy(2);
+        bs = getBufferStrategy();
 
         gameThread = new Thread(this);
         gameThread.start();
@@ -178,9 +206,17 @@ public class Game extends JPanel implements Runnable {
                 }
 
                 //repaint();
+
                 input(key);
-                render();
-                draw();
+
+                Graphics graphics = bs.getDrawGraphics();
+                render(graphics);// Render to graphics
+                graphics.dispose(); // Dispose the graphics
+                bs.show();
+
+
+                //render();
+                //draw();
                 lastRenderTime = now;
 
                 //Update the frames we got.
