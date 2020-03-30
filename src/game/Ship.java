@@ -46,7 +46,12 @@ public class Ship {
 
     private BufferedImage fireLeft; // Lander flying right
 
-    private boolean up,down,right,left,cheat;
+    public boolean pause = false;
+
+    private boolean up,down,right,left;
+
+    double prevDx;
+    double prevDY;
 
     public Ship() // Gather rocket dimensions
     {
@@ -98,13 +103,9 @@ public class Ship {
             left = true;
         else
             left = false;
-        if(key.cheat_0.down)
-            cheat = true;
-        else
-            cheat = false;
     }
 
-    public void Update() // rocket controls
+    public void Update() //// rocket controls
     {
         if (up)
             speedY -= speedAccelerating;
@@ -122,10 +123,11 @@ public class Ship {
         if (right){ // Key LEFT
             speedX += speedAccelerating;
         }
-        if (cheat){ // Cheat
+        if (pause) { // Pause
             speedY = 0;
             speedX = 0;
         }
+
         x += speedX;
         y += speedY;
 

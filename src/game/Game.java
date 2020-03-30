@@ -3,12 +3,11 @@ package game;
 import game.Constant.DefaultGameSettings;
 import game.controller.KeyHandler;
 import game.states.StatesManager;
+import game.window.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 public class Game extends JPanel implements Runnable {
 
@@ -23,13 +22,15 @@ public class Game extends JPanel implements Runnable {
     private Graphics g;
 
     private Thread gameThread;
+    private GameWindow frame;
 
     private int fps = 60;
     public int frameCount = 0;
 
-    public Game(int width, int height) {
+    public Game(int width, int height, GameWindow frame) {
         this.width = width;
         this.height = height;
+        this.frame = frame;
 
         init();
     }
@@ -54,6 +55,8 @@ public class Game extends JPanel implements Runnable {
 
     public void input(KeyHandler key){
         manager.input(key);
+        if(key.escape.down)
+            frame.goToMenu();
     }
 
     public void render(Graphics g){

@@ -17,7 +17,7 @@ public class PlayState extends State{
     BufferedImage rocket, gameOverImg;
     BufferedImage fireUp, fireDown, fireLeft, fireRight;
 
-    boolean paused = false, gameOver = false;
+    boolean gameOver = false;
 
     public Ship ship;
 
@@ -33,24 +33,23 @@ public class PlayState extends State{
 
     @Override
     public void update() {
-        if(!gameOver || !paused) {
+        if(!gameOver) {
             ship.Update();
         }
     }
 
     @Override
     public void input(KeyHandler key) {
-        if(!gameOver || !paused)
+        if(!gameOver)
             ship.input(key);
 
         if (key.escape.down) {
             gameOver = false;
-            paused = false;
         }
-        if (key.space.down) {
-            paused = true;
-            System.out.println("PAUSED!");
-        }
+        if (key.space.down)
+            ship.pause = true;
+        else
+            ship.pause = false;
         //else
             //paused = false;
 

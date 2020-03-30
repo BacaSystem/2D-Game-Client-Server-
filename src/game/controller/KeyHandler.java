@@ -1,8 +1,8 @@
 package game.controller;
-import java.awt.*;
 
 
 import game.Game;
+import game.window.GameWindow;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KeyHandler implements KeyListener {
-
     //inner class representing single Key.
     public class Key {
         public int presses, absorbs;
@@ -84,10 +83,7 @@ public class KeyHandler implements KeyListener {
         var action = keyEvent.getKeyCode();
         switch(action) {
             case KeyEvent.VK_ESCAPE:
-                for (Window wi : Window.getWindows()) {
-                     wi.dispose();
-                }
-                new game.window.Menu();
+                new GameWindow();
                 break;
         }
     }
@@ -95,15 +91,7 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         toggle(keyEvent, true);
-        var action = keyEvent.getKeyCode();
-        switch(action) {
-            case KeyEvent.VK_ESCAPE:
-                for (Window wi : Window.getWindows()) {
-                    wi.dispose();
-                }
-                new game.window.Menu();
-                break;
-        }
+
     }
 
     @Override

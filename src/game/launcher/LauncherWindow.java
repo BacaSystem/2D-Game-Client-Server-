@@ -3,16 +3,13 @@ package game.launcher;
 import game.Constant.LauncherConst;
 import game.data.Player;
 import game.window.GameWindow;
-import game.window.Menu;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.text.BadLocationException;
 
 public class LauncherWindow extends JFrame implements ActionListener {
     private JButton online;
@@ -116,7 +113,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                         System.out.println(ipText);
                         System.out.println(portText);
                         dispose();
-                        new Menu();
+                        new GameWindow();
                     }
 
                 }
@@ -126,7 +123,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     setPlayerNick();
                     System.out.println(player.getNick());
                     dispose();
-                    new Menu();
+                    new GameWindow();
                  }
             }
         });
