@@ -13,7 +13,7 @@ public class GameWindow extends JFrame  {
     public GameWindow(){
         this.setTitle("Lunar Lander");
         {
-            this.setSize(1280, 720); // 1280x720px
+            this.setSize(new Dimension(1280, 720)); // 1280x720px
             this.setLocationRelativeTo(null); // Centered
             this.setResizable(true); // Resizable
         }

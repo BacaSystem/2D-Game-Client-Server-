@@ -1,8 +1,10 @@
 package game.states;
 
+import game.Constant.DefaultGameSettings;
 import game.controller.KeyHandler;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class StatesManager {

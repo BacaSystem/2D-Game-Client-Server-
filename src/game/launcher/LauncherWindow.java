@@ -113,6 +113,8 @@ public class LauncherWindow extends JFrame implements ActionListener {
                         System.out.println("Online Button");
                         setPlayerNick();
                         System.out.println(player.getNick());
+                        System.out.println(ipText);
+                        System.out.println(portText);
                         dispose();
                         new Menu();
                     }
@@ -121,10 +123,10 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 else if(source == offline){
                     dispose();
                     System.out.println("Offline Button");
-                    System.out.println(ipText);
-                    System.out.println(portText);
-                    //New window - Game
-                    new GameWindow();
+                    setPlayerNick();
+                    System.out.println(player.getNick());
+                    dispose();
+                    new Menu();
                  }
             }
         });
