@@ -47,6 +47,7 @@ public class GamePanel extends JPanel implements KeyListener, Runnable {
         this.setVisible(true);
     }
 
+
     private void init(){
         try {
             rocket = ImageIO.read(new File(GraphicsConstants.SHIP_IMAGE));

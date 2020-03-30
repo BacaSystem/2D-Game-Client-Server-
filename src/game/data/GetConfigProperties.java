@@ -21,5 +21,4 @@ public class GetConfigProperties {
         //System.out.println(result);
         return result;
     }
-
 }

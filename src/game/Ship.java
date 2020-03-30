@@ -135,19 +135,19 @@ public class Ship {
     public void render(Graphics2D g2d) {
 
         if (down) // Draw fly image
-             g2d.drawImage(fireUp, x, y, null);
+             g2d.drawImage(fireDown, x, y, null);
         g2d.drawImage(rocket, x, y, null);
 
         if (up) // Draw fly image
-            g2d.drawImage(fireDown, x, y, null);
+            g2d.drawImage(fireUp, x, y, null);
         g2d.drawImage(rocket, x, y, null);
 
         if (left) // Draw fly image
-            g2d.drawImage(fireRight, x, y, null);
+            g2d.drawImage(fireLeft, x, y, null);
         g2d.drawImage(rocket, x, y, null);
 
         if (right) // Draw fly image
-            g2d.drawImage(fireLeft, x, y, null);
+            g2d.drawImage(fireRight, x, y, null);
         g2d.drawImage(rocket, x, y, null);
     }
 }

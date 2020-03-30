@@ -4,8 +4,12 @@ import game.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class GameWindow extends JFrame {
+public class GameWindow extends JFrame  {
+
+
     public GameWindow(){
         this.setTitle("Lunar Lander");
         {
@@ -20,5 +24,9 @@ public class GameWindow extends JFrame {
         add(game);
 
         this.setVisible(true);
+
     }
+
+
+
 }

@@ -1,4 +1,6 @@
 package game.controller;
+import java.awt.*;
+
 
 import game.Game;
 
@@ -79,12 +81,29 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-
+        var action = keyEvent.getKeyCode();
+        switch(action) {
+            case KeyEvent.VK_ESCAPE:
+                for (Window wi : Window.getWindows()) {
+                     wi.dispose();
+                }
+                new game.window.Menu();
+                break;
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         toggle(keyEvent, true);
+        var action = keyEvent.getKeyCode();
+        switch(action) {
+            case KeyEvent.VK_ESCAPE:
+                for (Window wi : Window.getWindows()) {
+                    wi.dispose();
+                }
+                new game.window.Menu();
+                break;
+        }
     }
 
     @Override

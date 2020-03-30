@@ -46,12 +46,13 @@ public class Game extends JPanel implements Runnable {
     public Game(int width, int height) {
         this.width = width;
         this.height = height;
+        //this.addKeyListener(keyListner);
 
         //Toolkit.getDefaultToolkit().setDynamicLayout(false);
 
         this.setDoubleBuffered(true);
-        this.setFocusable(true);
-        requestFocus();
+        //this.setFocusable(true);
+        //requestFocus();
     }
 
     public void init(){
@@ -208,7 +209,8 @@ public class Game extends JPanel implements Runnable {
         }
     }
 
- /**
+
+    /**
     @Override
     public void keyTyped(KeyEvent e) {
 

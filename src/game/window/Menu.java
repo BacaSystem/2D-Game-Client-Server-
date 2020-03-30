@@ -9,14 +9,15 @@ import game.menuPanels.HelpPanel;
 import game.menuPanels.HighScoresPanel;
 import game.menuPanels.MenuPanel;
 
+import game.Game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
 public class Menu extends JFrame implements ActionListener {
 
-    private Dimension size;
     private int defaultWidth = MenuWindowStates.WIDTH;
     private int defaultHeight = MenuWindowStates.HEIGHT;
     private int gameWidth = DefaultGameSettings.WIDTH;
@@ -25,7 +26,8 @@ public class Menu extends JFrame implements ActionListener {
     private MenuPanel menuPanel = null;
     private HighScoresPanel highScoresPanel = null;
     private HelpPanel helpPanel = null;
-    private GamePanel gamePanel = null;
+    //private GamePanel gamePanel = null;
+    private GameWindow gameWindow = null;
 
     public Menu() {
         setWindowSizeAndFocus();
@@ -63,10 +65,12 @@ public class Menu extends JFrame implements ActionListener {
 
     private void removeAllPanels() {
         this.getContentPane().removeAll();
-        if (gamePanel != null) {
-            gamePanel.stopTheGame();
+        /*if (gamePanel != null) {
+            //  gamePanel.stopTheGame();
             gamePanel = null;
-        } if (menuPanel != null) {
+
+
+        }*/ if (menuPanel != null) {
             menuPanel = null;
         } if (highScoresPanel != null) {
             highScoresPanel = null;
@@ -88,6 +92,8 @@ public class Menu extends JFrame implements ActionListener {
     }
 
 
+
+
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String action = actionEvent.getActionCommand();
@@ -106,10 +112,10 @@ public class Menu extends JFrame implements ActionListener {
 
             case MenuWindowStates.NEW_GAME:
                 removeAllPanels();
-                gamePanel = new GamePanel( gameWidth, gameHight, this);
-                setPanelOptions(true,gamePanel);
+                gameWindow = new GameWindow();
+                dispose();
+                //setPanelOptions(true,gamePanel);
                 break;
-
 
             case MenuWindowStates.HIGH_SCORES:
                 removeAllPanels();
