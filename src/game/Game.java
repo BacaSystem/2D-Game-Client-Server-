@@ -2,22 +2,15 @@ package game;
 
 import game.Constant.DefaultGameSettings;
 import game.controller.KeyHandler;
-import game.states.State;
 import game.states.StatesManager;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-public class Game extends Canvas implements Runnable {
+public class Game extends JPanel implements Runnable {
 
     public static int width;
     public static int height;
@@ -27,48 +20,29 @@ public class Game extends Canvas implements Runnable {
     private StatesManager manager;
     private KeyHandler key;
 
-    private BufferedImage img = null;
-    private BufferStrategy bs = null;
-    private Graphics2D g;
-    private Graphics2D g2;
+    private Graphics g;
 
     private Thread gameThread;
 
     private int fps = 60;
     public int frameCount = 0;
 
-    private int x = 300, y = 100;
-
-    private boolean isFireLeft = false, isFireRight = false, isFireUp = false, isFireDown = false;
-
-
-
     public Game(int width, int height) {
         this.width = width;
         this.height = height;
-        //this.addKeyListener(keyListner);
 
-        //Toolkit.getDefaultToolkit().setDynamicLayout(false);
-
-        //this.setDoubleBuffered(true);
-
-
-
-        //this.setFocusable(true);
-        //requestFocus();
+        init();
     }
 
     public void init(){
         running = true;
 
-        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        g = img.createGraphics();
-
-        g2 = (Graphics2D) this.getGraphics();
+        g = this.getGraphics();
 
         key = new KeyHandler(this);
 
         manager = new StatesManager();
+
     }
 
     public void update(){
@@ -83,19 +57,12 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void render(Graphics g){
-        /*
-        if(g != null){
-            g.setColor(new Color(100, 100, 100));
-            g.fillRect(0,0, width, height);
-
-            manager.render(g);
-        }
-         */
-
         Graphics2D g2d = (Graphics2D) g;
-        setBackground(new Color(60, 70, 90));
-        g.clearRect(0,0, getWidth(), getHeight());
+        g2d.clearRect(0,0, getWidth(), getHeight());
 
+        g2d.setColor(new Color(60, 60, 80));
+        g2d.fillRect(0, 0, width, height);
+        g2d.setColor(Color.white);
         AffineTransform saveTransform = g2d.getTransform();
         AffineTransform scaleMatrix = new AffineTransform();
         float sx =(1f+(getSize().width-DefaultGameSettings.WIDTH)/(float)DefaultGameSettings.WIDTH);
@@ -111,56 +78,23 @@ public class Game extends Canvas implements Runnable {
         frameCount++;
     }
 
-
-
-    public void draw() {
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2.drawString("FPS: " + fps, 5, 10);
-        g2.drawImage(img, 0, 0, width, height, null);
-        frameCount++;
-        }
-        /**
-        g2d.drawImage(rocket, x, y, null);
-        if (isFireDown) {
-            g2d.drawImage(fireDown, x, y, null);
-        }
-        if (isFireLeft) {
-            g2d.drawImage(fireleft, x, y, null);
-        }
-        if (isFireRight) {
-            g2d.drawImage(fireRight, x, y, null);
-        }
-        if (isFireUp) {
-            g2d.drawImage(fireUp, x, y, null);
-        } **/
-
-
-    /**
-
     @Override
-    public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        super.paintComponent(g2d);
-        draw(g2d);
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        render(g);
+        g.dispose();
     }
-     **/
 
     @Override
     public void addNotify(){
         super.addNotify();
 
-        createBufferStrategy(2);
-        bs = getBufferStrategy();
-
-        gameThread = new Thread(this);
+        gameThread = new Thread(this, "Game Thread");
         gameThread.start();
     }
 
     @Override
     public void run() {
-        init();
-
         //This value would probably be stored elsewhere.
         final double GAME_HERTZ = 30.0;
         //Calculate how many ns each frame should take for our target game hertz.
@@ -205,18 +139,9 @@ public class Game extends Canvas implements Runnable {
                     lastUpdateTime = now - TIME_BETWEEN_UPDATES;
                 }
 
-                //repaint();
-
                 input(key);
+                repaint();
 
-                Graphics graphics = bs.getDrawGraphics();
-                render(graphics);// Render to graphics
-                graphics.dispose(); // Dispose the graphics
-                bs.show();
-
-
-                //render();
-                //draw();
                 lastRenderTime = now;
 
                 //Update the frames we got.
@@ -244,74 +169,4 @@ public class Game extends Canvas implements Runnable {
             }
         }
     }
-
-
-    /**
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("Right key typed");
-            isFireRight = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("Left key typed");
-            isFireLeft = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            System.out.println("Up key typed");
-            isFireUp = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            System.out.println("Down key typed");
-            isFireDown = true;
-        }
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("Right key pressed");
-            isFireRight = true;
-            x++;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("Left key pressed");
-            isFireLeft = true;
-            x--;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            System.out.println("Up key pressed");
-            isFireUp = true;
-            y--;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            System.out.println("Down key pressed");
-            isFireDown = true;
-            y++;
-        }
-
-    }
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("Right key Released");
-            isFireRight = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("Left key Released");
-            isFireLeft = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            System.out.println("Up key Released");
-            isFireUp = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            System.out.println("Down key Released");
-            isFireDown = false;
-        }
-    }
-    **/
 }
