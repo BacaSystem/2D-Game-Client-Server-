@@ -53,19 +53,19 @@ public class Ship {
     double prevDx;
     double prevDY;
 
-    public Ship() // Gather rocket dimensions
+    public Ship(int x, int y, float gravity) // Gather rocket dimensions
     {
+        this.x = x;
+        this.y = y;
+        speedGrav = gravity/9.81 *(-0.18);
+
         initialize();
         loadcontent();
-
     }
 
     private void initialize() {
-        x = 100;
-        y = 100;
         speedAccelerating = 0.5;
         speedY = 1;
-        speedGrav = -0.18;
         maxLandingSpeed = 5;
     }
 

@@ -1,6 +1,7 @@
 package game;
 
 import game.Constant.DefaultGameSettings;
+import game.Constant.LoadLevel;
 import game.controller.KeyHandler;
 import game.states.StatesManager;
 import game.window.GameWindow;
@@ -15,6 +16,7 @@ public class Game extends JPanel implements Runnable {
     public static int height;
 
     public boolean running = false;
+    public int currentLevel = 1;
 
     private StatesManager manager;
     private KeyHandler key;
@@ -44,6 +46,7 @@ public class Game extends JPanel implements Runnable {
 
         manager = new StatesManager();
 
+        LoadLevel.getLevel(currentLevel);
     }
 
     public void update(){

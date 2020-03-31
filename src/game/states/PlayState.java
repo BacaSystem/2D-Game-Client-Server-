@@ -1,6 +1,7 @@
 package game.states;
 
 import game.Constant.GraphicsConstants;
+import game.Constant.LoadLevel;
 import game.Ship;
 import game.controller.KeyHandler;
 
@@ -17,18 +18,23 @@ public class PlayState extends State{
     BufferedImage rocket, gameOverImg;
     BufferedImage fireUp, fireDown, fireLeft, fireRight;
 
+    int currentLevel = 1;
     boolean gameOver = false;
 
     public Ship ship;
+    public Shape terrain;
+    public Shape landing;
 
     public PlayState(StatesManager manager){
         super(manager);
-        ship = new Ship();
         init();
     }
 
     private void init(){
-
+        LoadLevel.getLevel(currentLevel);
+        terrain = new Polygon(LoadLevel.xVerticies, LoadLevel.yVerticies, LoadLevel.xVerticies.length);
+        landing = new Polygon(LoadLevel.xLanding, LoadLevel.yLanding, LoadLevel.xLanding.length);
+        ship = new Ship(LoadLevel.xStart, LoadLevel.yStart, LoadLevel.GRAVITY_SPEED);
     }
 
     @Override
@@ -57,9 +63,12 @@ public class PlayState extends State{
 
     @Override
     public void render(Graphics2D g) {
+        g.setColor(Color.gray);
+        g.fill(landing);
+        g.setColor(Color.lightGray);
+        g.fill(terrain);
         ship.render(g);
-        g.setColor(new Color(255,255,255));
-        g.fillRect(0, 300, 1200, 30);
+
         if(gameOver)
             g.drawImage(gameOverImg, 200, 100, null);
     }
