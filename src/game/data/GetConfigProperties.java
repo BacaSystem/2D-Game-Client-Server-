@@ -18,7 +18,6 @@ public class GetConfigProperties {
         } catch (Exception e) {
             System.out.println("Error, File '" + fileName + "' not found" + e );
         }
-        //System.out.println(result);
         return result;
     }
 }

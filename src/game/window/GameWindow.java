@@ -44,10 +44,10 @@ public class GameWindow extends JFrame implements ActionListener{
     private void setWindowSize(boolean game) {
 
         if (!game) {
-            setSize(defaultWidth, defaultHeight); // 1280x720px
+            setSize(defaultWidth, defaultHeight);
             this.setResizable(false);
         } else {
-            setSize(gameWidth, gameHight); // 1280x720px
+            setSize(gameWidth, gameHight);
             this.setResizable(true);
             setLocationRelativeTo(null);
         }

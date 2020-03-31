@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class GameManager {
 
-    BufferedImage gameOverImg, startImg;
+    BufferedImage gameOverImg, startImg, wonImage;
 
     int currentLevel;
     boolean gameOver = false;
@@ -34,6 +34,7 @@ public class GameManager {
         try {
             gameOverImg = ImageIO.read(new File(GraphicsConstants.GAME_OVER_IMAGE));
             startImg = ImageIO.read(new File((GraphicsConstants.MENU_TEXT_IMAGE)));
+            wonImage = ImageIO.read(new File(GraphicsConstants.YOU_WON_IMAGE));
 
             LoadLevel.getLevel(currentLevel);
             terrain = new Polygon(LoadLevel.xVerticies, LoadLevel.yVerticies, LoadLevel.xVerticies.length);
@@ -99,8 +100,11 @@ public class GameManager {
         if(!started)
             g.drawImage(startImg, 400,100, null);
 
-        if(gameOver || won)
+        if(gameOver)
             g.drawImage(gameOverImg, 200, 100, null);
+
+        if(won)
+            g.drawImage(wonImage, 200, 100, null);
     }
 
 }
