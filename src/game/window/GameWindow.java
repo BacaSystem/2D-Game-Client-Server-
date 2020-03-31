@@ -3,6 +3,8 @@ package game.window;
 import game.Constant.DefaultGameSettings;
 import game.Constant.MenuWindowStates;
 import game.data.GetConfigProperties;
+import game.data.HighScores;
+import game.data.Player;
 import game.menuPanels.HelpPanel;
 import game.menuPanels.HighScoresPanel;
 import game.menuPanels.MenuPanel;
@@ -110,7 +112,9 @@ public class GameWindow extends JFrame implements ActionListener{
                 removeAllPanels();
                 menuPanel = new MenuPanel(defaultWidth, defaultHeight, this);
                 setPanelOptions(false,menuPanel);
-                GetConfigProperties.setValue("highScores");
+                //GetConfigProperties.setValue("highScores");
+                HighScores.getInstance().checkPlayerScore(Player.getInstance());
+                HighScores.getInstance().saveInDirectory();
                 break;
 
 

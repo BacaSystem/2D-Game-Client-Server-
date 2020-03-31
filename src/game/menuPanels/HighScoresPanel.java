@@ -7,10 +7,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class HighScoresPanel extends JPanel {
-    private HighScores scoresData = HighScores.getInstance();
-    private HighScores records = HighScores.getInstance();
+    private HighScores highScore = HighScores.getInstance();
+    private ArrayList<HighScores.Record> records;
     private String[] nicks;
     private int[] scores;
 
@@ -25,12 +26,11 @@ public class HighScoresPanel extends JPanel {
 
         getData();
         //HERE add components
-        for(int i=0; i<5; i++) {
-            //System.out.println(nicks[i] + scores[i]);
+        for(int i=0; i<highScore.getNumberOfRecords(); i++) {
             JPanel recordPanel = new JPanel();
             recordPanel.add(new JLabel((i+1) + "."));
-            recordPanel.add(new JLabel(nicks[i]));
-            recordPanel.add(new JLabel(String.valueOf((scores[i])),SwingConstants.RIGHT));
+            recordPanel.add(new JLabel(records.get(i).getNick()));
+            recordPanel.add(new JLabel(String.valueOf(records.get(i).getScore()),SwingConstants.RIGHT));
             verticalPanel.add(recordPanel);
         }
 
@@ -46,11 +46,7 @@ public class HighScoresPanel extends JPanel {
     }
 
     void getData() {
-        records.downloadData();
-        nicks = new String[records.getNumberOfRecords()];
-        scores = new int[records.getNumberOfRecords()];
-        nicks = records.getNicks();
-        scores = records.getScores();
-
+        highScore.downloadData();
+        records = highScore.getRecords();
     }
 }

@@ -3,8 +3,8 @@ package game.data;
 
 //Singleton class, Gracz. Istnieje tylko jedna jedyna instancja klasy Gracz. Przechouje nick i wynik aktualnego gracza
 public class Player {
-    private String  nick = "";
-    private int score = 0;
+    private String  nick = "Maciej";
+    private int score = 250;
 
     private Player() {
         if (Holder.INSTANCE != null) {
