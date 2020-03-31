@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 public class LoadLevel {
     public static float GRAVITY_SPEED;
-    public static float fuelAmount;
     public static int xStart;
     public static int yStart;
     public static int[] xVerticies;
@@ -33,7 +32,6 @@ public class LoadLevel {
         }
 
         GRAVITY_SPEED = Float.parseFloat(GetConfigProperties.getValue(fileName, "gravitySpeed"));
-        fuelAmount = Float.parseFloat(GetConfigProperties.getValue(fileName, "fuelAmount"));
         xStart = Integer.parseInt(GetConfigProperties.getValue(fileName, "xStart"));
         yStart = Integer.parseInt(GetConfigProperties.getValue(fileName, "yStart"));
         xVerticies = Arrays.stream(GetConfigProperties.getValue(fileName, "xVertecies").split("-")).mapToInt(Integer::parseInt).toArray();

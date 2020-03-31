@@ -58,7 +58,6 @@ public class Ship {
 
     public Ship(int x, int y, float gravity, float fuel) // Gather rocket dimensions
     {
-
         startX = x;
         startY = y;
         startFuel = fuel;
@@ -115,12 +114,6 @@ public class Ship {
         return maxLandingSpeed;
     }
 
-    public void reload(){
-        x = startX;
-        y = startY;
-        fuel = startFuel;
-        initialize();
-    }
 
     public void input(KeyHandler key){
         if(fuel > 0) {

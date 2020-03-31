@@ -13,6 +13,8 @@ public class GraphicsConstants {
     public static final String GAME_OVER_IMAGE = GetConfigProperties.getValue(fileName, "gameOver");
     public static final String MENU_TEXT_IMAGE = GetConfigProperties.getValue(fileName, "menuText");
     public static final String YOU_WON_IMAGE = GetConfigProperties.getValue(fileName, "wonText");
+    public static final String LANDED_IMAGE = GetConfigProperties.getValue(fileName, "landed");
+    public static final String CRASHED_IMAGE = GetConfigProperties.getValue(fileName, "crashed");
 
     private GraphicsConstants() {
         throw new AssertionError();
