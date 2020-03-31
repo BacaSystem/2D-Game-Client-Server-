@@ -2,6 +2,7 @@ package game;
 
 import game.Constant.DefaultGameSettings;
 import game.controller.KeyHandler;
+import game.data.Player;
 import game.window.GameWindow;
 
 import javax.swing.*;
@@ -22,6 +23,8 @@ public class Game extends JPanel implements Runnable {
     private Thread gameThread;
     private GameWindow frame;
 
+    //private Player player = Player.getInstance();
+
     private int fps = 60;
     public int frameCount = 0;
 
@@ -40,7 +43,7 @@ public class Game extends JPanel implements Runnable {
 
         key = new KeyHandler(this);
 
-        manager = new GameManager();
+        manager = new GameManager(this);
     }
 
     public void update(){
@@ -52,8 +55,13 @@ public class Game extends JPanel implements Runnable {
 
     public void input(KeyHandler key){
         manager.input(key);
-        if(key.escape.down)
+        if(key.escape.down) {
             frame.goToMenu();
+            manager.player.pointsAtTheEnd(manager.currentLevel);
+            manager.highScores.checkPlayerScore(manager.player);
+            manager.player.resetPlayer();
+        }
+
     }
 
     public void render(Graphics g){
@@ -75,7 +83,7 @@ public class Game extends JPanel implements Runnable {
 
         g2d.drawString("FPS: " + fps, 5, 20);
         g2d.drawString("Current Level: " + manager.currentLevel, 5, 40);
-        g2d.drawString("Lifes: " + manager.lifes, 5, 60);
+        g2d.drawString("Lifes: " + manager.player.getLifes(), 5, 60);
         g2d.drawString("Fuel tank: " + manager.ship.getFuel(), 5, 80);
         g2d.drawString("Max Landing Speed: " + manager.ship.getMaxLandingSpeed(), 5, 100);
         g2d.drawString("Speed (X: " +  String.format("%.1f", manager.ship.getSpeedX()) + " Y: " + String.format("%.1f", manager.ship.getSpeedY()) + ")", 5, 120);

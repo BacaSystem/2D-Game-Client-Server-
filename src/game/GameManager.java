@@ -3,6 +3,8 @@ package game;
 import game.Constant.DefaultGameSettings;
 import game.Constant.GraphicsConstants;
 import game.Constant.LoadLevel;
+import game.data.HighScores;
+import game.data.Player;
 import game.entities.Ship;
 import game.controller.KeyHandler;
 
@@ -11,6 +13,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JPanel;
 
 //przepraszam za kod wygrania, to jest straszne wiem xD
 public class GameManager {
@@ -24,16 +27,19 @@ public class GameManager {
     boolean landed = false;
     boolean started = false;
 
-    public int lifes;
+    //public int lifes;
 
     public Ship ship;
     public Shape terrain;
     public Shape landing;
     private Collision detector;
 
-    public GameManager(){
+    public Player player = Player.getInstance();
+    public HighScores highScores = HighScores.getInstance();
+
+    public GameManager(JPanel game){
         currentLevel = 1;
-        lifes = DefaultGameSettings.LIFES;
+        //lifes = DefaultGameSettings.LIFES;
         init();
     }
 
@@ -59,18 +65,31 @@ public class GameManager {
 
     public void reload(){
         if(crashed)
-            lifes --;
+            //lifes --;
+            player.deleteOneLife();
         if(landed) {
-            if(currentLevel < maxLevels)
+            if(currentLevel < maxLevels) {
+                //----------------!!!!!!!!!!!!!!!!!!!!--------------//
+                player.addPointsForLevel(ship.getFuel(), currentLevel);
                 currentLevel++;
+            }
+
             else {
+                //----------------!!!!!!!!!!!!!!!!!!!!--------------//
+                //player.addPointsForLevel(ship.getFuel(),currentLevel);
+                player.addPointsAtLastLevel(ship.getFuel(), currentLevel);
+                highScores.checkPlayerScore(player);
+                player.resetPlayer();
                 currentLevel = 1;
-                lifes = DefaultGameSettings.LIFES;
+                //lifes = DefaultGameSettings.LIFES;
             }
         }
         if(gameOver) {
+            player.pointsAtTheEnd(currentLevel);
+            highScores.checkPlayerScore(player);
+            player.resetPlayer();
             currentLevel = 1;
-            lifes = DefaultGameSettings.LIFES;
+            //lifes = DefaultGameSettings.LIFES;
         }
         gameOver = false;
         crashed = false;
@@ -81,7 +100,8 @@ public class GameManager {
 
     public void update() {
         if (started) {
-            if(lifes >= 0) {
+            //if(lifes >= 0) {
+            if(player.getLifes() >= 0) {
                 if (!crashed && !landed) {
                     ship.Update();
                     crashed = detector.detectCollisionTerrain();
@@ -89,7 +109,8 @@ public class GameManager {
                 }
             }
             else {
-                lifes = 0;
+                player.setLifesToZero();
+                //lifes = 0;
                 gameOver = true;
             }
         }
@@ -136,7 +157,8 @@ public class GameManager {
         if(!started)
             g.drawImage(startImg, 400,100, null);
 
-        if(lifes == 0 && crashed) {
+        //if(lifes == 0 && crashed) {
+        if(player.getLifes() == 0 && crashed) {
             gameOver = true;
             g.drawImage(gameOverImg, 200, 100, null);
         }
@@ -151,6 +173,11 @@ public class GameManager {
 
         if(landed)
             g.drawImage(landedImg, 0, 0, null);
+    }
+
+    public void saveScoreAfterGame() {
+        player.addPointsForLevel(ship.getFuel(),currentLevel);
+        highScores.checkPlayerScore(player);
     }
 
 }

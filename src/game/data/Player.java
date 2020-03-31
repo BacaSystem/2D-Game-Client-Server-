@@ -1,10 +1,15 @@
 package game.data;
 
 
+import game.Constant.DefaultGameSettings;
+
 //Singleton class, Gracz. Istnieje tylko jedna jedyna instancja klasy Gracz. Przechouje nick i wynik aktualnego gracza
 public class Player {
     private String  nick = "Maciej";
-    private int score = 250;
+    private int score = 0;
+    private int lifes = DefaultGameSettings.LIFES;
+
+    private int pointsAddetFromLevel=0;
 
     private Player() {
         if (Holder.INSTANCE != null) {
@@ -41,6 +46,65 @@ public class Player {
     public int getScore() {
         return this.score;
     }
+
+    public void resetScore() {
+        this.score = 0;
+    }
+
+    public int getLifes() { return this.lifes; }
+
+    public void deleteOneLife() {
+        if(lifes != 0) {
+           lifes--;
+        }
+    }
+
+    public void resetLifes() {
+        lifes = DefaultGameSettings.LIFES;
+    }
+
+    public void setLifesToZero() {
+        lifes = 0;
+    }
+
+    public void resetPlayer() {
+        this.score = 0;
+        this.lifes = DefaultGameSettings.LIFES;
+    }
+
+    public void addPointsForLevel(float fuel, int levelNumber) {
+        int K = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "K"));
+        float Z = fuel;
+        int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
+
+        int addPoints = (int) (Z*M) + K;
+        score+=  addPoints;
+        System.out.println("Points added on level " + levelNumber + ": " + score);
+    }
+
+    public void addPointsAtLastLevel(float fuel, int levelNumber) {
+        int K = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "K"));
+        float Z = fuel;
+        int L = lifes;
+        int S = DefaultGameSettings.S_POINTS;
+        int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
+
+        int addPoints = (int) (Z*M) + K + (L/3 * S);
+        score+=  addPoints;
+        System.out.println("Points added on LAST, " + levelNumber + ": " + score);
+    }
+
+    public void pointsAtTheEnd(int currentLevel) {
+        int L = lifes;
+        int S = DefaultGameSettings.S_POINTS;
+        if (currentLevel != 1) {
+            score+= (L/3 * S);
+            System.out.println("added Extra Points For Ships at level "+ currentLevel +" AND exit to Menu: " + score);
+            pointsAddetFromLevel = 0;
+        }
+    }
+
+
 
 
 

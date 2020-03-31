@@ -113,8 +113,6 @@ public class GameWindow extends JFrame implements ActionListener{
                 menuPanel = new MenuPanel(defaultWidth, defaultHeight, this);
                 setPanelOptions(false,menuPanel);
                 //GetConfigProperties.setValue("highScores");
-                HighScores.getInstance().checkPlayerScore(Player.getInstance());
-                HighScores.getInstance().saveInDirectory();
                 break;
 
 

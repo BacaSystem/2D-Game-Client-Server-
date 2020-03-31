@@ -12,6 +12,7 @@ public class DefaultGameSettings {
     public static final int LIFES = parseInt(GetConfigProperties.getValue(fileName, "lifes"));
     public static final int NUMBEROFLEVELS = parseInt(GetConfigProperties.getValue(fileName, "numberOfLevels"));
     public static final float FUEL = Float.parseFloat(GetConfigProperties.getValue(fileName, "fuelLevel"));
+    public static final int S_POINTS = Integer.parseInt(GetConfigProperties.getValue(fileName, "S"));
 
     private DefaultGameSettings() {
         throw new AssertionError();
