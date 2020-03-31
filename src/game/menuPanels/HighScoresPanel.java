@@ -10,8 +10,9 @@ import java.awt.event.ActionListener;
 
 public class HighScoresPanel extends JPanel {
     private HighScores scoresData = HighScores.getInstance();
+    private HighScores records = HighScores.getInstance();
     private String[] nicks;
-    private String[] scores;
+    private int[] scores;
 
     public HighScoresPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -29,7 +30,7 @@ public class HighScoresPanel extends JPanel {
             JPanel recordPanel = new JPanel();
             recordPanel.add(new JLabel((i+1) + "."));
             recordPanel.add(new JLabel(nicks[i]));
-            recordPanel.add(new JLabel(scores[i] ,SwingConstants.RIGHT));
+            recordPanel.add(new JLabel(String.valueOf((scores[i])),SwingConstants.RIGHT));
             verticalPanel.add(recordPanel);
         }
 
@@ -45,9 +46,11 @@ public class HighScoresPanel extends JPanel {
     }
 
     void getData() {
-        HighScores.updateData();
-        nicks = new String[]{HighScores.NAME_1 ,HighScores.NAME_2, HighScores.NAME_3, HighScores.NAME_4, HighScores.NAME_5};
-        scores = new String[]{HighScores.SCORE_1, HighScores.SCORE_2, HighScores.SCORE_3, HighScores.SCORE_4, HighScores.SCORE_5};
+        records.downloadData();
+        nicks = new String[records.getNumberOfRecords()];
+        scores = new int[records.getNumberOfRecords()];
+        nicks = records.getNicks();
+        scores = records.getScores();
 
     }
 }

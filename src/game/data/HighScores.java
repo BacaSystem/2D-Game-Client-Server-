@@ -1,46 +1,68 @@
 package game.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HighScores {
-    private static String fileName = "highScores";
+    private final String fileName = "highScores";
+    private String[] nicks;
+    private int[] scores;
+    private final int numberOfRecords = 5;
+    private boolean isDataDonwloaded = false;
 
-    public static String SCORE_1;
-    public static String NAME_1;
-    public static String SCORE_2;
-    public static String NAME_2;
-    public static String SCORE_3;
-    public static String NAME_3;
-    public static String SCORE_4;
-    public static String NAME_4;
-    public static String SCORE_5;
-    public static String NAME_5;
-
-
+    //----------------------------------
     private HighScores() {
         if (HighScores.Holder.INSTANCE != null) {
             throw new IllegalStateException("Singleton already constructed");
         }
     }
-
     public static HighScores getInstance() {
         return HighScores.Holder.INSTANCE;
     }
-
     private static class Holder {
         private static final HighScores INSTANCE = new HighScores();
     }
+    //-----------------------------------
 
-
-    public static void updateData() {
-        SCORE_1 = GetConfigProperties.getValue(fileName, "score1");
-        NAME_1  = GetConfigProperties.getValue(fileName, "nick1");
-        SCORE_2 = GetConfigProperties.getValue(fileName, "score2");
-        NAME_2  = GetConfigProperties.getValue(fileName, "nick2");
-        SCORE_3 = GetConfigProperties.getValue(fileName, "score3");
-        NAME_3  = GetConfigProperties.getValue(fileName, "nick3");
-        SCORE_4 = GetConfigProperties.getValue(fileName, "score4");
-        NAME_4  = GetConfigProperties.getValue(fileName, "nick4");
-        SCORE_5 = GetConfigProperties.getValue(fileName, "score5");
-        NAME_5  = GetConfigProperties.getValue(fileName, "nick5");
+    public String[] getNicks() {
+        return nicks;
     }
 
+    public int[] getScores() {
+        return scores;
+    }
+
+    public int getNumberOfRecords() {
+        return numberOfRecords;
+    }
+
+    public void downloadData() {
+        if (!isDataDonwloaded) {
+            nicks = null;
+            scores = null;
+            nicks = new String[numberOfRecords];
+            scores = new int[numberOfRecords];
+            for(int i=0; i<numberOfRecords; i++) {
+                String nickKey = "nick" + (i+1);
+                String scoreKey = "score" + (i+1);
+                nicks[i] = GetConfigProperties.getValue(fileName, nickKey);
+                scores[i] = Integer.parseInt(GetConfigProperties.getValue(fileName, scoreKey));
+                System.out.println(nicks[i] + " " + scores[i]);
+            }
+            isDataDonwloaded = true;
+        }
+    }
+/*
+    public void checkPlayerScore(Player player) {
+        Map<String, Integer> players = new HashMap<String, Integer>();
+
+        for(String ) {
+            players.put(nicks[i], scores[i])
+        }
+        krotka[numberOfRecords] = new Krotka(player.getNick(), player.getScore());
+
+
+
+    }
+    */
 }
