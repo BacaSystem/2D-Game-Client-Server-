@@ -1,6 +1,6 @@
 package game.menuPanels;
 import game.Constant.MenuWindowStates;
-import game.Button;
+import game.entities.Button;
 import game.data.GetConfigProperties;
 
 import javax.swing.*;

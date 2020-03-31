@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 import game.Constant.MenuWindowStates;
-import game.Button;
+import game.entities.Button;
 
 public class MenuPanel extends JPanel {
 

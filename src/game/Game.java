@@ -1,9 +1,7 @@
 package game;
 
 import game.Constant.DefaultGameSettings;
-import game.Constant.LoadLevel;
 import game.controller.KeyHandler;
-import game.states.StatesManager;
 import game.window.GameWindow;
 
 import javax.swing.*;
@@ -16,9 +14,7 @@ public class Game extends JPanel implements Runnable {
     public static int height;
 
     public boolean running = false;
-    public int currentLevel = 1;
-
-    private StatesManager manager;
+    private GameManager manager;
     private KeyHandler key;
 
     private Graphics g;
@@ -44,9 +40,7 @@ public class Game extends JPanel implements Runnable {
 
         key = new KeyHandler(this);
 
-        manager = new StatesManager();
-
-        LoadLevel.getLevel(currentLevel);
+        manager = new GameManager();
     }
 
     public void update(){
@@ -76,7 +70,13 @@ public class Game extends JPanel implements Runnable {
         scaleMatrix.scale(sx, sy);
         g2d.setTransform(scaleMatrix);
 
-        g2d.drawString("FPS: " + fps, 5, 10);
+        Font bigFont = new Font("Monospaced", Font.BOLD, 15);
+        g2d.setFont(bigFont);
+
+        g2d.drawString("FPS: " + fps, 5, 20);
+        g2d.drawString("Fuel tank: " + manager.ship.getFuel(), 5, 40);
+        g2d.drawString("Max Landing Speed: " + manager.ship.getMaxLandingSpeed(), 5, 60);
+        g2d.drawString("Speed (X: " +  String.format("%.1f", manager.ship.getSpeedX()) + " Y: " + String.format("%.1f", manager.ship.getSpeedY()) + ")", 5, 80);
 
         manager.render(g2d);
 

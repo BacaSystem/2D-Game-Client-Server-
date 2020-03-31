@@ -1,4 +1,4 @@
-package game;
+package game.entities;
 
 /*
  * Rocket physics and controls.
@@ -8,35 +8,38 @@ import game.Constant.GraphicsConstants;
 import game.controller.KeyHandler;
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class Ship {
 
+    public Rectangle2D collider;
+
     public int x; // X coordinate (2D)
 
     public int y; // Y coordinate (2D)
 
-    public boolean landed; // Check if landed
+    private float fuel;
 
-    public boolean crashed; // Check if crashed
+    private float startFuel;
+
+    private int startX, startY;
 
     private double speedAccelerating; // Acceleration
 
     public double maxLandingSpeed; // Max speed for land
 
-    private double speedX; // Horizontal speed
+    public double speedX; // Horizontal speed
 
     public double speedY; // Vertical speed
 
     public double speedGrav; // Gravity
 
     private BufferedImage rocket; // Lunar Lander
-
-    private BufferedImage rocketCrashed; // Crashed Lander
 
     private BufferedImage fireUp; // Lander going up Lander
 
@@ -53,10 +56,18 @@ public class Ship {
     double prevDx;
     double prevDY;
 
-    public Ship(int x, int y, float gravity) // Gather rocket dimensions
+    public Ship(int x, int y, float gravity, float fuel) // Gather rocket dimensions
     {
-        this.x = x;
-        this.y = y;
+
+        startX = x;
+        startY = y;
+        startFuel = fuel;
+
+        this.x = startX;
+        this.y = startY;
+        this.fuel = startFuel;
+
+        collider = getCollider();
         speedGrav = gravity/9.81 *(-0.18);
 
         initialize();
@@ -66,6 +77,7 @@ public class Ship {
     private void initialize() {
         speedAccelerating = 0.5;
         speedY = 1;
+        speedX = 0;
         maxLandingSpeed = 5;
     }
 
@@ -83,32 +95,71 @@ public class Ship {
         }
     }
 
+    public Rectangle2D getCollider(){
+        return new Rectangle2D.Float(x+16,y+16,29,41);
+    }
+
+    public float getFuel(){
+        return fuel;
+    }
+
+    public double getSpeedX(){
+        return speedX;
+    }
+
+    public double getSpeedY(){
+        return speedY;
+    }
+
+    public double getMaxLandingSpeed(){
+        return maxLandingSpeed;
+    }
+
+    public void reload(){
+        x = startX;
+        y = startY;
+        fuel = startFuel;
+        initialize();
+    }
+
     public void input(KeyHandler key){
-        if (key.up.down)
-            up = true;
-        else
+        if(fuel > 0) {
+            if (key.up.down)
+                up = true;
+            else
+                up = false;
+
+            if (key.down.down)
+                down = true;
+            else
+                down = false;
+
+            if (key.right.down)
+                right = true;
+            else
+                right = false;
+
+            if (key.left.down)
+                left = true;
+            else
+                left = false;
+        }else{
             up = false;
-
-        if (key.down.down)
-            down = true;
-        else
             down = false;
-
-        if (key.right.down)
-            right = true;
-        else
             right = false;
-
-        if (key.left.down)
-            left = true;
-        else
             left = false;
+        }
     }
 
     public void Update() //// rocket controls
     {
-        if (up)
+        if(fuel <= 0)
+            fuel = 0;
+
+        if (up) {
             speedY -= speedAccelerating;
+            fuel--;
+        }
 
         else {
             speedY -= speedGrav;
@@ -116,12 +167,15 @@ public class Ship {
 
         if (down){
             speedY += speedAccelerating;
+            fuel--;
         }
         if (left){ // Key RIGHT
             speedX -= speedAccelerating;
+            fuel--;
         }
         if (right){ // Key LEFT
             speedX += speedAccelerating;
+            fuel--;
         }
         if (pause) { // Pause
             speedY = 0;
@@ -130,6 +184,8 @@ public class Ship {
 
         x += speedX;
         y += speedY;
+
+        collider = getCollider();
 
     }
 
@@ -151,6 +207,7 @@ public class Ship {
         if (right) // Draw fly image
             g2d.drawImage(fireRight, x, y, null);
         g2d.drawImage(rocket, x, y, null);
+        g2d.setColor(Color.green);
     }
 }
 

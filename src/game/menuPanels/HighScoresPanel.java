@@ -1,7 +1,7 @@
 package game.menuPanels;
 import game.data.HighScores;
 import game.Constant.MenuWindowStates;
-import game.Button;
+import game.entities.Button;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
