@@ -2,7 +2,6 @@ package game;
 
 import game.Constant.DefaultGameSettings;
 import game.controller.KeyHandler;
-import game.data.Player;
 import game.window.GameWindow;
 
 import javax.swing.*;
@@ -59,7 +58,8 @@ public class Game extends JPanel implements Runnable {
             frame.goToMenu();
             manager.player.pointsAtTheEnd(manager.currentLevel);
             manager.highScores.checkPlayerScore(manager.player);
-            manager.player.resetPlayer();
+            manager.player.resetPlayerScores();
+            manager.player.resetLifes();
         }
 
     }
@@ -87,7 +87,17 @@ public class Game extends JPanel implements Runnable {
         g2d.drawString("Fuel tank: " + manager.ship.getFuel(), 5, 80);
         g2d.drawString("Max Landing Speed: " + manager.ship.getMaxLandingSpeed(), 5, 100);
         g2d.drawString("Speed (X: " +  String.format("%.1f", manager.ship.getSpeedX()) + " Y: " + String.format("%.1f", manager.ship.getSpeedY()) + ")", 5, 120);
-        g2d.drawString("Points:" + String.valueOf(manager.player.getLiveScore(manager.ship.getFuel(), manager.currentLevel)), 5,140);
+        if (!manager.crashed && !manager.landed) {
+            g2d.drawString("Points:" + String.valueOf(manager.player.getLiveScore(manager.ship.getFuel(), manager.currentLevel)), 5,140);
+        } else{
+            if(manager.landed && (manager.currentLevel != manager.maxLevels) || (manager.crashed && manager.player.getLifes() != 0)) {
+                g2d.drawString("Points:" + String.valueOf(manager.player.getScore()), 5, 140);
+            } else {
+               g2d.drawString("Points:" + String.valueOf(manager.scoreOnWinOrLose),5,140);
+            }
+
+        }
+
 
         manager.render(g2d);
 

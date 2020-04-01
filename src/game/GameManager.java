@@ -26,8 +26,11 @@ public class GameManager {
     boolean crashed = false;
     boolean landed = false;
     boolean started = false;
+    boolean pause = false;
 
-    //public int lifes;
+    boolean savedScore = false;
+
+    public int scoreOnWinOrLose = 0;
 
     public Ship ship;
     public Shape terrain;
@@ -65,43 +68,33 @@ public class GameManager {
     }
 
     public void reload(){
+        scoreOnWinOrLose = 0;
         if(crashed) {
             player.deleteOneLife();
         }
         if(landed) {
             if(currentLevel < maxLevels) {
-                //----------------!!!!!!!!!!!!!!!!!!!!--------------//
-                player.addPointsForLevel(ship.getFuel(), currentLevel);
                 currentLevel++;
             }
 
             else {
-                //----------------!!!!!!!!!!!!!!!!!!!!--------------//
-                //player.addPointsForLevel(ship.getFuel(),currentLevel);
-                player.addPointsAtLastLevel(ship.getFuel(), currentLevel);
-                highScores.checkPlayerScore(player);
-                player.resetPlayer();
                 currentLevel = 1;
-                //lifes = DefaultGameSettings.LIFES;
             }
         }
         if(gameOver) {
-            player.pointsAtTheEnd(currentLevel);
-            highScores.checkPlayerScore(player);
-            player.resetPlayer();
+            player.resetLifes();
             currentLevel = 1;
-            //lifes = DefaultGameSettings.LIFES;
         }
         gameOver = false;
         crashed = false;
         landed = false;
         started = false;
+        savedScore = false;
         init();
     }
 
     public void update() {
         if (started) {
-            //if(lifes >= 0) {
             if(player.getLifes() >= 0) {
                 if (!crashed && !landed) {
                     ship.Update();
@@ -111,8 +104,26 @@ public class GameManager {
             }
             else {
                 player.setLifesToZero();
-                //lifes = 0;
                 gameOver = true;
+            }
+        }
+
+        while((landed || gameOver) && !savedScore) {
+            savedScore = true;
+            if (gameOver) {
+                player.pointsAtTheEnd(currentLevel);
+                highScores.checkPlayerScore(player);
+                scoreOnWinOrLose = player.getScore();
+                player.resetPlayerScores();
+            } else {
+                if (currentLevel < maxLevels) {
+                    player.addPointsForLevel(ship.getFuel(), currentLevel);
+                } else {
+                    player.addPointsAtLastLevel(ship.getFuel(), currentLevel);
+                    highScores.checkPlayerScore(player);
+                    scoreOnWinOrLose = player.getScore();
+                    player.resetPlayerScores();
+                }
             }
         }
     }
@@ -136,10 +147,14 @@ public class GameManager {
                     crashed = false;
                 }
 
-                if (key.space.down)
-                    ship.pause = true;
-                else
-                    ship.pause = false;
+                if (key.space.down) {
+                    System.out.println("pressed");
+                    if (ship.pause) {
+                        ship.pause = false;
+                    } else {
+                        ship.pause = true;
+                    }
+                }
             }
         }
         else{
@@ -158,7 +173,6 @@ public class GameManager {
         if(!started)
             g.drawImage(startImg, 400,100, null);
 
-        //if(lifes == 0 && crashed) {
         if(player.getLifes() == 0 && crashed) {
             gameOver = true;
             g.drawImage(gameOverImg, 200, 100, null);
@@ -170,18 +184,12 @@ public class GameManager {
         }
 
         if(crashed) {
-            g.drawImage(crashedImg, 0, 0, null);
             g.drawImage(shipDestroyedImg, ship.x, ship.y,null);
+            g.drawImage(crashedImg, 0, 0, null);
         }
 
 
         if(landed)
             g.drawImage(landedImg, 0, 0, null);
     }
-
-    public void saveScoreAfterGame() {
-        player.addPointsForLevel(ship.getFuel(),currentLevel);
-        highScores.checkPlayerScore(player);
-    }
-
 }

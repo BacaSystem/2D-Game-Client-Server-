@@ -67,10 +67,8 @@ public class Player {
         lifes = 0;
     }
 
-    public void resetPlayer() {
+    public void resetPlayerScores() {
         this.score = 0;
-        this.lifes = DefaultGameSettings.LIFES;
-        this.isAllAdded = false;
     }
 
     public void addPointsForLevel(float fuel, int levelNumber) {
@@ -79,7 +77,7 @@ public class Player {
         int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
 
         int addPoints = (int) (Z*M) + K;
-        score+=  addPoints;
+        score+= addPoints;
         System.out.println("Points added on level " + levelNumber + ": " + score);
     }
 
@@ -89,8 +87,10 @@ public class Player {
         int L = lifes;
         int S = DefaultGameSettings.S_POINTS;
         int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
-
-        int addPoints = (int) (Z*M) + K + (L/3 * S);
+        int addPoints = 0;
+        if(score!=0) {
+            addPoints += (int) (Z*M) + K + (int) ((float) L/ (float) 3 * S);
+        }
         score+=  addPoints;
         System.out.println("Points added on LAST, " + levelNumber + ": " + score);
     }
@@ -98,10 +98,9 @@ public class Player {
     public void pointsAtTheEnd(int currentLevel) {
         int L = lifes;
         int S = DefaultGameSettings.S_POINTS;
-        if (currentLevel != 1 && !isAllAdded && score != 0) {
-            score+= (L/3 * S);
+        if (score != 0) {
+            score+= (int)((float)L/(float)3 * S);
             System.out.println("added Extra Points For Ships at level "+ currentLevel +" AND exit to Menu: " + score);
-            isAllAdded = true;
         }
     }
 
@@ -110,7 +109,6 @@ public class Player {
         int liveScore = accualScore;
         int Z = (int) fuel;
         int L = lifes;
-        System.out.println("LIFES LEFT: " + lifes);
         int K = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "K"));
         int S = DefaultGameSettings.S_POINTS;
         int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
