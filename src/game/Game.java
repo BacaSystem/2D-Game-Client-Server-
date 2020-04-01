@@ -95,10 +95,7 @@ public class Game extends JPanel implements Runnable {
             } else {
                g2d.drawString("Points:" + String.valueOf(manager.scoreOnWinOrLose),5,140);
             }
-
         }
-
-
         manager.render(g2d);
 
         g2d.setTransform(saveTransform);

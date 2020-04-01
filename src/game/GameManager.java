@@ -79,6 +79,7 @@ public class GameManager {
 
             else {
                 currentLevel = 1;
+                player.resetLifes();
             }
         }
         if(gameOver) {
@@ -186,6 +187,11 @@ public class GameManager {
         if(crashed) {
             g.drawImage(shipDestroyedImg, ship.x, ship.y,null);
             g.drawImage(crashedImg, 0, 0, null);
+            if(player.getLifes() != 0) {
+                /* Może bez tego? Przez to może się ekran pierdzielic */ g.drawImage(startImg, 400,100,null);
+                /* Może się czasem pokazywac   */
+            }
+
         }
 
 

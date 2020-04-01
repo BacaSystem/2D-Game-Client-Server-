@@ -1,8 +1,6 @@
 package game.data;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
 
 public class HighScores {
@@ -27,6 +25,7 @@ public class HighScores {
 
 
     //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
+
     public class Record implements Comparable<Record>{
         private String nick;
         private int score;
