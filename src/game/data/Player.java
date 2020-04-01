@@ -9,7 +9,7 @@ public class Player {
     private int score = 0;
     private int lifes = DefaultGameSettings.LIFES;
 
-    private int pointsAddetFromLevel=0;
+    private boolean isAllAdded=false;
 
     private Player() {
         if (Holder.INSTANCE != null) {
@@ -70,6 +70,7 @@ public class Player {
     public void resetPlayer() {
         this.score = 0;
         this.lifes = DefaultGameSettings.LIFES;
+        this.isAllAdded = false;
     }
 
     public void addPointsForLevel(float fuel, int levelNumber) {
@@ -97,11 +98,24 @@ public class Player {
     public void pointsAtTheEnd(int currentLevel) {
         int L = lifes;
         int S = DefaultGameSettings.S_POINTS;
-        if (currentLevel != 1) {
+        if (currentLevel != 1 && !isAllAdded && score != 0) {
             score+= (L/3 * S);
             System.out.println("added Extra Points For Ships at level "+ currentLevel +" AND exit to Menu: " + score);
-            pointsAddetFromLevel = 0;
+            isAllAdded = true;
         }
+    }
+
+    public int getLiveScore(float fuel, int levelNumber) {
+        int accualScore = score;
+        int liveScore = accualScore;
+        int Z = (int) fuel;
+        int L = lifes;
+        System.out.println("LIFES LEFT: " + lifes);
+        int K = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "K"));
+        int S = DefaultGameSettings.S_POINTS;
+        int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
+        liveScore+=  (int) (( (float) L/ (float) 3) * S) + (Z*M) + K;
+        return liveScore;
     }
 
 

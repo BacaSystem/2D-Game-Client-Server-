@@ -71,11 +71,13 @@ public class HighScores {
 
     public void checkPlayerScore(Player player) {
         this.downloadData();
-        records.add(new Record(player.getNick(), player.getScore()));
-        records.sort(Record::compareTo);
-        Collections.reverse(records);
-        records.remove(numberOfRecords);
-        GetConfigProperties.seveScoresTableInDirectory(records, fileName,numberOfRecords);
-        System.out.println("Ranging reloaded");
+        if(player.getScore() >= records.get(numberOfRecords - 1).getScore()) {
+            records.add(new Record(player.getNick(), player.getScore()));
+            records.sort(Record::compareTo);
+            Collections.reverse(records);
+            records.remove(numberOfRecords);
+            GetConfigProperties.seveScoresTableInDirectory(records, fileName, numberOfRecords);
+            System.out.println("Ranging reloaded");
+        }
     }
 }

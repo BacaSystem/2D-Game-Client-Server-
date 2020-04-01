@@ -15,6 +15,7 @@ public class GraphicsConstants {
     public static final String YOU_WON_IMAGE = GetConfigProperties.getValue(fileName, "wonText");
     public static final String LANDED_IMAGE = GetConfigProperties.getValue(fileName, "landed");
     public static final String CRASHED_IMAGE = GetConfigProperties.getValue(fileName, "crashed");
+    public static final String SHIP_DESTROYED_IMAGE = GetConfigProperties.getValue(fileName, "destroyed");
 
     private GraphicsConstants() {
         throw new AssertionError();

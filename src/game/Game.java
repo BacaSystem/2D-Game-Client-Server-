@@ -87,6 +87,7 @@ public class Game extends JPanel implements Runnable {
         g2d.drawString("Fuel tank: " + manager.ship.getFuel(), 5, 80);
         g2d.drawString("Max Landing Speed: " + manager.ship.getMaxLandingSpeed(), 5, 100);
         g2d.drawString("Speed (X: " +  String.format("%.1f", manager.ship.getSpeedX()) + " Y: " + String.format("%.1f", manager.ship.getSpeedY()) + ")", 5, 120);
+        g2d.drawString("Points:" + String.valueOf(manager.player.getLiveScore(manager.ship.getFuel(), manager.currentLevel)), 5,140);
 
         manager.render(g2d);
 

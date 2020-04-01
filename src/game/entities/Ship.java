@@ -41,6 +41,8 @@ public class Ship {
 
     private BufferedImage rocket; // Lunar Lander
 
+    private BufferedImage distroyedRocket; //distroyed Lunar Lander
+
     private BufferedImage fireUp; // Lander going up Lander
 
     private BufferedImage fireDown; // Accelerating Lander

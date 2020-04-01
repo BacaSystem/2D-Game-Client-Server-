@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 //przepraszam za kod wygrania, to jest straszne wiem xD
 public class GameManager {
 
-    BufferedImage gameOverImg, startImg, wonImage, crashedImg, landedImg;
+    BufferedImage gameOverImg, startImg, wonImage, crashedImg, landedImg, shipDestroyedImg;
 
     int currentLevel, maxLevels;
     boolean gameOver = false;
@@ -50,6 +50,7 @@ public class GameManager {
             wonImage = ImageIO.read(new File(GraphicsConstants.YOU_WON_IMAGE));
             landedImg = ImageIO.read(new File(GraphicsConstants.LANDED_IMAGE));
             crashedImg = ImageIO.read(new File(GraphicsConstants.CRASHED_IMAGE));
+            shipDestroyedImg = ImageIO.read(new File(GraphicsConstants.SHIP_DESTROYED_IMAGE));
 
             maxLevels = DefaultGameSettings.NUMBEROFLEVELS;
 
@@ -64,9 +65,9 @@ public class GameManager {
     }
 
     public void reload(){
-        if(crashed)
-            //lifes --;
+        if(crashed) {
             player.deleteOneLife();
+        }
         if(landed) {
             if(currentLevel < maxLevels) {
                 //----------------!!!!!!!!!!!!!!!!!!!!--------------//
@@ -168,8 +169,11 @@ public class GameManager {
             g.drawImage(wonImage, 200,100, null);
         }
 
-        if(crashed)
+        if(crashed) {
             g.drawImage(crashedImg, 0, 0, null);
+            g.drawImage(shipDestroyedImg, ship.x, ship.y,null);
+        }
+
 
         if(landed)
             g.drawImage(landedImg, 0, 0, null);
