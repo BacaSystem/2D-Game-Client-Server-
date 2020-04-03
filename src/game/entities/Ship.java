@@ -74,11 +74,15 @@ public class Ship {
      * Metoda ustawiająca początkowe wartości dla
      * mocy silników, maksymalnej prędkości lądowania i początkowej prędkości statku
      */
-    private void initialize() {
+    public void initialize() {
         speedAccelerating = DefaultGameSettings.SPEED_ACCELERATING;
         speedY = DefaultGameSettings.START_SPEED_Y;
         speedX = DefaultGameSettings.START_SPEED_X;
         maxLandingSpeed = DefaultGameSettings.MAX_SPEED_LANDING;
+        up = false;
+        down = false;
+        right = false;
+        left = false;
     }
 
 
