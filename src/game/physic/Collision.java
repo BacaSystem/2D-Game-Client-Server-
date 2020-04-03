@@ -1,9 +1,11 @@
 package game.physic;
 
 import game.entities.LandingSpace;
+import game.entities.Meteor;
 import game.entities.Ship;
 import game.entities.Terrain;
 
+import java.util.List;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -22,6 +24,8 @@ public class Collision {
      * @see LandingSpace */
     private LandingSpace landing;
 
+    private List<Meteor> meteors;
+
     /**
      * Konstruktor klasy, przypisuje referencje za pomocą podanych argumentów
      * @param ship obiekt statka gracza
@@ -31,22 +35,27 @@ public class Collision {
      * @see Terrain
      * @see LandingSpace
      */
-    public Collision(Ship ship, Terrain terrain, LandingSpace landing){
+    public Collision(Ship ship, Terrain terrain, LandingSpace landing, List<Meteor> meteors){
         this.ship = ship;
         this.terrain = terrain;
         this.landing = landing;
+        this.meteors = meteors;
     }
 
     /**
      * Metoda sprawdzająca czy nastąpiła fatalna kolizja - czyli gracz zderzył się z terenem, wyleciał poza obszar gry lub wylądował ze zbyt dużą prędkością
      * @return prawda jeśli taka kolizja nastąpiła, fałsz jeśli nie
      */
-    public boolean detectCollisionTerrain(){
-        if((terrain.getTerrainCollider().intersects(ship.collider) || ((landing.getLandingSpaceCollider().intersects(ship.collider)) && (Math.abs(ship.speedY) >= ship.maxLandingSpeed || Math.abs(ship.speedX) >= ship.maxLandingSpeed)))
-        || (ship.y > 700))
-            return true;
-        else
-            return false;
+    public boolean detectFatalColission(){
+        for (Meteor meteor : meteors) {
+            if(meteor.getCollider().intersects(ship.collider))
+                return true;
+        }
+            if ((terrain.getTerrainCollider().intersects(ship.collider) || ((landing.getLandingSpaceCollider().intersects(ship.collider)) && (Math.abs(ship.speedY) >= ship.maxLandingSpeed || Math.abs(ship.speedX) >= ship.maxLandingSpeed)))
+                    || (ship.y > 700))
+                return true;
+            else
+                return false;
     }
 
     /**
