@@ -6,11 +6,8 @@ import game.Constant.LoadLevel;
 import game.data.HighScores;
 import game.data.Player;
 import game.data.Points;
-import game.entities.LandingSpace;
-import game.entities.Meteor;
-import game.entities.Ship;
+import game.entities.*;
 import game.controller.KeyHandler;
-import game.entities.Terrain;
 import game.physic.Collision;
 
 import javax.imageio.ImageIO;
@@ -61,7 +58,7 @@ public class GameManager {
      */
     private LandingSpace landing;
 
-    private List<Meteor> meteors;
+    private MeteorHandler meteors;
 
     /** obiekt klasy sprawdzającej kolizje
      * @see Collision
@@ -95,10 +92,7 @@ public class GameManager {
     private void loadLevel(){
         LoadLevel.getLevel(currentLevel);
 
-        meteors = new ArrayList<Meteor>();
-        for(int i = 0; i < LoadLevel.numOfMeteors; i++){
-            meteors.add(new Meteor(LoadLevel.xMeteors[i], LoadLevel.yMeteors[i], 300, LoadLevel.speedMeteors[i], LoadLevel.GRAVITY_SPEED));
-        }
+        meteors = new MeteorHandler(LoadLevel.numOfMeteors,LoadLevel.xMeteors, LoadLevel.yMeteors, 300, LoadLevel.speedMeteors, LoadLevel.GRAVITY_SPEED);
 
         maxLevels = DefaultGameSettings.NUMBEROFLEVELS;
 
@@ -106,7 +100,7 @@ public class GameManager {
         landing = new LandingSpace(LoadLevel.xLanding, LoadLevel.yLanding);
         ship = new Ship(LoadLevel.xStart, LoadLevel.yStart, LoadLevel.GRAVITY_SPEED, DefaultGameSettings.FUEL);
 
-        detector = new Collision(ship, terrain, landing, meteors);
+        detector = new Collision(ship, terrain, landing, meteors.getMeteors());
     }
 
     /** Metoda ładująca potrzebne zasoby graficzne */
@@ -164,8 +158,7 @@ public class GameManager {
             if(player.getLifes() >= 0) {
                 if (!crashed && !landed) {
                     ship.Update();
-                    for(Meteor meteor : meteors)
-                        meteor.update();
+                    meteors.update();
                     crashed = detector.detectFatalColission();
                     landed = detector.detectWin();
                 }
@@ -231,13 +224,11 @@ public class GameManager {
 
                 if (key.space.down()) {
                     ship.pause = true;
-                    for(Meteor meteor : meteors)
-                        meteor.pause = true;
+                    meteors.pause(true);
                 }
                 else {
                     ship.pause = false;
-                    for(Meteor meteor : meteors)
-                        meteor.pause = false;
+                    meteors.pause(false);
                 }
             }
         }
@@ -251,8 +242,7 @@ public class GameManager {
      */
     public void render(Graphics2D g) {
         ship.render(g);
-        for(Meteor meteor : meteors)
-            meteor.render(g);
+        meteors.render(g);
         g.setColor(Color.gray);
         g.fill(landing.getLandingSpaceCollider());
         g.setColor(Color.lightGray);

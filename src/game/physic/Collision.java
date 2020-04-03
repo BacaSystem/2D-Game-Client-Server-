@@ -23,7 +23,7 @@ public class Collision {
     /** referencja do obiektu lądowiska
      * @see LandingSpace */
     private LandingSpace landing;
-
+    /** lista obiektów meteorytów */
     private List<Meteor> meteors;
 
     /**
@@ -31,9 +31,11 @@ public class Collision {
      * @param ship obiekt statka gracza
      * @param terrain obiekt terenu poziomu
      * @param landing obiekt lądowiska poziomu
+     * @param meteors lista obiektów meteorytów
      * @see Ship
      * @see Terrain
      * @see LandingSpace
+     * @see Meteor
      */
     public Collision(Ship ship, Terrain terrain, LandingSpace landing, List<Meteor> meteors){
         this.ship = ship;
@@ -43,7 +45,7 @@ public class Collision {
     }
 
     /**
-     * Metoda sprawdzająca czy nastąpiła fatalna kolizja - czyli gracz zderzył się z terenem, wyleciał poza obszar gry lub wylądował ze zbyt dużą prędkością
+     * Metoda sprawdzająca czy nastąpiła fatalna kolizja - czyli gracz zderzył się z terenem, meteorem, wyleciał poza obszar gry lub wylądował ze zbyt dużą prędkością
      * @return prawda jeśli taka kolizja nastąpiła, fałsz jeśli nie
      */
     public boolean detectFatalColission(){

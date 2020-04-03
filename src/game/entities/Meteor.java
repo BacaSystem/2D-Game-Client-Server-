@@ -18,7 +18,7 @@ public class Meteor {
     /** obiekt określający rozmiary meteoru - implementajca kolicji */
     private Rectangle2D meteor;
     /** aktualne współrzędne x i y meteoru na mapie */
-    private int x,y;
+    public int x,y;
     /** aktualne prędkości meteoru, kolejno w osi x i y */
     private float speedX, speedY;
     /** masa meteoru */
