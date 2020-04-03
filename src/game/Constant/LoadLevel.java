@@ -25,10 +25,13 @@ public class LoadLevel {
     /** tablica współrzędnych y lądowiska */
     public static int[] yLanding;
 
+    /** stała przechuwująca ilość meteorytów */
     public static int numOfMeteors;
+    /** tablica wartości prędkości w osi x meteorytów */
     public static int [] speedMeteors;
-
+    /** tablica współrzędnych x meteorytów */
     public static int[] xMeteors;
+    /** tablica współrzędnych y meteorytów */
     public static int[] yMeteors;
 
     /**
@@ -56,18 +59,19 @@ public class LoadLevel {
         GRAVITY_SPEED = Float.parseFloat(GetConfigProperties.getValue(fileName, "gravitySpeed"));
         xStart = Integer.parseInt(GetConfigProperties.getValue(fileName, "xStart"));
         yStart = Integer.parseInt(GetConfigProperties.getValue(fileName, "yStart"));
-        xVerticies = Arrays.stream(GetConfigProperties.getValue(fileName, "xVertecies").split("-")).mapToInt(Integer::parseInt).toArray();
-        yVerticies = Arrays.stream(GetConfigProperties.getValue(fileName, "yVertecies").split("-")).mapToInt(Integer::parseInt).toArray();
-        xLanding = Arrays.stream(GetConfigProperties.getValue(fileName, "xLanding").split("-")).mapToInt(Integer::parseInt).toArray();
-        yLanding = Arrays.stream(GetConfigProperties.getValue(fileName, "yLanding").split("-")).mapToInt(Integer::parseInt).toArray();
+        xVerticies = Arrays.stream(GetConfigProperties.getValue(fileName, "xVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
+        yVerticies = Arrays.stream(GetConfigProperties.getValue(fileName, "yVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
+        xLanding = Arrays.stream(GetConfigProperties.getValue(fileName, "xLanding").split(";")).mapToInt(Integer::parseInt).toArray();
+        yLanding = Arrays.stream(GetConfigProperties.getValue(fileName, "yLanding").split(";")).mapToInt(Integer::parseInt).toArray();
 
         numOfMeteors = Integer.parseInt(GetConfigProperties.getValue(fileName, "numberOfMeteors"));
-        speedMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "speedMeteors").split(",")).mapToInt(Integer::parseInt).toArray();
-        xMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "xMeteors").split(",")).mapToInt(Integer::parseInt).toArray();
-        yMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "yMeteors").split(",")).mapToInt(Integer::parseInt).toArray();
+        speedMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "speedMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+        xMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "xMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+        yMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
 
         resizeToScreen();
     }
+
     private LoadLevel() {
         throw new AssertionError();
     }

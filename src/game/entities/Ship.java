@@ -21,7 +21,7 @@ import java.io.IOException;
  * Reaguje na zdarzenia z klawiatury, oraz jest update'owana razem z grą
  */
 public class Ship {
-    /** obiekt określający granice statku - implementajca kolicji */
+    /** obiekt określający rozmiary statku - implementajca kolicji */
     public Rectangle2D collider;
     /** współrzędne startowe x i y statku na mapie */
     private int startX, startY;
