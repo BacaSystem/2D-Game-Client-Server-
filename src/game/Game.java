@@ -50,6 +50,18 @@ public class Game extends JPanel implements Runnable {
 
         width = getWidth();
         height = getHeight();
+
+        if(manager.won || manager.gameOver){
+            JFrame popUp = new JFrame();
+            popUp.setTitle("");
+            popUp.setLayout(new FlowLayout());
+            if(manager.won)
+                popUp.add(new JLabel("Congratlations, You've won!"));
+            else
+                popUp.add(new JLabel("You've lost!"));
+            popUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            popUp.setVisible(true);
+        }
     }
 
     public void input(KeyHandler key){
