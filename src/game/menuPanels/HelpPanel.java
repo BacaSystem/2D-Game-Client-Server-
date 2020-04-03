@@ -8,9 +8,16 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Klasa zajmujaca się wyświetlaniem widoku Help Menu
+ * Rozszerza klasę JPanel
+ */
 public class HelpPanel extends JPanel {
-
-    public HelpPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
+    /**
+     * Konstruktor tworzący komponenty do wyświetlenia w panelu pomocy
+     * @param menuListner Listner z menu nasluchujący wciśnięcia przycisków
+     */
+    public HelpPanel(ActionListener menuListner) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(5, 6, 5, 6));
 
@@ -20,7 +27,6 @@ public class HelpPanel extends JPanel {
         JPanel buttonPanel = new JPanel(new GridLayout(10, 1, 10, 5));
 
         //HERE add components
-        //buttonPanel.add(new JLabel("HELP PAGE", SwingConstants.CENTER));
         buttonPanel.add(new JLabel(getHelp("helpText", "tytul"), SwingConstants.CENTER));
         JTextArea help = new JTextArea(getHelp("helptext", "punkt"));
         help.setEditable(false);
@@ -34,6 +40,12 @@ public class HelpPanel extends JPanel {
         this.add(panel);
     }
 
+    /**
+     * Metoda pobierająca tekst pomocy
+     * @param fileName nazwa pliku pomocy
+     * @param key klucz property
+     * @return zwraca wartość spod klucza
+     */
     private String getHelp(String fileName, String key) {
         return GetConfigProperties.getValue(fileName, key);
     }
