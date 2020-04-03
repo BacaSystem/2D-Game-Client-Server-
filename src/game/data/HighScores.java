@@ -5,45 +5,80 @@ import java.util.ArrayList;
 
 /**
  * Klasa przetrzymująca aktualną tablicę wyników gry.
- * Wyniki gry pobierane są z plików konfiguracyjnych gry i na bierząco aktualizowane
+ * Singletone.
+ * Najlepsze wyniki gry pobierane są z plików konfiguracyjnych gry i na bierząco aktualizowane
  */
 public class HighScores {
+    /** atrybut statyczny przechowywujący nazwę pliku konfiguracyjnego z najlepszymi wynikami gry. Bez rozszerzenia.*/
     private static final String fileName = "highScores";
+
+    /** ArrayList przechowywująca rekordy w postaci klasy Record, allokujemy jej rozmiar na top+1*/
     private ArrayList<Record> records = new ArrayList<Record>(numberOfRecords+1);
+
+    /** atrybut, który przechowywuje liczbę najlepszych wyników pobieranych z configa */
     private static int numberOfRecords = Integer.parseInt(GetConfigProperties.getValue(fileName, "numerOfRecords"));
+
+    /** flaga sprawdzająca, czy dane zostały już pobrane z pliku konfiguracyjnego */
     private boolean isDataDonwloaded = false;
 
-    //----------------------------------
+    /**
+     * Konstruktor prywatny zabezpieczający przed multi-wywolaniem klasy HighScores
+     */
     private HighScores() {
         if (HighScores.Holder.INSTANCE != null) {
             throw new IllegalStateException("Singleton already constructed");
         }
     }
+
+    /**
+     * Metoda statyczna, dzięki której dostajemy się do instancji HighScores
+     * @return zwraca instancję najlepszych wyników
+     */
     public static HighScores getInstance() {
         return HighScores.Holder.INSTANCE;
     }
+
+    /** Klasa statyczna tworząca jedyną instancję tablicy najlepszych wyników */
     private static class Holder {
         private static final HighScores INSTANCE = new HighScores();
     }
-    //-----------------------------------
-
 
     //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
-
+    /**
+     * Klasa przechowywująca pojedynczy rekord najlepszych wyników
+     * Implementuje interfejs Comparable, aby móc sortować wyniki.
+     */
     public class Record implements Comparable<Record>{
+        /** nick */
         private String nick;
+        /** wynik punktowy*/
         private int score;
         public Record(String nick, int score) {
             this.nick = nick;
             this.score = score;
         }
+
+        /**
+         * metoda zwracająca wynik
+         * @return zwraca wynik punktowy
+         */
         public Integer getScore() {
             return this.score;
         }
+
+        /**
+         * Metoda zwracająca nick
+         * @return zwraca nick
+         */
         public String getNick() {
             return this.nick;
         }
 
+        /**
+         * Komparator, infoemuje, że podczas sortowania interesują nas porówywania wyników punktowych
+         * @param record instancja klasy Record
+         * @return zwraca wynik porownania dwóch rekordów
+         */
         @Override
         public int compareTo(Record record) {
             return this.getScore().compareTo(record.getScore());
@@ -51,14 +86,26 @@ public class HighScores {
     }
     //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
+    /**
+     * Zwraca najlepsze rekordy
+     * @return zwraca listę najlepszych rekordów
+     */
     public ArrayList<Record> getRecords() {
         return records;
     }
 
+    /**
+     * Zwraca liczbę najlepszych wyników
+     * @return zwraca liczbę najlepszych wyników
+     */
     public int getNumberOfRecords() {
         return numberOfRecords;
     }
 
+    /**
+     * Pobiera najlepsze wyniki z pliku konfiguracyjnego i ładuje je do ArrayList w kolejności od najlepszego do najgorszego.
+     * Posiada zabezpieczenie sprawdzające, czy dane nie zostały już pobrane (flaga isDataDonwloaded)
+     */
     public void downloadData() {
         if (!isDataDonwloaded) {
             for(int i=0; i<numberOfRecords; i++) {
@@ -67,11 +114,22 @@ public class HighScores {
                 var nick = GetConfigProperties.getValue(fileName, nickKey);
                 var score = Integer.parseInt(GetConfigProperties.getValue(fileName, scoreKey));
                 records.add(new Record(nick, score));
+                records.sort(Record::compareTo);
+                Collections.reverse(records);
             }
             isDataDonwloaded = true;
         }
     }
 
+    /**
+     * Metoda aktualizująca tablicę wynikow w pliku konfiguracyjnym, jeśli wynik gracza powinien się na niej znaleźć.
+     * @param player gracz, ktorego wynik sprawdzamy, czy powinien znaleźć się na tablicy wyników
+     * Metoda ta najpierw pobiera dane z pliku config (jeśli nie zostały jeszcze pobrane)
+     * Następnie sprawdza, czy wynik gracza jest lepszy lub równy najgorszemu wynikowi z tablicy wyników
+     * Jeśli tak się stanie, dodaje wynik gracza do ArrayList records, sortuje listę w kolejności od największego do najmniejszego
+     * i usuwa ostatni Record.
+     * Następnie zapisuje nową listę w pliku konfiguracyjnym.
+     */
     public void checkPlayerScore(Player player) {
         this.downloadData();
         if(player.getScore() >= records.get(numberOfRecords - 1).getScore()) {

@@ -7,38 +7,40 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+
+/**
+ * Klasa zanjmująca się odczytem i zapisem danych z plików konfiguracyjnych
+ */
 public class GetConfigProperties {
 
+    /**
+     * Metoda statyczna pobierająca dane z pliku konfiguracyjnego i zwracająca String spod klucza
+     * @param fileName nazwa pliku konfiguracyjnego, z ktorego zostanie pobrana dana. BEZ ROZSZERZENIA
+     * @param key klucz, jakiego metoda będzie szukać w pliku konfiguracyjnym
+     * @return zwraca String wartości spod klucza
+     * Metoda ma zabezpieczenia przed próbą otworzenia nieistniejącego pliku i przed wyszukaniem nieistniejącego klucza
+     */
     public static String getValue(String fileName, String key) {
         String result = "";
         String propFileName = fileName + ".properties";
         Properties p = new Properties();
+        InputStreamReader streamReader = null;
         try {
-            p.load(new InputStreamReader(GetConfigProperties.class.getClassLoader().getResourceAsStream(propFileName), StandardCharsets.UTF_8));
+            streamReader = new InputStreamReader(GetConfigProperties.class.getClassLoader().getResourceAsStream(propFileName), StandardCharsets.UTF_8);
+            p.load(streamReader);
             result = p.getProperty(key);
             if (result == null) {
                 System.out.println("WARNING, empty key '" + key + "' or doesn't exist in config '" + fileName + "'");
             }
         } catch (Exception e) {
-            System.out.println("Error, File '" + fileName + "' not found" + e );
+            System.out.println("Error, File '" + fileName + "' not found" + e);
         }
         return result;
     }
-/*
-    public static void setValue(String filename) {
-        String propFileName = filename +".properties";
-        Properties prop = new Properties();
-        try {
-            prop.setProperty("nick1", "Kryzysiek");
-            prop.store(new FileOutputStream(propFileName), null);
-        } catch(Exception e) {
-            System.out.println("ERROR: "+ e);
-        }
 
-    }
-
- */
-    public static void setValue(String fileName /*String key, String data*/) {
+    // NA RAZIE NIE POTRZEBNA, ALE MOŻE SIE PRZYDA
+    /*
+    public static void setValue(String fileName String key, String data) {
         FileOutputStream fileOut = null;
         FileInputStream fileIn = null;
         String propFileName ="resources/" +fileName +".properties";
@@ -63,7 +65,15 @@ public class GetConfigProperties {
             }
         }
     }
+    */
 
+    /**
+     * Metoda zapisująca do pliku konfiguracyjnego listy ArrayList
+     * @param records ArrayList, którą chcemy zapisać do pliku konfiguracyjnego
+     * @param fileName nazwa pliku, do ktorego chcemy zapisać dane. BEZ ROZSZERZENIA
+     * @param numberOfRecords liczba rekordów, które chcemy zapisać
+     * Posiada zabezpieczenie przed probą otwarcia nienstniejącego pliku
+     */
     public static void seveScoresTableInDirectory(ArrayList<HighScores.Record> records, String fileName, int numberOfRecords) {
         FileOutputStream fileOut = null;
         FileInputStream fileIn = null;
