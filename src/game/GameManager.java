@@ -143,29 +143,29 @@ public class GameManager {
 
         if(!gameOver) {
             if (!started) {
-                if (key.enter.down)
+                if (key.enter.down())
                     started = true;
             } else {
                 if (!crashed && !landed)
                     ship.input(key);
                 else {
-                    if (key.enter.down) {
+                    if (key.enter.down()) {
                         reload();
                     }
                 }
 
-                if (key.escape.down) {
+                if (key.escape.down()) {
                     crashed = false;
                 }
 
-                if (key.space.down)
+                if (key.space.down())
                     ship.pause = true;
                 else
                     ship.pause = false;
             }
         }
         else{
-            if(key.enter.down)
+            if(key.enter.down())
                 reload();
         }
     }

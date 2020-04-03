@@ -15,50 +15,44 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Klasa statku, reprezentująca obiekt gracza w grze
+ * Reaguje na zdarzenia z klawiatury, oraz jest update'owana razem z grą
+ */
 public class Ship {
-
+    /** obiekt określający granice statku - implementajca kolicji */
     public Rectangle2D collider;
-
-    public int x; // X coordinate (2D)
-
-    public int y; // Y coordinate (2D)
-
-    private float fuel;
-
-    private float startFuel;
-
+    /** współrzędne startowe x i y statku na mapie */
     private int startX, startY;
-
-    private double speedAccelerating; // Acceleration
-
-    public double maxLandingSpeed; // Max speed for land
-
-    public double speedX; // Horizontal speed
-
-    public double speedY; // Vertical speed
-
-    public double speedGrav; // Gravity
-
-    private BufferedImage rocket; // Lunar Lander
-
-    private BufferedImage distroyedRocket; //distroyed Lunar Lander
-
-    private BufferedImage fireUp; // Lander going up Lander
-
-    private BufferedImage fireDown; // Accelerating Lander
-
-    private BufferedImage fireRight; // Lander flying left
-
-    private BufferedImage fireLeft; // Lander flying right
-
+    /** startowa ilość paliwa */
+    private float startFuel;
+    /** aktualne współrzędne x i y statku na mapie */
+    public int x, y;
+    /** aktualna ilość paliwa */
+    private float fuel;
+    /** moc silników */
+    private double speedAccelerating;
+    /** maksymalna dopuszczalna prędkość lądowania */
+    public double maxLandingSpeed;
+    /** aktualna prędkość statku w osi x i y */
+    public double speedX, speedY;
+    /** siła grawitacji */
+    public double speedGrav;
+    /** obrazy reprezentujące statek oraz prace silników */
+    private BufferedImage rocket, fireUp, fireDown, fireRight, fireLeft;
+    /** flaga określająca czy gra jest w trybie pauzy */
     public boolean pause = false;
-
+    /** zmienne reprezentujące przyciski klawiatury */
     private boolean up,down,right,left;
 
-    double prevDx;
-    double prevDY;
-
-    public Ship(int x, int y, float gravity, float fuel) // Gather rocket dimensions
+    /**
+     * Konstruktor klasy statek, przypisuje statkowi startowe wartości podane jako parametry oraz wczytuje jego grafiki
+     * @param x startowa współrzędna x statka na mapie
+     * @param y startowa współrzędna y statka na mapie
+     * @param gravity wartość siły grawitacji działająca na statek
+     * @param fuel startowa wartość paliwa statku
+     */
+    public Ship(int x, int y, float gravity, float fuel)
     {
         startX = x;
         startY = y;
@@ -75,6 +69,10 @@ public class Ship {
         loadcontent();
     }
 
+    /**
+     * Metoda ustawiająca początkowe wartości dla
+     * mocy silników, maksymalnej prędkości lądowania i początkowej prędkości statku
+     */
     private void initialize() {
         speedAccelerating = 0.5;
         speedY = 1;
@@ -83,7 +81,10 @@ public class Ship {
     }
 
 
-    private void loadcontent() // Load resources
+    /**
+     * Meotda wczytująca grafiki
+     */
+    private void loadcontent()
     {
         try {
             rocket = ImageIO.read(new File(GraphicsConstants.SHIP_IMAGE));
@@ -96,47 +97,71 @@ public class Ship {
         }
     }
 
+    /**
+     * Metoda zwracająca prostokąt reprezentujący rozmiary statku
+     * @return prostokąt będący rozmiarem statku
+     */
     public Rectangle2D getCollider(){
         return new Rectangle2D.Float(x+16,y+16,29,41);
     }
 
+    /**
+     * Metoda zwracająca aktualną ilość paliwa
+     * @return aktualna wartośc paliwa
+     */
     public float getFuel(){
         return fuel;
     }
 
+    /**
+     * Metoda zwracająca aktualną prędkość w osi x
+     * @return prędkość w osi x
+     */
     public double getSpeedX(){
         return speedX;
     }
 
+    /**
+     * Metoda zwracająca aktualną prędkość w osi y
+     * @return prędkość w osi y
+     */
     public double getSpeedY(){
         return speedY;
     }
 
+    /**
+     * Metoda zwracająca maksymalną dopuszczalną prędkość do lądowania
+     * @return maksymalna dopuszczalna prędkość lądowania
+     */
     public double getMaxLandingSpeed(){
         return maxLandingSpeed;
     }
 
-
+    /**
+     * Metoda odpowiedzialna za obsługe zdarzeń z klawiatury, wywoływana razem z updtae()
+     * ustawia odpowiednią flagę dla nacisniętego przycisku
+     * @param key KeyHandler - obiekt obsługujący zdarzenia klawiatury
+     */
     public void input(KeyHandler key){
 
         if(!pause) {
             if (fuel > 0) {
-                if (key.up.down)
+                if (key.up.down())
                     up = true;
                 else
                     up = false;
 
-                if (key.down.down)
+                if (key.down.down())
                     down = true;
                 else
                     down = false;
 
-                if (key.right.down)
+                if (key.right.down())
                     right = true;
                 else
                     right = false;
 
-                if (key.left.down)
+                if (key.left.down())
                     left = true;
                 else
                     left = false;
@@ -149,7 +174,11 @@ public class Ship {
         }
     }
 
-    public void Update() //// rocket controls
+    /**
+     * Metoda Update odpowiedzialna za wszelkie wyliczenia pozycji, prędkości, paliwa, itd.
+     * Zmienia wartości prędkości w zalezności od wciśnietego przycisku, co również wywołuje dekrementacje ilości paliwa
+     */
+    public void Update()
     {
 
         if(!pause) {
@@ -186,7 +215,10 @@ public class Ship {
 
     }
 
-
+    /**
+     * Metoda odpowiedzialna za rysowanie statku do obiektu grafiki
+     * @param g2d obiekt grafiki do którego rysowane są elementy
+     */
     public void render(Graphics2D g2d) {
 
         if (down) // Draw fly image
