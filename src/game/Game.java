@@ -56,7 +56,7 @@ public class Game extends JPanel implements Runnable {
         manager.input(key);
         if(key.escape.down) {
             frame.goToMenu();
-            manager.points.pointsAtTheEnd(manager.player, manager.currentLevel);
+            manager.points.bonusForLeftLifes(manager.player, manager.currentLevel);
             manager.highScores.checkPlayerScore(manager.player);
             manager.player.resetPlayerScores();
             manager.player.resetLifes();

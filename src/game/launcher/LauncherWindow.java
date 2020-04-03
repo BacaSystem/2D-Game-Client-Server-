@@ -29,7 +29,10 @@ public class LauncherWindow extends JFrame implements ActionListener {
     /** Wywolanie singletona Player, czyli odwołanie się do obiektu player */
     private Player player = Player.getInstance();
 
-    /** Konstruktor klasy okna, ustawia domyślne rozmiary i układa elementy UI w oknie*/
+    /** Konstruktor klasy okna, ustawia domyślne rozmiary i układa elementy UI w oknie
+     * Korystamy w nim z DocumentListnera, aby nasłuchiwać zmiany w polu tekstowym
+     * Jest to zabezpieczenie przed przejściem przez użytkownika dalej w momencie wpisania błędnego nicku
+     */
     public LauncherWindow(){
         //Window setting
         setTitle(LauncherConst.LAUNCHER_TITLE);
@@ -78,6 +81,9 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 public void changedUpdate(DocumentEvent documentEvent) {
                     changed(documentEvent);
                 }
+                /**
+                 * Metoda sprawdzająca, czy pole tekstowe nicku nie jest puste
+                 */
                 public void changed(DocumentEvent documentEvent) {
                     String currText = nick.getText();
 

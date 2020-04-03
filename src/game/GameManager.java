@@ -5,6 +5,7 @@ import game.Constant.GraphicsConstants;
 import game.Constant.LoadLevel;
 import game.data.HighScores;
 import game.data.Player;
+import game.data.Points;
 import game.entities.Ship;
 import game.controller.KeyHandler;
 
@@ -114,15 +115,15 @@ public class GameManager {
         while((landed || gameOver) && !savedScore) {
             savedScore = true;
             if (gameOver) {
-                points.pointsAtTheEnd(player, currentLevel);
                 highScores.checkPlayerScore(player);
                 scoreOnWinOrLose = player.getScore();
                 player.resetPlayerScores();
             } else {
                 if (currentLevel < maxLevels) {
-                    points.addPointsForLevel(player, ship.getFuel(), currentLevel);
+                    Points.addPointsForLevel(player, ship.getFuel(), currentLevel);
                 } else {
-                    points.addPointsAtLastLevel(player, ship.getFuel(), currentLevel);
+                    Points.addPointsForLevel(player,ship.getFuel(), currentLevel);
+                    Points.bonusForLeftLifes(player,currentLevel);
                     highScores.checkPlayerScore(player);
                     scoreOnWinOrLose = player.getScore();
                     player.resetPlayerScores();

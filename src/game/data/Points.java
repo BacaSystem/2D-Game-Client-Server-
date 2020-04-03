@@ -2,10 +2,19 @@ package game.data;
 
 import game.Constant.DefaultGameSettings;
 
+/**
+ * Klasa odpowiedzialna za przyznawanie punktów graczowi
+ */
 public class Points {
     public Points() { }
 
-
+    /**
+     * Metoda licząca, ile punktów za przejście levelu należy dodac graczowi
+     * @param player gracz, któremu przydzielamy punkty
+     * @param fuel pozostałe paliwo statku
+     * @param levelNumber numer levelu, za ktory przyznajemy punkty
+     * Po wyliczeniu liczby punktow, dodajemy je do aktualnego wyniku gracza
+     */
     public static void addPointsForLevel(Player player, float fuel, int levelNumber) {
         int K = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "K"));
         float Z = fuel;
@@ -14,37 +23,33 @@ public class Points {
         int addPoints = (int) (Z*M) + K;
         player.addPoints(addPoints);
 
-        //score+= addPoints;
         System.out.println("Points added on level " + levelNumber + ": " + player.getScore());
     }
 
-    public static void addPointsAtLastLevel(Player player, float fuel, int levelNumber) {
-        int K = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "K"));
-        float Z = fuel;
-        int L = player.getLifes();
-        int S = DefaultGameSettings.S_POINTS;
-        int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
-        int addPoints = 0;
-        if(player.getScore()!=0) {
-            addPoints += (int) (Z*M) + K + (int) ((float) L/ (float) 3 * S);
-        }
-        player.addPoints(addPoints);
 
-        //score+=  addPoints;
-        System.out.println("Points added on LAST, " + levelNumber + ": " + player.getScore());
-    }
-
-    public static void pointsAtTheEnd(Player player, int currentLevel) {
+    /**
+     * Metoda zliczająca bonus punktowy za pozostałe życia
+     * @param player gracz, któremu przydzielamy punkty
+     * @param currentLevel aktualny level, dodatek do debuga
+     * Metoda ma zabezpieczenie przed dodaniem bonusa graczowi, który nie ukończyl żadnego poziomu
+     */
+    public static void bonusForLeftLifes(Player player, int currentLevel) {
         int L = player.getLifes();
         int S = DefaultGameSettings.S_POINTS;
         if (player.getScore() != 0) {
             player.addPoints((int)((float)L/(float)3 * S));
-
-            //score+= (int)((float)L/(float)3 * S);
             System.out.println("added Extra Points For Ships at level "+ currentLevel +" AND exit to Menu: " + player.getScore());
         }
     }
 
+    /**
+     * Metoda zliczająca chwilową ilość punktów gracza
+     * @param player gracz, ktoremu zliczamy chwilową liczbę punktów
+     * @param fuel aktualny poziom paliwa statku gracza
+     * @param levelNumber aktualny level, na którym jest gracz
+     * @return zwraca chwilową liczbę punktów gracza
+     * Metoda nie dodaje punktów do wyniku gracza, zwraca tylko liczbę punktów, którą miałby gracz, gdyby w tym momencie ukończył poziom.
+     */
     public static int getLiveScore(Player player, float fuel, int levelNumber) {
         int accualScore = player.getScore();
         int liveScore = accualScore;

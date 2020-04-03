@@ -3,6 +3,10 @@ package game.data;
 import java.util.Collections;
 import java.util.ArrayList;
 
+/**
+ * Klasa przetrzymująca aktualną tablicę wyników gry.
+ * Wyniki gry pobierane są z plików konfiguracyjnych gry i na bierząco aktualizowane
+ */
 public class HighScores {
     private static final String fileName = "highScores";
     private ArrayList<Record> records = new ArrayList<Record>(numberOfRecords+1);
