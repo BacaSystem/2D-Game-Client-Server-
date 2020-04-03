@@ -22,8 +22,8 @@ public class GameManager {
     BufferedImage gameOverImg, startImg, wonImage, crashedImg, landedImg, shipDestroyedImg, pauseImg;
 
     int currentLevel, maxLevels;
-    boolean gameOver = false;
-    boolean won = false;
+    public boolean gameOver = false;
+    public boolean won = false;
     boolean crashed = false;
     boolean landed = false;
     boolean started = false;
