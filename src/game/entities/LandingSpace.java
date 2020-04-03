@@ -1,14 +1,14 @@
 package game.entities;
 
+import game.controller.KeyHandler;
+import game.Updatable;
+
 import java.awt.*;
 
 /**
  * Klasa lądowiska, reprezentuje lądowisko dla statku
  */
-public class LandingSpace {
-
-    /** zmienna określająca kształt lądowiska */
-    private Shape landing;
+public class LandingSpace extends Entity implements Updatable {
 
     /**
      * Konstruktor klasy, tworzy lądowisko ze zbioru podanych współrzędnych
@@ -16,14 +16,26 @@ public class LandingSpace {
      * @param yVertecies współrzędne y kolejnych wierzchołków
      */
     public LandingSpace(int[] xVertecies, int[] yVertecies){
-        landing = new Polygon(xVertecies, yVertecies, xVertecies.length);
+        collider = new Polygon(xVertecies, yVertecies, xVertecies.length);
     }
 
+    @Override
+    void loadResources() { }
+
+    @Override
+    public void update() { }
+
+    @Override
+    public void input(KeyHandler key) { }
+
     /**
-     * Metoda zwracająca kształt lądowiska
-     * @return wielokąt reprezentujący lądowisko
+     * Metoda render, wywolywana ze stałą częstotliwością
+     * Odpowiada ze rysowanie obiektu lądowiska do obiektu grafiki
+     * @param g obiekt grafiki do którego rysowany jest obiekt
      */
-    public Shape getLandingSpaceCollider(){
-        return landing;
+    @Override
+    public void render(Graphics2D g) {
+        g.setColor(Color.darkGray);
+        g.fill(collider);
     }
 }

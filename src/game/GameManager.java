@@ -15,14 +15,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JPanel;
 
 /**
  * Klasa manadżera gry, który jest odpowiedzialny za całą logikę i połączenie wszystkich elementów samej rozrywki
  */
-public class GameManager {
+public class GameManager implements Updatable {
 
     /** zmienne przechowujące grafiki */
     BufferedImage gameOverImg, startImg, wonImage, crashedImg, landedImg, shipDestroyedImg, pauseImg;
@@ -155,11 +153,12 @@ public class GameManager {
      * Odpowiedzialna za całą logikę gry
      * Między innymi detekcja kolizji, poruszanie statkiem, zapisywanie wyników, ustalanie stanu gry, itd.
      */
+    @Override
     public void update() {
         if (started) {
             if(player.getLifes() >= 0) {
                 if (!crashed && !landed) {
-                    ship.Update();
+                    ship.update();
                     meteors.update();
                     crashed = detector.detectFatalColission();
                     landed = detector.detectWin();
@@ -205,6 +204,7 @@ public class GameManager {
      * @param key obiekt KeyHandler'a
      * @see KeyHandler
      */
+    @Override
     public void input(KeyHandler key) {
 
         if(!gameOver) {
@@ -242,15 +242,12 @@ public class GameManager {
      * Odpowiedzialna za rysowanie wszystkich obiektów gry do obiektu grafiki
      * @param g obiekt grafiki do którego rysujemy wszstkie obiekty
      */
+    @Override
     public void render(Graphics2D g) {
         ship.render(g);
         meteors.render(g);
-        g.setColor(Color.gray);
-        g.fill(landing.getLandingSpaceCollider());
-        g.setColor(Color.lightGray);
-        g.fill(terrain.getTerrainCollider());
-
-
+        landing.render(g);
+        terrain.render(g);
 
         if(ship.pause)
             g.drawImage(pauseImg, 400,100,null);

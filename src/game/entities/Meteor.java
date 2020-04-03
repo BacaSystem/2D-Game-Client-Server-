@@ -1,6 +1,8 @@
 package game.entities;
 
 import game.Constant.GraphicsConstants;
+import game.controller.KeyHandler;
+import game.Updatable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,20 +15,14 @@ import java.io.IOException;
 /**
  * Klasa reprezentująca meteoryt
  */
-public class Meteor {
+public class Meteor extends Entity implements Updatable {
 
-    /** obiekt określający rozmiary meteoru - implementajca kolicji */
-    private Rectangle2D meteor;
-    /** aktualne współrzędne x i y meteoru na mapie */
-    public int x,y;
     /** aktualne prędkości meteoru, kolejno w osi x i y */
     private float speedX, speedY;
     /** masa meteoru */
     private float mass;
     /** siła przyciągania meteoru do planety */
     private float gravity;
-    /** obraz reprezentujący obiekt meteoru */
-    private BufferedImage meteorImg;
     /** flaga określająca stan pauzy */
     public boolean pause = false;
 
@@ -50,9 +46,9 @@ public class Meteor {
     }
 
     /** Metoda ładująca zasoby - obraz obiektu */
-    private void loadResources(){
+     void loadResources(){
         try {
-            meteorImg = ImageIO.read(new File(GraphicsConstants.METEOR_IMAGE));
+            image = ImageIO.read(new File(GraphicsConstants.METEOR_IMAGE));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,8 +58,9 @@ public class Meteor {
      * Metoda update, wywolywana ze stałą częstotliwością
      * Odpowiada za ustalenie pozycji i poprawego collidera obiektu
      */
+    @Override
     public void update(){
-        meteor = new Rectangle2D.Float(x, y, meteorImg.getWidth(), meteorImg.getHeight());
+        collider = new Rectangle2D.Float(x, y, image.getWidth(), image.getHeight());
 
         if(!pause) {
             speedY -= gravity * mass/100;
@@ -73,20 +70,25 @@ public class Meteor {
         }
     }
 
+    @Override
+    public void input(KeyHandler key){ }
+
     /**
      * Metoda render, wywolywana ze stałą częstotliwością
      * Odpowiada ze rysowanie obiektu meteoru do obiektu grafiki
      * @param g obiekt grafiki do którego rysowany jest obiekt
      */
+    @Override
     public void render(Graphics2D g){
-        g.drawImage(meteorImg, x, y, null);
+        g.drawImage(image, x, y, null);
     }
 
     /**
      * Metoda zwracająca prostokąt będący reprezentacją obiektu dla kolizji
      * @return prostokąt reprezentujący obiekt
      */
+    @Override
     public Rectangle2D getCollider(){
-        return meteor;
+        return (Rectangle2D) collider;
     }
 }

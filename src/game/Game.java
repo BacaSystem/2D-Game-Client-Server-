@@ -6,20 +6,14 @@ import game.window.GameWindow;
 import game.window.PopUpWindow;
 
 import javax.swing.*;
-import javax.swing.event.MenuKeyEvent;
-import javax.swing.event.MenuKeyListener;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 
 /**
  * Głowna klasa panelu gry
  * Odpowiedzialna za renderowanie oraz update'owanie gry ze stałą częstotliwością
  */
-public class Game extends JPanel implements Runnable {
+public class Game extends JPanel implements Runnable, Updatable {
 
     /** zmienna określająca szerokość okna */
     public static int width;
@@ -127,14 +121,13 @@ public class Game extends JPanel implements Runnable {
 
     /**
      * Metoda render()
-     * Wywoływana ze stałą częstotliwościa 60 razy na sekundę
+     * Wywoływana ze stałą częstotliwościa 30 razy na sekundę
      * Odpowiedzialna za rysowanie wszystkich obiektów gry do obiektu grafiki - wywołanie manager.render()
      * Dopasowuje rozmiar wszystkich obiektów do rozmiaru okna dynamicznie za pomoca przekształcenia affinicznego
      * @see GameManager
-     * @param g obiekt grafiki do którego rysujemy wszstkie obiekty
+     * @param g2d obiekt grafiki do którego rysujemy wszstkie obiekty
      */
-    public void render(Graphics g){
-        Graphics2D g2d = (Graphics2D) g;
+    public void render(Graphics2D g2d){
         g2d.clearRect(0,0, getWidth(), getHeight());
 
         g2d.setColor(new Color(60, 60, 80));
@@ -180,7 +173,7 @@ public class Game extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        render(g);
+        render((Graphics2D) g);
         g.dispose();
     }
 

@@ -1,5 +1,8 @@
 package game.entities;
 
+import game.controller.KeyHandler;
+import game.Updatable;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +10,7 @@ import java.util.List;
 /**
  * Kalsa zarządzająca meteorytami
  */
-public class MeteorHandler {
+public class MeteorHandler implements Updatable {
 
     /** lista wszystkich meteorów na planszy
      * @see Meteor */
@@ -50,16 +53,21 @@ public class MeteorHandler {
      * Metoda update wywoływana ze stałą częstotliwością
      * Wywouje metodę update dla wszyskich obiektów meteorów
      */
+    @Override
     public void update(){
         for(Meteor meteor : meteors)
             meteor.update();
     }
+
+    @Override
+    public void input(KeyHandler key) { }
 
     /**
      * Metoda render wywoływana ze stałą częstotliwością
      * Wywołuje metodę render dla wszystkich obiektów meteorów
      * @param g obiekt grafiki do którego rysowane są elementy
      */
+    @Override
     public void render(Graphics2D g){
         for (Meteor meteor: meteors)
             meteor.render(g);

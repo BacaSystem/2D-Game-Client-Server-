@@ -50,10 +50,10 @@ public class Collision {
      */
     public boolean detectFatalColission(){
         for (Meteor meteor : meteors) {
-            if(meteor.getCollider().intersects(ship.collider))
+            if(meteor.getCollider().intersects(ship.getCollider()))
                 return true;
         }
-            if ((terrain.getTerrainCollider().intersects(ship.collider) || ((landing.getLandingSpaceCollider().intersects(ship.collider)) && (Math.abs(ship.speedY) >= ship.maxLandingSpeed || Math.abs(ship.speedX) >= ship.maxLandingSpeed)))
+            if ((terrain.getCollider().intersects(ship.getCollider()) || ((landing.getCollider().intersects(ship.getCollider())) && (Math.abs(ship.speedY) >= ship.maxLandingSpeed || Math.abs(ship.speedX) >= ship.maxLandingSpeed)))
                     || (ship.y > 700))
                 return true;
             else
@@ -65,7 +65,7 @@ public class Collision {
      * @return prawda jeśli lądowanie było poprawne, fałsz gdy nie
      */
     public boolean detectWin(){
-        if((landing.getLandingSpaceCollider().intersects(ship.collider)) && ((Math.abs(ship.speedY) < ship.maxLandingSpeed) && (Math.abs(ship.speedX) < ship.maxLandingSpeed))) {
+        if((landing.getCollider().intersects(ship.getCollider())) && ((Math.abs(ship.speedY) < ship.maxLandingSpeed) && (Math.abs(ship.speedX) < ship.maxLandingSpeed))) {
             return true;
         }
         else

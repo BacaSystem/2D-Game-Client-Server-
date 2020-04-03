@@ -7,10 +7,10 @@ package game.entities;
 import game.Constant.DefaultGameSettings;
 import game.Constant.GraphicsConstants;
 import game.controller.KeyHandler;
+import game.Updatable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,15 +20,11 @@ import java.io.IOException;
  * Klasa statku, reprezentująca obiekt gracza w grze
  * Reaguje na zdarzenia z klawiatury, oraz jest update'owana razem z grą
  */
-public class Ship {
-    /** obiekt określający rozmiary statku - implementajca kolicji */
-    public Rectangle2D collider;
+public class Ship extends Entity implements Updatable {
     /** współrzędne startowe x i y statku na mapie */
     private int startX, startY;
     /** startowa ilość paliwa */
     private float startFuel;
-    /** aktualne współrzędne x i y statku na mapie */
-    public int x, y;
     /** aktualna ilość paliwa */
     private float fuel;
     /** moc silników */
@@ -40,7 +36,7 @@ public class Ship {
     /** siła grawitacji */
     public float speedGrav;
     /** obrazy reprezentujące statek oraz prace silników */
-    private BufferedImage rocket, fireUp, fireDown, fireRight, fireLeft;
+    private BufferedImage fireUp, fireDown, fireRight, fireLeft;
     /** flaga określająca czy gra jest w trybie pauzy */
     public boolean pause = false;
     /** zmienne reprezentujące przyciski klawiatury */
@@ -67,7 +63,7 @@ public class Ship {
         speedGrav = (float) (gravity/9.81 *(-0.18));
 
         initialize();
-        loadcontent();
+        loadResources();
     }
 
     /**
@@ -85,10 +81,11 @@ public class Ship {
     /**
      * Meotda wczytująca grafiki
      */
-    private void loadcontent()
+    @Override
+    void loadResources()
     {
         try {
-            rocket = ImageIO.read(new File(GraphicsConstants.SHIP_IMAGE));
+            image = ImageIO.read(new File(GraphicsConstants.SHIP_IMAGE));
             fireDown = ImageIO.read(new File(GraphicsConstants.FIRE_DOWN_IMAGE));
             fireLeft  = ImageIO.read(new File(GraphicsConstants.FIRE_LEFT_IMAGE));
             fireRight = ImageIO.read(new File(GraphicsConstants.FIRE_RIGHT_IMAGE));
@@ -102,6 +99,7 @@ public class Ship {
      * Metoda zwracająca prostokąt reprezentujący rozmiary statku
      * @return prostokąt będący rozmiarem statku
      */
+    @Override
     public Rectangle2D getCollider(){
         return new Rectangle2D.Float(x+16,y+16,29,41);
     }
@@ -143,6 +141,7 @@ public class Ship {
      * ustawia odpowiednią flagę dla nacisniętego przycisku
      * @param key KeyHandler - obiekt obsługujący zdarzenia klawiatury
      */
+    @Override
     public void input(KeyHandler key){
 
         if(!pause) {
@@ -179,12 +178,10 @@ public class Ship {
      * Metoda Update odpowiedzialna za wszelkie wyliczenia pozycji, prędkości, paliwa, itd.
      * Zmienia wartości prędkości w zalezności od wciśnietego przycisku, co również wywołuje dekrementacje ilości paliwa
      */
-    public void Update()
+    @Override
+    public void update()
     {
-
         if(!pause) {
-
-            //System.out.println("pause: " + pause);
             if (fuel <= 0)
                 fuel = 0;
 
@@ -220,6 +217,7 @@ public class Ship {
      * Metoda odpowiedzialna za rysowanie statku do obiektu grafiki
      * @param g2d obiekt grafiki do którego rysowane są elementy
      */
+    @Override
     public void render(Graphics2D g2d) {
 
         if (down) // Draw fly image
@@ -234,7 +232,7 @@ public class Ship {
         if (right) // Draw fly image
             g2d.drawImage(fireRight, x, y, null);
 
-        g2d.drawImage(rocket, x, y, null);
+        g2d.drawImage(image, x, y, null);
     }
 }
 
