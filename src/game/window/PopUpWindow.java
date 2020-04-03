@@ -10,13 +10,23 @@ import game.controller.KeyHandler;
 import game.Game;
 
 /**
- * Klasa tworząca okienko Pop Up po zakończeniu gry z informacją na temat jego wyniku
- * Implementuje dwa przyciski z ActionListenerem
- * Po wciśnięciu odpowiedniego przycisku gracz jest przenoszony do odpowiedniego stanu
- * menuButton - powrót do menu
- * trybutton - ponowne podejście do gry
- */
+ * Klasa tworząca okienko Pop Up po zakończeniu gry z informacją na temat jego wyniku */
 public class PopUpWindow {
+    /**
+     * Kontruktor tworzący PopUpa
+     * Implementuje dwa przyciski z ActionListenerem
+     * Po wciśnięciu odpowiedniego przycisku gracz jest przenoszony do odpowiedniego stanu
+     * menuButton - powrót do menu
+     * trybutton - ponowne podejście do gry
+     * @param frame okno gry (frame), na rzecz ktorego jest wywoływane
+     *              by móc wywołać metodę okna powrót do menu
+     * @param manager Manager gry
+     *                by móc wykonać przeładowanie gry
+     * @param key KeyHandler gry
+     *            by mój zresetować wciśnięte klawisze podczas rozbicia się/ wygrania
+     * @param game Panel gry
+     *             by móc ustawić status flagi, czy okienko jest nadal otwarte
+     */
     public  PopUpWindow(GameWindow frame, GameManager manager, KeyHandler key, Game game){
         JFrame popUp = new JFrame();
         {
@@ -35,7 +45,7 @@ public class PopUpWindow {
 
 
         if(manager.won) {
-            buttonPanel.add(new JLabel("Congratlations, You've won!", SwingConstants.CENTER) );
+            buttonPanel.add(new JLabel("Congratlations, You've won!", SwingConstants.CENTER ) );
         } else {
             buttonPanel.add(new JLabel("You've lost!", SwingConstants.CENTER));
         }

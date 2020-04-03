@@ -46,22 +46,27 @@ public class LauncherWindow extends JFrame implements ActionListener {
         {
             setLayout(new FlowLayout(FlowLayout.CENTER, 60, 50));
 
+            //--------------------NICK---------------------
+            add(new JLabel(LauncherConst.NICK_LABEL));
+            nick = (JTextField) add(new JTextField(11));
+            //--------------------NICK----------------------
 
-
-            add(new JLabel(LauncherConst.NICK_LABEL, JLabel.LEFT));
-            nick = (JTextField) add(new JTextField(10));
-
-
+            //------------------BUTTONS---------------------
             online = (JButton) add(new JButton(LauncherConst.ONLINE_LABEL));
             online.setEnabled(false);
             offline = (JButton) add(new JButton(LauncherConst.OFFLINE_LABEL));
             offline.setEnabled(false);
+            //------------------BUTTONS---------------------
 
-            add(new JLabel(LauncherConst.IP_LABEL, JLabel.LEFT));
-            ip = (JTextField) add(new JTextField(10));
+            //-----------------IP LABEL---------------------
+            add(new JLabel(LauncherConst.IP_LABEL));
+            ip = (JTextField) add(new JTextField(11));
+            //-----------------IP LABEL---------------------
 
-            add(new JLabel(LauncherConst.PORT_LABEL, JLabel.LEFT));
-            port = (JTextField) add(new JTextField(10));
+            //----------------PORT LABEL--------------------
+            add(new JLabel(LauncherConst.PORT_LABEL));
+            port = (JTextField) add(new JTextField(11));
+            //----------------PORT LABEL--------------------
 
             offline.addActionListener(this);
             online.addActionListener(this);
@@ -81,6 +86,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 public void changedUpdate(DocumentEvent documentEvent) {
                     changed(documentEvent);
                 }
+
                 /**
                  * Metoda sprawdzająca, czy pole tekstowe nicku nie jest puste
                  */
@@ -96,7 +102,6 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     }
                 }
             });
-
         }
         setVisible(true);
     }
@@ -136,22 +141,13 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 portText = port.getText();
 
                 if(source == online){
-                    if(!isTextFieldNickEmpty()) {
-                        System.out.println("Online Button");
-                        setPlayerNick();
-                        System.out.println(player.getNick());
-                        System.out.println(ipText);
-                        System.out.println(portText);
-                        dispose();
-                        new GameWindow();
-                    }
+                    setPlayerNick();
+                    dispose();
+                    new GameWindow();
 
                 }
                 else if(source == offline){
-                    dispose();
-                    System.out.println("Offline Button");
                     setPlayerNick();
-                    System.out.println(player.getNick());
                     dispose();
                     new GameWindow();
                  }
