@@ -1,9 +1,0 @@
-game
-game.Constant
-game.controller
-game.data
-game.entities
-game.launcher
-game.menuPanels
-game.physic
-game.window
