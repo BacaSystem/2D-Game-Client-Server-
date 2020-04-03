@@ -24,9 +24,9 @@ public class MenuPanel extends JPanel {
 
     /**
      * Konstruktor tworzący komponenty do wyświetlenia w głównym menu
-     * @param menuListner Listner nasłuchujący wciśnięcia przycisków
      * Przyciski tworzone są dynamicznie w zależności od dlugości tablicy przycisków
      * Przyciski tworzone są z pomocą klasy Button
+     * @param menuListner Listner nasłuchujący wciśnięcia przycisków
      */
     public MenuPanel(ActionListener menuListner) {
         JPanel panel = new JPanel(new BorderLayout());

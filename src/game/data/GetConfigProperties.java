@@ -15,10 +15,10 @@ public class GetConfigProperties {
 
     /**
      * Metoda statyczna pobierająca dane z pliku konfiguracyjnego i zwracająca String spod klucza
+     * Metoda ma zabezpieczenia przed próbą otworzenia nieistniejącego pliku i przed wyszukaniem nieistniejącego klucza
      * @param fileName nazwa pliku konfiguracyjnego, z ktorego zostanie pobrana dana. BEZ ROZSZERZENIA
      * @param key klucz, jakiego metoda będzie szukać w pliku konfiguracyjnym
      * @return zwraca String wartości spod klucza
-     * Metoda ma zabezpieczenia przed próbą otworzenia nieistniejącego pliku i przed wyszukaniem nieistniejącego klucza
      */
     public static String getValue(String fileName, String key) {
         String result = "";
@@ -69,10 +69,10 @@ public class GetConfigProperties {
 
     /**
      * Metoda zapisująca do pliku konfiguracyjnego listy ArrayList
+     * Posiada zabezpieczenie przed probą otwarcia nienstniejącego pliku
      * @param records ArrayList, którą chcemy zapisać do pliku konfiguracyjnego
      * @param fileName nazwa pliku, do ktorego chcemy zapisać dane. BEZ ROZSZERZENIA
      * @param numberOfRecords liczba rekordów, które chcemy zapisać
-     * Posiada zabezpieczenie przed probą otwarcia nienstniejącego pliku
      */
     public static void seveScoresTableInDirectory(ArrayList<HighScores.Record> records, String fileName, int numberOfRecords) {
         FileOutputStream fileOut = null;

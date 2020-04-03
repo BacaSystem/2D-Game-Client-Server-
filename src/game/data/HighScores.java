@@ -123,12 +123,12 @@ public class HighScores {
 
     /**
      * Metoda aktualizująca tablicę wynikow w pliku konfiguracyjnym, jeśli wynik gracza powinien się na niej znaleźć.
-     * @param player gracz, ktorego wynik sprawdzamy, czy powinien znaleźć się na tablicy wyników
      * Metoda ta najpierw pobiera dane z pliku config (jeśli nie zostały jeszcze pobrane)
      * Następnie sprawdza, czy wynik gracza jest lepszy lub równy najgorszemu wynikowi z tablicy wyników
      * Jeśli tak się stanie, dodaje wynik gracza do ArrayList records, sortuje listę w kolejności od największego do najmniejszego
      * i usuwa ostatni Record.
      * Następnie zapisuje nową listę w pliku konfiguracyjnym.
+     * @param player gracz, ktorego wynik sprawdzamy, czy powinien znaleźć się na tablicy wyników
      */
     public void checkPlayerScore(Player player) {
         this.downloadData();

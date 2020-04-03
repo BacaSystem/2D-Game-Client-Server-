@@ -21,8 +21,8 @@ public class HighScoresPanel extends JPanel {
 
     /**
      * Konstruktor tworzący komponenty do wyświetlenia w widoku najlepszych wyników
-     * @param menuListner Listner nasłuchujący wciśnięcia przycisków
      * Lista rekordow jest dynamiczna, zależna od liczby rekordów załadowanej do instancji HighScore
+     * @param menuListner Listner nasłuchujący wciśnięcia przycisków
      */
     public HighScoresPanel(ActionListener menuListner) {
         JPanel panel = new JPanel(new BorderLayout());
