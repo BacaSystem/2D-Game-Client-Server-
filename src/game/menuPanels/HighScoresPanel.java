@@ -9,13 +9,22 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Klasa zajmujaca się wyświetlaniem widoku Najlepszych wyników
+ * Rozszerza klasę JPanel
+ */
 public class HighScoresPanel extends JPanel {
+    /** atrubut przechowywujcy referencję na klasę tablocy najlepszych wyników*/
     private HighScores highScore = HighScores.getInstance();
+    /** Najlepsze wyniki gry w formie ArrayList pobierane z klasy HighScores, na początku puste*/
     private ArrayList<HighScores.Record> records;
-    private String[] nicks;
-    private int[] scores;
 
-    public HighScoresPanel(int panelWidth, int panelHeight, ActionListener menuListner) {
+    /**
+     * Konstruktor tworzący komponenty do wyświetlenia w widoku najlepszych wyników
+     * Lista rekordow jest dynamiczna, zależna od liczby rekordów załadowanej do instancji HighScore
+     * @param menuListner Listner nasłuchujący wciśnięcia przycisków
+     */
+    public HighScoresPanel(ActionListener menuListner) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(5, 6, 5, 6));
 
@@ -25,6 +34,7 @@ public class HighScoresPanel extends JPanel {
         JPanel verticalPanel = new JPanel(new GridLayout(10, 1, 10, 1));
 
         getData();
+
         //HERE add components
         for(int i=0; i<highScore.getNumberOfRecords(); i++) {
             JPanel recordPanel = new JPanel();
@@ -45,6 +55,7 @@ public class HighScoresPanel extends JPanel {
         
     }
 
+    /** Metoda pobierające najlepsze wyniki*/
     void getData() {
         highScore.downloadData();
         records = highScore.getRecords();

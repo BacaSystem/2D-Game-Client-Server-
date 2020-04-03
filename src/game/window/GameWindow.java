@@ -81,7 +81,7 @@ public class GameWindow extends JFrame implements ActionListener{
      * Metoda odpowiedzialna za stworzenie domyślnego panelu jakim jest menu
      */
     private void MakeUI() {
-        menuPanel = new MenuPanel( defaultWidth, defaultHeight, this);
+        menuPanel = new MenuPanel(this);
         this.add(menuPanel);
     }
 
@@ -133,7 +133,7 @@ public class GameWindow extends JFrame implements ActionListener{
      */
     public void goToMenu(){
         removeAllPanels();
-        menuPanel = new MenuPanel(defaultWidth, defaultHeight, this);
+        menuPanel = new MenuPanel(this);
         setPanelOptions(false, menuPanel);
     }
 
@@ -159,7 +159,7 @@ public class GameWindow extends JFrame implements ActionListener{
 
             case MenuWindowStates.MENU:
                 removeAllPanels();
-                menuPanel = new MenuPanel(defaultWidth, defaultHeight, this);
+                menuPanel = new MenuPanel(this);
                 setPanelOptions(false,menuPanel);
                 //GetConfigProperties.setValue("highScores");
                 break;
@@ -175,13 +175,13 @@ public class GameWindow extends JFrame implements ActionListener{
 
             case MenuWindowStates.HIGH_SCORES:
                 removeAllPanels();
-                highScoresPanel = new HighScoresPanel( defaultWidth, defaultHeight, this);
+                highScoresPanel = new HighScoresPanel(this);
                 setPanelOptions(false,highScoresPanel);
                 break;
 
             case MenuWindowStates.HELP:
                 removeAllPanels();
-                helpPanel = new HelpPanel( defaultWidth,defaultHeight, this);
+                helpPanel = new HelpPanel(this);
                 setPanelOptions(false,helpPanel);
                 break;
 

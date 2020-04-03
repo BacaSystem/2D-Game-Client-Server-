@@ -1,5 +1,7 @@
 package game.entities;
 
+import game.Constant.MenuWindowStates;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -18,7 +20,7 @@ public class Button extends JButton {
         this.addActionListener(menuListener);
         this.setActionCommand(buttonAction);
         this.setText(buttonName);
-        this.setPreferredSize(new Dimension(400,50));
+        this.setPreferredSize(new Dimension(MenuWindowStates.BUTTON_WIDTH,MenuWindowStates.BUTTON_HEIGHT));
         //this.setPreferredSize(new Dimension(width, height));
     }
 }

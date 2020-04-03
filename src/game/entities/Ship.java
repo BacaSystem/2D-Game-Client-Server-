@@ -4,6 +4,7 @@ package game.entities;
  * Rocket physics and controls.
 */
 
+import game.Constant.DefaultGameSettings;
 import game.Constant.GraphicsConstants;
 import game.controller.KeyHandler;
 
@@ -74,10 +75,10 @@ public class Ship {
      * mocy silników, maksymalnej prędkości lądowania i początkowej prędkości statku
      */
     private void initialize() {
-        speedAccelerating = 0.5;
-        speedY = 1;
-        speedX = 0;
-        maxLandingSpeed = 5;
+        speedAccelerating = DefaultGameSettings.SPEED_ACCELERATING;
+        speedY = DefaultGameSettings.START_SPEED_Y;
+        speedX = DefaultGameSettings.START_SPEED_X;
+        maxLandingSpeed = DefaultGameSettings.MAX_SPEED_LANDING;
     }
 
 
