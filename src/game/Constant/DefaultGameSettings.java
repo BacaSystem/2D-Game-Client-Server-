@@ -23,6 +23,15 @@ public class DefaultGameSettings {
     public static final float FUEL = Float.parseFloat(GetConfigProperties.getValue(fileName, "fuelLevel"));
     /** stała przechowywująca liczbę S punktów (za niezniszczenie staku) */
     public static final int S_POINTS = Integer.parseInt(GetConfigProperties.getValue(fileName, "S"));
+    /** stała przechowywujaca maksymalną prędkośc lądowania*/
+    public static final int MAX_SPEED_LANDING = Integer.parseInt(GetConfigProperties.getValue(fileName, "maxLandingSpeed"));
+    /** stala przechowywująca początkową prędkośc statku */
+    public static final float SPEED_ACCELERATING = Float.parseFloat(GetConfigProperties.getValue(fileName, "speedAccelerating"));
+    /** stała przechowywująca startową prędkość X */
+    public static final int START_SPEED_X = Integer.parseInt(GetConfigProperties.getValue(fileName, "startSpeedX"));
+    /** stała przechowywująca startową prędkość Y */
+    public static final int START_SPEED_Y = Integer.parseInt(GetConfigProperties.getValue(fileName, "startSpeedY"));
+
 
     private DefaultGameSettings() {
         throw new AssertionError();
