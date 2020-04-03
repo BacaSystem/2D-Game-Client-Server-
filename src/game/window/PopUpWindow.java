@@ -35,11 +35,11 @@ public class PopUpWindow {
 
 
         if(manager.won) {
-            buttonPanel.add(new JLabel("Congratlations, You've won!"), SwingConstants.CENTER);
+            buttonPanel.add(new JLabel("Congratlations, You've won!", SwingConstants.CENTER) );
         } else {
             buttonPanel.add(new JLabel("You've lost!", SwingConstants.CENTER));
         }
-        buttonPanel.add(new JLabel("Your Score was: " + manager.scoreOnWinOrLose), SwingConstants.CENTER);
+        buttonPanel.add(new JLabel("Your Score was: " + manager.scoreOnWinOrLose, SwingConstants.CENTER));
         JButton menuButton = new JButton("Return to menu");
         JButton tryButton = new JButton("Try again");
 
