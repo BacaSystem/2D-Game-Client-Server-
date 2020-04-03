@@ -39,6 +39,11 @@ public final class MenuWindowStates {
     /** stała przechowywująca domyślna wysokość okna gry */
     public static final int HEIGHT = parseInt(GetConfigProperties.getValue(fileName, "height"));
 
+    /** stała przechowywująca domyślna szerokość przycisku  */
+    public static final int BUTTON_WIDTH = parseInt(GetConfigProperties.getValue(fileName, "buttonWidth"));
+    /** stała przechowywująca domyślna wysokość przycisku  */
+    public static final int BUTTON_HEIGHT = parseInt(GetConfigProperties.getValue(fileName, "buttonHeight"));
+
     private MenuWindowStates() {
         throw new AssertionError();
     }
