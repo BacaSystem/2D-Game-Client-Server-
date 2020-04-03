@@ -21,6 +21,10 @@ public class KeyHandler implements KeyListener {
         /** zmienna reprezentująca stan klawisza, jeśli true to wciśnięty */
         private boolean down;
 
+        public Key(){
+            keys.add(this);
+        }
+
         /**
          * Metoda zmieniająca stan klawisza na taki jak w parametrze
          * @param pressed stan w jaki chcemy ustawić klawisz
@@ -37,6 +41,8 @@ public class KeyHandler implements KeyListener {
             return this.down;
         }
     }
+
+    private List<Key> keys = new ArrayList<Key>();
 
     /** zmienna reprezentująca przysik "up" */
     public Key up = new Key();
@@ -60,6 +66,12 @@ public class KeyHandler implements KeyListener {
     public KeyHandler(Game game){
         game.addKeyListener(this);
         game.setFocusable(true);
+    }
+
+    public void releaseAll(){
+        for(Key key : keys){
+            key.toggle(false);
+        }
     }
 
     /**

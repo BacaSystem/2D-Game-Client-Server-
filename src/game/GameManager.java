@@ -45,7 +45,6 @@ public class GameManager {
         currentLevel = 1;
         //lifes = DefaultGameSettings.LIFES;
         init();
-        ship.initialize();
     }
 
     private void init(){

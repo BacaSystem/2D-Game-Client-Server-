@@ -103,6 +103,7 @@ public class Game extends JPanel implements Runnable {
         menuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                key.releaseAll();
                 manager.reload();
                 popUp.dispose();
                 hasPopUp = false;
@@ -112,6 +113,7 @@ public class Game extends JPanel implements Runnable {
         tryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                key.releaseAll();
                 manager.reload();
                 hasPopUp = false;
                 popUp.dispose();
