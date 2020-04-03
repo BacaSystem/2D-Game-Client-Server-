@@ -1,5 +1,7 @@
 package game.data;
 
+import java.sql.Array;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.ArrayList;
 
@@ -108,36 +110,56 @@ public class HighScores {
      */
     public void downloadData() {
         if (!isDataDonwloaded) {
+            String[] nicks = (GetConfigProperties.getValue(fileName, "nicks")).split(",");
+            int[] scores = Arrays.stream(GetConfigProperties.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
             for(int i=0; i<numberOfRecords; i++) {
-                String nickKey = "nick" + (i+1);
-                String scoreKey = "score" + (i+1);
-                var nick = GetConfigProperties.getValue(fileName, nickKey);
-                var score = Integer.parseInt(GetConfigProperties.getValue(fileName, scoreKey));
-                records.add(new Record(nick, score));
+                records.add(new Record(nicks[i], scores[i]));
                 records.sort(Record::compareTo);
                 Collections.reverse(records);
             }
+
             isDataDonwloaded = true;
         }
     }
 
     /**
-     * Metoda aktualizująca tablicę wynikow w pliku konfiguracyjnym, jeśli wynik gracza powinien się na niej znaleźć.
+     * Metoda aktualizująca wyniki w pliku konfiguracyjnym, jeśli wynik gracza powinien się na niej znaleźć.
      * Metoda ta najpierw pobiera dane z pliku config (jeśli nie zostały jeszcze pobrane)
      * Następnie sprawdza, czy wynik gracza jest lepszy lub równy najgorszemu wynikowi z tablicy wyników
      * Jeśli tak się stanie, dodaje wynik gracza do ArrayList records, sortuje listę w kolejności od największego do najmniejszego
      * i usuwa ostatni Record.
-     * Następnie zapisuje nową listę w pliku konfiguracyjnym.
+     * Następnie zapisuje nową listę najlepszych wyników w pliku konfiguracyjnym.
      * @param player gracz, ktorego wynik sprawdzamy, czy powinien znaleźć się na tablicy wyników
      */
     public void checkPlayerScore(Player player) {
         this.downloadData();
+        String nicks = "";
+        String scores = "";
         if(player.getScore() >= records.get(numberOfRecords - 1).getScore()) {
+
+            //Adding player result (if better than worst result in array
+            //then sorting from max to minimum and deleting worst score
             records.add(new Record(player.getNick(), player.getScore()));
             records.sort(Record::compareTo);
             Collections.reverse(records);
             records.remove(numberOfRecords);
-            GetConfigProperties.seveScoresTableInDirectory(records, fileName, numberOfRecords);
+
+            //Adding first record to string
+            if (!records.isEmpty()) {
+                nicks = nicks + records.get(0).getNick();
+                scores = scores + records.get(0).getScore();
+            }
+
+            //adding rest of records to string splitted by ','
+            for(int i=1; i<numberOfRecords; i++) {
+                nicks = nicks + "," + records.get(i).getNick();
+                scores = scores + "," + records.get(i).getScore();
+            }
+
+            //Adding all records to config file
+            GetConfigProperties.setValue(fileName, "nicks", nicks);
+            GetConfigProperties.setValue(fileName, "scores", scores);
+
             System.out.println("Ranging reloaded");
         }
     }

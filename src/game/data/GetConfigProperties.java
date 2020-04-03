@@ -39,8 +39,14 @@ public class GetConfigProperties {
     }
 
     // NA RAZIE NIE POTRZEBNA, ALE MOŻE SIE PRZYDA
-    /*
-    public static void setValue(String fileName String key, String data) {
+
+    /**
+     * Metoda zapisująca dane do pliku konfiguracyjnego
+     * @param fileName nazwa pliku BEZ ROZSZERZEŃ, w ktorym zostanie zapisana informacja
+     * @param key klucz, pod jakim zostanie zapisana informacja
+     * @param data dana, ktora zostanie zapisana w pliku
+     */
+    public static void setValue(String fileName, String key, String data) {
         FileOutputStream fileOut = null;
         FileInputStream fileIn = null;
         String propFileName ="resources/" +fileName +".properties";
@@ -50,7 +56,7 @@ public class GetConfigProperties {
             File file = new File(propFileName);
             fileIn = new FileInputStream(file);
             configProperty.load(fileIn);
-            configProperty.setProperty("nick1", "Eustachy");
+            configProperty.setProperty(key, data);
             fileOut = new FileOutputStream(file);
             configProperty.store(fileOut, "");
 
@@ -65,45 +71,4 @@ public class GetConfigProperties {
             }
         }
     }
-    */
-
-    /**
-     * Metoda zapisująca do pliku konfiguracyjnego listy ArrayList
-     * Posiada zabezpieczenie przed probą otwarcia nienstniejącego pliku
-     * @param records ArrayList, którą chcemy zapisać do pliku konfiguracyjnego
-     * @param fileName nazwa pliku, do ktorego chcemy zapisać dane. BEZ ROZSZERZENIA
-     * @param numberOfRecords liczba rekordów, które chcemy zapisać
-     */
-    public static void seveScoresTableInDirectory(ArrayList<HighScores.Record> records, String fileName, int numberOfRecords) {
-        FileOutputStream fileOut = null;
-        FileInputStream fileIn = null;
-        String propFileName = "resources/" + fileName + ".properties";
-        try {
-            Properties configProperty = new Properties();
-
-            File file = new File(propFileName);
-            fileIn = new FileInputStream(file);
-            configProperty.load(fileIn);
-            for(int i=0; i<numberOfRecords; i++) {
-                String nickKey = "nick" + (i+1);
-                String scoreKey = "score" + (i+1);
-                configProperty.setProperty(nickKey, records.get(i).getNick());
-                configProperty.setProperty(scoreKey, String.valueOf(records.get(i).getScore()));
-            }
-            fileOut = new FileOutputStream(file);
-            configProperty.store(fileOut,"");
-
-
-        } catch (Exception e) {
-            Logger.getLogger(GetConfigProperties.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-
-            try {
-                fileOut.close();
-            } catch (IOException e) {
-                Logger.getLogger(GetConfigProperties.class.getName()).log(Level.SEVERE, null, e);
-            }
-        }
-    }
-
  }
