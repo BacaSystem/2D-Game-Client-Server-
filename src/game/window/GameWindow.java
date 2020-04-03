@@ -161,14 +161,11 @@ public class GameWindow extends JFrame implements ActionListener{
                 removeAllPanels();
                 menuPanel = new MenuPanel(this);
                 setPanelOptions(false,menuPanel);
-                //GetConfigProperties.setValue("highScores");
                 break;
 
 
             case MenuWindowStates.NEW_GAME:
                 removeAllPanels();
-                //gameWindow = new GameWindow();
-                //dispose();
                 gamePanel = new Game(gameWidth, gameHeight, this);
                 setPanelOptions(true,gamePanel);
                 break;

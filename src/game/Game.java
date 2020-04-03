@@ -3,6 +3,7 @@ package game;
 import game.Constant.DefaultGameSettings;
 import game.controller.KeyHandler;
 import game.window.GameWindow;
+import game.window.PopUpWindow;
 
 import javax.swing.*;
 import javax.swing.event.MenuKeyEvent;
@@ -78,51 +79,6 @@ public class Game extends JPanel implements Runnable {
         manager = new GameManager(this);
     }
 
-    /**
-     * Metoda tworząca okienko Pop Up po zakończeniu gry z informacją na temat jego wyniku
-     * Implementuje dwa przyciski z ActionListenerem
-     * Po wciśnięciu odpowiedniego przycisku gracz jest przenoszony do odpowiedniego stanu
-     * menuButton - powrót do menu
-     * trybutton - ponowne podejście do gry
-     */
-    public void showPopUp(){
-        JFrame popUp = new JFrame();
-        popUp.setTitle("");
-        popUp.setSize(200,200);
-        popUp.setLocationRelativeTo(null);
-        popUp.setResizable(false);
-        popUp.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        popUp.setLayout(new FlowLayout());
-        if(manager.won)
-            popUp.add(new JLabel("Congratlations, You've won!"));
-        else
-            popUp.add(new JLabel("You've lost!"));
-        popUp.add(new JLabel("Your Score was: " + manager.scoreOnWinOrLose));
-        JButton menuButton = new JButton("Return to menu");
-        JButton tryButton = new JButton("Try again");
-        menuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                key.releaseAll();
-                manager.reload();
-                popUp.dispose();
-                hasPopUp = false;
-                frame.goToMenu();
-            }
-        });
-        tryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                key.releaseAll();
-                manager.reload();
-                hasPopUp = false;
-                popUp.dispose();
-            }
-        });
-        popUp.add(menuButton);
-        popUp.add(tryButton);
-        popUp.setVisible(true);
-    }
 
     /**
      * Metoda pozwalająca zapisać wynik gracza i bezpiecznie wrócić do menu
@@ -150,7 +106,7 @@ public class Game extends JPanel implements Runnable {
 
         if((manager.won || manager.gameOver) && !hasPopUp){
             hasPopUp = true;
-            showPopUp();
+            new PopUpWindow(frame, manager, key, this);
         }
     }
 
@@ -202,7 +158,7 @@ public class Game extends JPanel implements Runnable {
         g2d.drawString("Speed (X: " +  String.format("%.1f", manager.ship.getSpeedX()) + " Y: " + String.format("%.1f", manager.ship.getSpeedY()) + ")", 5, 120);
         if (!manager.crashed && !manager.landed) {
             g2d.drawString("Points:" + String.valueOf(manager.points.getLiveScore(manager.player, manager.ship.getFuel(), manager.currentLevel)), 5,140);
-        } else{
+        } else {
             if(manager.landed && (manager.currentLevel != manager.maxLevels) || (manager.crashed && manager.player.getLifes() != 0)) {
                 g2d.drawString("Points:" + String.valueOf(manager.player.getScore()), 5, 140);
             } else {
