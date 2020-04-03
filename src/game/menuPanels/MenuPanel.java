@@ -1,8 +1,6 @@
 package game.menuPanels;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 import game.Constant.MenuWindowStates;
@@ -13,7 +11,7 @@ import game.entities.Button;
  * Klasa zajmujaca się wyświetlaniem widoku Menu głównego
  * Rozszerza klasę JPanel
  */
-public class MenuPanel extends abstractVerticalPanel {
+public class MenuPanel extends AbstractVerticalPanel {
 
     /** Lista nazw przycisków w menu */
     private String[] buttonNames = {MenuWindowStates.NEW_GAME_BUTTON, MenuWindowStates.HIGH_SCORES_BUTTON, MenuWindowStates.HELP_BUTTON, MenuWindowStates.EXIT_BUTTON};

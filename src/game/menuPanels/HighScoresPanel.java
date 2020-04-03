@@ -4,8 +4,6 @@ import game.Constant.MenuWindowStates;
 import game.entities.Button;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -13,7 +11,7 @@ import java.util.ArrayList;
  * Klasa zajmujaca się wyświetlaniem widoku Najlepszych wyników
  * Rozszerza klasę JPanel
  */
-public class HighScoresPanel extends abstractVerticalPanel {
+public class HighScoresPanel extends AbstractVerticalPanel {
     /** atrubut przechowywujcy referencję na klasę tablicy najlepszych wyników*/
     private HighScores highScore = HighScores.getInstance();
     /** Najlepsze wyniki gry w formie ArrayList pobierane z klasy HighScores, na początku puste*/

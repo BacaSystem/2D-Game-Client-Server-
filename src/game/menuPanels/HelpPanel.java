@@ -4,15 +4,13 @@ import game.entities.Button;
 import game.data.GetConfigProperties;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
 import java.awt.event.*;
 
 /**
  * Klasa zajmujaca się wyświetlaniem widoku Help Menu
  * Rozszerza klasę JPanel
  */
-public class HelpPanel extends abstractVerticalPanel {
+public class HelpPanel extends AbstractVerticalPanel {
     /**
      * Konstruktor tworzący komponenty do wyświetlenia w panelu pomocy
      * @param menuListner Listner z menu nasluchujący wciśnięcia przycisków
