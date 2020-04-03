@@ -1,6 +1,8 @@
-package game;
+package game.physic;
 
+import game.entities.LandingSpace;
 import game.entities.Ship;
+import game.entities.Terrain;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -10,20 +12,26 @@ import java.awt.geom.Rectangle2D;
  */
 public class Collision {
 
-    /** referencja do obiektu statku gracza */
+    /** referencja do obiektu statku gracza
+     * @see Ship */
     private Ship ship;
-    /** referencja do obiektu terenu */
-    private Shape terrain;
-    /** referencja do obiektu lądowiska */
-    private Shape landing;
+    /** referencja do obiektu terenu
+     * @see Terrain*/
+    private Terrain terrain;
+    /** referencja do obiektu lądowiska
+     * @see LandingSpace */
+    private LandingSpace landing;
 
     /**
      * Konstruktor klasy, przypisuje referencje za pomocą podanych argumentów
      * @param ship obiekt statka gracza
      * @param terrain obiekt terenu poziomu
      * @param landing obiekt lądowiska poziomu
+     * @see Ship
+     * @see Terrain
+     * @see LandingSpace
      */
-    public Collision(Ship ship, Shape terrain, Shape landing){
+    public Collision(Ship ship, Terrain terrain, LandingSpace landing){
         this.ship = ship;
         this.terrain = terrain;
         this.landing = landing;
@@ -34,7 +42,7 @@ public class Collision {
      * @return prawda jeśli taka kolizja nastąpiła, fałsz jeśli nie
      */
     public boolean detectCollisionTerrain(){
-        if((terrain.intersects(ship.collider) || ((landing.intersects(ship.collider)) && (Math.abs(ship.speedY) >= ship.maxLandingSpeed || Math.abs(ship.speedX) >= ship.maxLandingSpeed)))
+        if((terrain.getTerrainCollider().intersects(ship.collider) || ((landing.getLandingSpaceCollider().intersects(ship.collider)) && (Math.abs(ship.speedY) >= ship.maxLandingSpeed || Math.abs(ship.speedX) >= ship.maxLandingSpeed)))
         || (ship.y > 700))
             return true;
         else
@@ -46,7 +54,7 @@ public class Collision {
      * @return prawda jeśli lądowanie było poprawne, fałsz gdy nie
      */
     public boolean detectWin(){
-        if((landing.intersects(ship.collider)) && ((Math.abs(ship.speedY) < ship.maxLandingSpeed) && (Math.abs(ship.speedX) < ship.maxLandingSpeed))) {
+        if((landing.getLandingSpaceCollider().intersects(ship.collider)) && ((Math.abs(ship.speedY) < ship.maxLandingSpeed) && (Math.abs(ship.speedX) < ship.maxLandingSpeed))) {
             return true;
         }
         else

@@ -32,13 +32,13 @@ public class Ship {
     /** aktualna ilość paliwa */
     private float fuel;
     /** moc silników */
-    private double speedAccelerating;
+    private float speedAccelerating;
     /** maksymalna dopuszczalna prędkość lądowania */
-    public double maxLandingSpeed;
+    public float maxLandingSpeed;
     /** aktualna prędkość statku w osi x i y */
-    public double speedX, speedY;
+    public float speedX, speedY;
     /** siła grawitacji */
-    public double speedGrav;
+    public float speedGrav;
     /** obrazy reprezentujące statek oraz prace silników */
     private BufferedImage rocket, fireUp, fireDown, fireRight, fireLeft;
     /** flaga określająca czy gra jest w trybie pauzy */
@@ -64,7 +64,7 @@ public class Ship {
         this.fuel = startFuel;
 
         collider = getCollider();
-        speedGrav = gravity/9.81 *(-0.18);
+        speedGrav = (float) (gravity/9.81 *(-0.18));
 
         initialize();
         loadcontent();

@@ -21,6 +21,9 @@ public class KeyHandler implements KeyListener {
         /** zmienna reprezentująca stan klawisza, jeśli true to wciśnięty */
         private boolean down;
 
+        /**
+         * Konstruktor klasy Key, dodaje klawisz do listy wszystkich klawiszy z klasy KeyHandler
+         */
         public Key(){
             keys.add(this);
         }
@@ -42,6 +45,7 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    /** Lista wszystkich klawiszy */
     private List<Key> keys = new ArrayList<Key>();
 
     /** zmienna reprezentująca przysik "up" */
@@ -68,6 +72,9 @@ public class KeyHandler implements KeyListener {
         game.setFocusable(true);
     }
 
+    /**
+     * Metoda zmieniająca stan wszystkic przycisków na nie wciśnięte
+     */
     public void releaseAll(){
         for(Key key : keys){
             key.toggle(false);

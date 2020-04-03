@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Rozszerza klasę JPanel
  */
 public class HighScoresPanel extends JPanel {
-    /** atrubut przechowywujcy referencję na klasę tablocy najlepszych wyników*/
+    /** atrubut przechowywujcy referencję na klasę tablicy najlepszych wyników*/
     private HighScores highScore = HighScores.getInstance();
     /** Najlepsze wyniki gry w formie ArrayList pobierane z klasy HighScores, na początku puste*/
     private ArrayList<HighScores.Record> records;
