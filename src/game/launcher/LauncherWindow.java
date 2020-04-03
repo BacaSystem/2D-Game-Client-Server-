@@ -11,7 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Klasa okna launchera, rozszerza po JFrame.
+ * Odpowiada za stworzenie ramki i kontentu w niej.
+ * Obsługuje zdarzenia przychodzące z interfejsu graficznego użytkownika.
+ */
 public class LauncherWindow extends JFrame implements ActionListener {
+    /**  */
     private JButton online;
     private JButton offline;
     private JTextField ip, port, nick;

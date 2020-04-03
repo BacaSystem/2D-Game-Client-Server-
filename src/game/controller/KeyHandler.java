@@ -12,33 +12,29 @@ import java.util.List;
 public class KeyHandler implements KeyListener {
     //inner class representing single Key.
     public class Key {
-        public int presses, absorbs;
-        public boolean down, clicked;
-
-        public Key(){
-            keys.add(this);
-        }
+        public boolean down;
+        private int numTimesPressed = 0;
 
         public void toggle(boolean pressed){
-            if(pressed != down){
-                down = pressed;
-            }
-            if(pressed){
-                presses++;
-            }
+            this.down = pressed;
+            if(down)
+                numTimesPressed++;
         }
-        public void tick(){
-            if(absorbs < presses){
-                absorbs++;
-                clicked = true;
-            }
-            else{
-                clicked = false;
-            }
+
+        public boolean down(){
+            return this.down;
+        }
+
+        public boolean released(){
+            return !this.down;
+        }
+
+        public int getNumTimesPressed(){
+            return numTimesPressed;
         }
     }
 
-    public static List<Key> keys = new ArrayList<Key>();
+    //public static List<Key> keys = new ArrayList<Key>();
 
     public Key up = new Key();
     public Key down = new Key();
@@ -52,18 +48,6 @@ public class KeyHandler implements KeyListener {
     public KeyHandler(Game game){
         game.addKeyListener(this);
         game.setFocusable(true);
-    }
-
-    public void releaseAll(){
-        for (Key key : keys) {
-            key.down = false;
-        }
-    }
-
-    public void tick(){
-        for(Key key : keys){
-            key.tick();
-        }
     }
 
     public void toggle(KeyEvent e, boolean pressed){
@@ -84,12 +68,17 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        toggle(keyEvent, true);
+        if(keyEvent.getKeyCode() != KeyEvent.VK_SPACE)
+            toggle(keyEvent, true);
+        else{
+            toggle(keyEvent, !space.down);
+        }
 
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        toggle(keyEvent, false);
+        if(keyEvent.getKeyCode() != KeyEvent.VK_SPACE)
+            toggle(keyEvent, false);
     }
 }

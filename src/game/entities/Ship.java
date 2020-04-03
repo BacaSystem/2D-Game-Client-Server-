@@ -118,67 +118,69 @@ public class Ship {
 
 
     public void input(KeyHandler key){
-        if(fuel > 0) {
-            if (key.up.down)
-                up = true;
-            else
+
+        if(!pause) {
+            if (fuel > 0) {
+                if (key.up.down)
+                    up = true;
+                else
+                    up = false;
+
+                if (key.down.down)
+                    down = true;
+                else
+                    down = false;
+
+                if (key.right.down)
+                    right = true;
+                else
+                    right = false;
+
+                if (key.left.down)
+                    left = true;
+                else
+                    left = false;
+            } else {
                 up = false;
-
-            if (key.down.down)
-                down = true;
-            else
                 down = false;
-
-            if (key.right.down)
-                right = true;
-            else
                 right = false;
-
-            if (key.left.down)
-                left = true;
-            else
                 left = false;
-        }else{
-            up = false;
-            down = false;
-            right = false;
-            left = false;
+            }
         }
     }
 
     public void Update() //// rocket controls
     {
-        if(fuel <= 0)
-            fuel = 0;
 
-        if (up) {
-            speedY -= speedAccelerating;
-            fuel--;
-        }
+        if(!pause) {
 
-        else {
-            speedY -= speedGrav;
-        }
+            //System.out.println("pause: " + pause);
+            if (fuel <= 0)
+                fuel = 0;
 
-        if (down){
-            speedY += speedAccelerating;
-            fuel--;
-        }
-        if (left){ // Key RIGHT
-            speedX -= speedAccelerating;
-            fuel--;
-        }
-        if (right){ // Key LEFT
-            speedX += speedAccelerating;
-            fuel--;
-        }
-        if (pause) { // Pause
-            speedY = 0;
-            speedX = 0;
-        }
+            if (up) {
+                speedY -= speedAccelerating;
+                fuel--;
+            } else {
+                speedY -= speedGrav;
+            }
 
-        x += speedX;
-        y += speedY;
+            if (down) {
+                speedY += speedAccelerating;
+                fuel--;
+            }
+            if (left) { // Key RIGHT
+                speedX -= speedAccelerating;
+                fuel--;
+            }
+            if (right) { // Key LEFT
+                speedX += speedAccelerating;
+                fuel--;
+            }
+
+            x += speedX;
+            y += speedY;
+        }
 
         collider = getCollider();
 
@@ -189,20 +191,17 @@ public class Ship {
 
         if (down) // Draw fly image
              g2d.drawImage(fireDown, x, y, null);
-        g2d.drawImage(rocket, x, y, null);
 
         if (up) // Draw fly image
             g2d.drawImage(fireUp, x, y, null);
-        g2d.drawImage(rocket, x, y, null);
 
         if (left) // Draw fly image
             g2d.drawImage(fireLeft, x, y, null);
-        g2d.drawImage(rocket, x, y, null);
 
         if (right) // Draw fly image
             g2d.drawImage(fireRight, x, y, null);
+
         g2d.drawImage(rocket, x, y, null);
-        g2d.setColor(Color.green);
     }
 }
 

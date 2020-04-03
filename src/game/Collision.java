@@ -19,7 +19,8 @@ public class Collision {
     }
 
     public boolean detectCollisionTerrain(){
-        if(terrain.intersects(ship.collider) || ((landing.intersects(ship.collider)) && (Math.abs(ship.speedY) >= ship.maxLandingSpeed || Math.abs(ship.speedX) >= ship.maxLandingSpeed)))
+        if((terrain.intersects(ship.collider) || ((landing.intersects(ship.collider)) && (Math.abs(ship.speedY) >= ship.maxLandingSpeed || Math.abs(ship.speedX) >= ship.maxLandingSpeed)))
+        || (ship.y > 700))
             return true;
         else
             return false;
@@ -27,7 +28,6 @@ public class Collision {
 
     public boolean detectWin(){
         if((landing.intersects(ship.collider)) && ((Math.abs(ship.speedY) < ship.maxLandingSpeed) && (Math.abs(ship.speedX) < ship.maxLandingSpeed))) {
-            System.out.println("WON");
             return true;
         }
         else

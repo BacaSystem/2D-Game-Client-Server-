@@ -4,7 +4,9 @@ import game.data.GetConfigProperties;
 
 import javax.swing.*;
 import java.io.IOException;
-
+/**
+ * Klasa główna launchera gry. Wywołuje konstruktor okna launchera. Zawiera main()!
+ */
 public class GameLauncher {
 
     public GameLauncher(){

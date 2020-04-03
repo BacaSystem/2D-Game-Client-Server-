@@ -16,6 +16,7 @@ public class GraphicsConstants {
     public static final String LANDED_IMAGE = GetConfigProperties.getValue(fileName, "landed");
     public static final String CRASHED_IMAGE = GetConfigProperties.getValue(fileName, "crashed");
     public static final String SHIP_DESTROYED_IMAGE = GetConfigProperties.getValue(fileName, "destroyed");
+    public static final String PAUSE_IMAGE = GetConfigProperties.getValue(fileName, "paused");
 
     private GraphicsConstants() {
         throw new AssertionError();

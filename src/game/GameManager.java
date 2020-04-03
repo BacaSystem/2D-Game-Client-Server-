@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 //przepraszam za kod wygrania, to jest straszne wiem xD
 public class GameManager {
 
-    BufferedImage gameOverImg, startImg, wonImage, crashedImg, landedImg, shipDestroyedImg;
+    BufferedImage gameOverImg, startImg, wonImage, crashedImg, landedImg, shipDestroyedImg, pauseImg;
 
     int currentLevel, maxLevels;
     boolean gameOver = false;
@@ -26,7 +26,6 @@ public class GameManager {
     boolean crashed = false;
     boolean landed = false;
     boolean started = false;
-    boolean pause = false;
 
     boolean savedScore = false;
 
@@ -54,6 +53,7 @@ public class GameManager {
             landedImg = ImageIO.read(new File(GraphicsConstants.LANDED_IMAGE));
             crashedImg = ImageIO.read(new File(GraphicsConstants.CRASHED_IMAGE));
             shipDestroyedImg = ImageIO.read(new File(GraphicsConstants.SHIP_DESTROYED_IMAGE));
+            pauseImg = ImageIO.read((new File(GraphicsConstants.PAUSE_IMAGE)));
 
             maxLevels = DefaultGameSettings.NUMBEROFLEVELS;
 
@@ -86,6 +86,7 @@ public class GameManager {
             player.resetLifes();
             currentLevel = 1;
         }
+        won = false;
         gameOver = false;
         crashed = false;
         landed = false;
@@ -127,6 +128,13 @@ public class GameManager {
                 }
             }
         }
+
+        if(landed && currentLevel == maxLevels)
+            won = true;
+
+        if(player.getLifes() == 0 && crashed)
+            gameOver = true;
+
     }
 
     public void input(KeyHandler key) {
@@ -148,14 +156,10 @@ public class GameManager {
                     crashed = false;
                 }
 
-                if (key.space.down) {
-                    System.out.println("pressed");
-                    if (ship.pause) {
-                        ship.pause = false;
-                    } else {
-                        ship.pause = true;
-                    }
-                }
+                if (key.space.down)
+                    ship.pause = true;
+                else
+                    ship.pause = false;
             }
         }
         else{
@@ -171,16 +175,18 @@ public class GameManager {
         g.fill(terrain);
         ship.render(g);
 
+
+        if(ship.pause)
+            g.drawImage(pauseImg, 400,100,null);
+
         if(!started)
             g.drawImage(startImg, 400,100, null);
 
-        if(player.getLifes() == 0 && crashed) {
-            gameOver = true;
+        if(gameOver){
             g.drawImage(gameOverImg, 200, 100, null);
         }
 
-        if(landed && currentLevel == maxLevels){
-            won = true;
+        if(won){
             g.drawImage(wonImage, 200,100, null);
         }
 
@@ -191,9 +197,7 @@ public class GameManager {
                 /* Może bez tego? Przez to może się ekran pierdzielic */ g.drawImage(startImg, 400,100,null);
                 /* Może się czasem pokazywac   */
             }
-
         }
-
 
         if(landed)
             g.drawImage(landedImg, 0, 0, null);
