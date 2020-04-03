@@ -12,19 +12,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Klasa okna launchera, rozszerza po JFrame.
- * Odpowiada za stworzenie ramki i kontentu w niej.
- * Obsługuje zdarzenia przychodzące z interfejsu graficznego użytkownika.
+ * Klasa okna launchera, rozszerza po JFrame
+ * Odpowiada za stworzenie ramki i kontentu w niej
+ * Obsługuje zdarzenia przychodzące z interfejsu graficznego użytkownika
  */
 public class LauncherWindow extends JFrame implements ActionListener {
-    /**  */
+    /** Przycisk menu */
     private JButton online;
+    /** Przycisk menu */
     private JButton offline;
+    /** Pola tekstowe menu */
     private JTextField ip, port, nick;
+    /** Zawartość pól tekstowych */
     private String ipText, portText;
 
-    private Player player = Player.getInstance();  //Wywolanie singletona Player, czyli odwołanie się do obiektu player
+    /** Wywolanie singletona Player, czyli odwołanie się do obiektu player */
+    private Player player = Player.getInstance();
 
+    /** Konstruktor klasy okna, ustawia domyślne rozmiary i układa elementy UI w oknie*/
     public LauncherWindow(){
         //Window setting
         setTitle(LauncherConst.LAUNCHER_TITLE);
@@ -90,6 +95,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /** Metoda ustawiającą nick aktualnego gracza */
     private void setPlayerNick() {
         var Nick = nick.getText();
         if (!isTextFieldNickEmpty()) {
@@ -97,15 +103,27 @@ public class LauncherWindow extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Metoda sprawdzająca czy pole tekstowe Nick'u gracza jest puste
+     * @return zwraca czy pole jest puste
+     */
     private boolean isTextFieldNickEmpty() {
         return nick.getText().trim().isEmpty();
     }
 
-    //Method from ActionListener to listen button actions
+    /** Metoda z interfejsu ActionListener nasłuchująca nadchodzące zdarzenia
+     * @param actionEvent zdarzenie pochodzące z interfejsu graficznego
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         var source = actionEvent.getSource();
         SwingUtilities.invokeLater(new Runnable() {
+            /**
+             * Metoda anonimowa definiująca działanie launchera
+             * Jeśli użytkownik wcisnął przysik "Online" to gra uruchamia się w trybie online
+             * Jeśli użytkownik wcisnął przysik "Offline" to gra uruchamia się w trybie offline
+             * Tworzy nowe okno gry
+             */
             @Override
             public void run() {
                 ipText = ip.getText();

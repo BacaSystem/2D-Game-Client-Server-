@@ -2,9 +2,6 @@ package game.window;
 
 import game.Constant.DefaultGameSettings;
 import game.Constant.MenuWindowStates;
-import game.data.GetConfigProperties;
-import game.data.HighScores;
-import game.data.Player;
 import game.menuPanels.HelpPanel;
 import game.menuPanels.HighScoresPanel;
 import game.menuPanels.MenuPanel;
@@ -15,23 +12,41 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Klasa okna gry. Jest odpowiedzialna za wyświetlanie menu, wszystkich podmenu, a także samej gry
+ * Rozszerza po JFrame oraz implementuje interfejs ActionListener do nasłuchiwania nadchodzących zdarzeń
+ * Działa na zasadzie zamieniania JPanel'i zgodnie z aktualnym stanem gry
+ */
 public class GameWindow extends JFrame implements ActionListener{
 
+    /** domyślna szerokość okna menu */
     private int defaultWidth = MenuWindowStates.WIDTH;
+    /** domyślna wysokość okna menu */
     private int defaultHeight = MenuWindowStates.HEIGHT;
+    /** domyślna szerokość okna gry */
     private int gameWidth = DefaultGameSettings.WIDTH;
-    private int gameHight = DefaultGameSettings.HEIGHT;
+    /** domyślna wysokość okna gry */
+    private int gameHeight = DefaultGameSettings.HEIGHT;
 
+    /** panel menu gry, zawiera przyciski do przechodzenia pomiędzy poszczególnymi submenu */
     private MenuPanel menuPanel = null;
+    /** panel najlepszych wyników, zawiera listę 5 najlepszych wyników */
     private HighScoresPanel highScoresPanel = null;
+    /** panel pomocy, zawiera krótką instrukcję gry */
     private HelpPanel helpPanel = null;
+    /** panel gry, odpowiedzialny za gameplay */
     private Game gamePanel = null;
 
+    /** Konstruktor głównego okna gry, ustala jego rozmiar oraz układa elementy graficzne */
     public GameWindow() {
         setWindowSizeAndFocus();
         MakeUI();
     }
 
+    /**
+     * Metoda ustawiająca podstawowe parametry okna, t.j.
+     * tytuł, rozmiar, layout, położenie, focus
+     */
     private void setWindowSizeAndFocus() {
 
         this.setFocusable(true);
@@ -44,23 +59,37 @@ public class GameWindow extends JFrame implements ActionListener{
 
     }
 
+    /**
+     * Metoda ustawiająca domyślny rozmiar okna
+     * @param game flaga czy jest to okno gry,
+     *             jeśli tak to ustawia domyslny rozmiar dla gry,
+     *             jeśli nie to ustawia domyślny rozmiar dla menu
+     */
     private void setWindowSize(boolean game) {
 
         if (!game) {
             setSize(defaultWidth, defaultHeight);
             this.setResizable(false);
         } else {
-            setSize(gameWidth, gameHight);
+            setSize(gameWidth, gameHeight);
             this.setResizable(true);
             setLocationRelativeTo(null);
         }
     }
 
+    /**
+     * Metoda odpowiedzialna za stworzenie domyślnego panelu jakim jest menu
+     */
     private void MakeUI() {
         menuPanel = new MenuPanel( defaultWidth, defaultHeight, this);
         this.add(menuPanel);
     }
 
+    /**
+     * Metoda usuwająca aktualny panel w oknie
+     * Dopuszaczmy możliwość istnienia tylko jednego panelu na raz,
+     * zatem wywoływana za każdym razem gdy zmieniamy panel
+     */
     private void removeAllPanels() {
         this.getContentPane().removeAll();
          if (menuPanel != null) {
@@ -77,6 +106,12 @@ public class GameWindow extends JFrame implements ActionListener{
         }
     }
 
+    /**
+     * Metoda rozróżniająca panel gry od reszty
+     * Ustawia layout dla panelu oraz wymusza focus na panelu gry
+     * @param game flaga czy aktualny panel to panel gry
+     * @param panel referencja do aktualnego panelu
+     */
     private void setPanelOptions(boolean game, JPanel panel) {
         setWindowSize(game);
         if(game)
@@ -93,12 +128,26 @@ public class GameWindow extends JFrame implements ActionListener{
         this.repaint();
     }
 
+    /**
+     * Metoda przywracająca domyślny panel menu
+     */
     public void goToMenu(){
         removeAllPanels();
         menuPanel = new MenuPanel(defaultWidth, defaultHeight, this);
         setPanelOptions(false, menuPanel);
     }
 
+    /**
+     * Meotda z interfejsu ActionListener, nasłuchująca nadchodzące zdarzenia
+     * Zmienia panele gry zgodnie z wykonaną akcją
+     * Jeśli tym zdarzeniem było naciśnięcie przycisku:
+     * EXIT - wychodzi z aplikacji
+     * MENU - ustawia panel menu
+     * NEW GAME - uruchamia panel gry
+     * HIGH SCORES - ustawia panel najlepszych wyników
+     * HELP - ustawia panel pomocy
+     * @param actionEvent zdarzenie przychodzące z UI
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String action = actionEvent.getActionCommand();
@@ -120,7 +169,7 @@ public class GameWindow extends JFrame implements ActionListener{
                 removeAllPanels();
                 //gameWindow = new GameWindow();
                 //dispose();
-                gamePanel = new Game(gameWidth, gameHight, this);
+                gamePanel = new Game(gameWidth, gameHeight, this);
                 setPanelOptions(true,gamePanel);
                 break;
 
