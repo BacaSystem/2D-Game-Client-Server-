@@ -47,8 +47,8 @@ public class Game extends JPanel implements Runnable {
     /** obiekt grafiki, do którego rysjemy inne obiekty */
     private Graphics g;
 
-    /** zmienna określająca ilość klatek na sekundę */
-    private int fps = 60;
+    /** zmienna określająca aktualną ilość klatek na sekundę */
+    private int fps = 30;
     public int frameCount = 0;
 
     /**
@@ -173,7 +173,7 @@ public class Game extends JPanel implements Runnable {
 
     /**
      * Metoda biblioteki swing, odpowiedzialna za rysowanie componentów graficznych
-     * Wywolywana 60 razy na sekunde za pomoca wywolania repaint()
+     * Wywolywana 30 razy na sekunde za pomoca wywolania repaint()
      * Wywoluje metode render()
      * @param g obiekt grafiki do którego rysowane są componenty
      */
@@ -216,7 +216,7 @@ public class Game extends JPanel implements Runnable {
         double lastRenderTime = System.nanoTime();
 
         //If we are able to get as high as this FPS, don't render again.
-        final double TARGET_FPS = 60;
+        final double TARGET_FPS = 30;
         final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
         //Simple way of finding FPS.

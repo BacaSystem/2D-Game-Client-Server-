@@ -33,6 +33,8 @@ public class GraphicsConstants {
     public static final String SHIP_DESTROYED_IMAGE = GetConfigProperties.getValue(fileName, "destroyed");
     /** ścieżka do obrazka pausa */
     public static final String PAUSE_IMAGE = GetConfigProperties.getValue(fileName, "paused");
+    /** ścieżka do obrazka meteorytu */
+    public static final String METEOR_IMAGE = GetConfigProperties.getValue(fileName, "meteor");
 
     private GraphicsConstants() {
         throw new AssertionError();
