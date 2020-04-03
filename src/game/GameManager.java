@@ -57,7 +57,8 @@ public class GameManager {
      * @see LandingSpace
      */
     private LandingSpace landing;
-
+    /** obiekt zarządcy meteorów
+     * @see MeteorHandler */
     private MeteorHandler meteors;
 
     /** obiekt klasy sprawdzającej kolizje
