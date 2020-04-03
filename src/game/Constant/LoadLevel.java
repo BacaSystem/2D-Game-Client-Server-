@@ -4,15 +4,31 @@ import game.data.GetConfigProperties;
 
 import java.util.Arrays;
 
+/**
+ * Klasa przechoowywująca poziomy gry
+ */
 public class LoadLevel {
+    /** stała przechowywująca przyspieszenie grawitacyjne */
     public static float GRAVITY_SPEED;
+
+    /** stała przechowywująca startowe położenie statku x */
     public static int xStart;
+    /** stała przechowywująca startowe położenie statku y */
     public static int yStart;
+
+    /** tablica współrzędnych x mapy */
     public static int[] xVerticies;
+    /** tablica współrzędnych y mapy */
     public static int[] yVerticies;
+    /** tablica współrzędnych x lądowiska */
     public static int[] xLanding;
+    /** tablica współrzędnych y lądowiska */
     public static int[] yLanding;
 
+    /**
+     * metoda pobierająca konkretny poziom z konkretnego pliku konfiguracyjnego
+     * @param Level numer poziomu, który chcemy pobrać
+     */
     public static void getLevel(int Level) {
         String fileName;
         switch (Level) {
@@ -44,6 +60,7 @@ public class LoadLevel {
         throw new AssertionError();
     }
 
+    /** Metoda dostosowywująca wspołrzędne mapy do rozmiaru ekranu*/
     private static void resizeToScreen(){
         xVerticies = Arrays.stream(xVerticies).map(x -> (int)(DefaultGameSettings.WIDTH*0.01*x)).toArray();
         yVerticies = Arrays.stream(yVerticies).map(y -> (int)(DefaultGameSettings.HEIGHT*0.01*y)).toArray();
