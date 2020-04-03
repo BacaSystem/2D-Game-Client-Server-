@@ -54,7 +54,7 @@ public class Game extends JPanel implements Runnable {
 
     public void input(KeyHandler key){
         manager.input(key);
-        if(key.escape.down) {
+        if(key.escape.down()) {
             frame.goToMenu();
             manager.points.bonusForLeftLifes(manager.player, manager.currentLevel);
             manager.highScores.checkPlayerScore(manager.player);
