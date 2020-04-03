@@ -5,28 +5,58 @@ import game.controller.KeyHandler;
 import game.window.GameWindow;
 
 import javax.swing.*;
+import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.MenuKeyListener;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 
+/**
+ * Głowna klasa panelu gry
+ * Odpowiedzialna za renderowanie oraz update'owanie gry ze stałą częstotliwością
+ */
 public class Game extends JPanel implements Runnable {
 
+    /** zmienna określająca szerokość okna */
     public static int width;
+    /** zmienna określająca wysokość okna */
     public static int height;
 
+    /** flaga określająca działanie bądź przerwanie pętli gry */
     public boolean running = false;
+    /** flaga określająca wyświetlenie końcowego menu */
+    public boolean hasPopUp = false;
+
+    /** obiiekt okna gry
+     * @see  GameWindow*/
+    private GameWindow frame;
+    /** obiekt managera gry - odpowiedzialny za logikę gry
+     * @see GameManager*/
     private GameManager manager;
+    /** obiekt KeyHandlera - odpowiedzialny za czytanie zdarzeń klawiatury
+     * @see KeyHandler*/
     private KeyHandler key;
 
+    /** wątek gry */
+    private Thread gameThread;
+
+    /** obiekt grafiki, do którego rysjemy inne obiekty */
     private Graphics g;
 
-    private Thread gameThread;
-    private GameWindow frame;
-
-    //private Player player = Player.getInstance();
-
+    /** zmienna określająca ilość klatek na sekundę */
     private int fps = 60;
     public int frameCount = 0;
 
+    /**
+     * Konstruktor klasy Game
+     * Ustawia początkowe rozmiary okna oraz inicjuje potrzebne elementy
+     * @param width początkowa szerokość okna
+     * @param height początkowa wysokość okna
+     * @param frame referencja do okna gry
+     */
     public Game(int width, int height, GameWindow frame) {
         this.width = width;
         this.height = height;
@@ -35,47 +65,116 @@ public class Game extends JPanel implements Runnable {
         init();
     }
 
+    /**
+     * Metoda inicjująca niezbędne elementy
+     * Tworzy obiekt grafiki, managera oraz KeyHandlera
+     * @see GameManager
+     * @see KeyHandler
+     */
     public void init(){
         running = true;
-
         g = this.getGraphics();
-
         key = new KeyHandler(this);
-
         manager = new GameManager(this);
     }
 
+    /**
+     * Metoda tworząca okienko Pop Up po zakończeniu gry z informacją na temat jego wyniku
+     * Implementuje dwa przyciski z ActionListenerem
+     * Po wciśnięciu odpowiedniego przycisku gracz jest przenoszony do odpowiedniego stanu
+     * menuButton - powrót do menu
+     * trybutton - ponowne podejście do gry
+     */
+    public void showPopUp(){
+        JFrame popUp = new JFrame();
+        popUp.setTitle("");
+        popUp.setSize(200,200);
+        popUp.setLocationRelativeTo(null);
+        popUp.setResizable(false);
+        popUp.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        popUp.setLayout(new FlowLayout());
+        if(manager.won)
+            popUp.add(new JLabel("Congratlations, You've won!"));
+        else
+            popUp.add(new JLabel("You've lost!"));
+        popUp.add(new JLabel("Your Score was: " + manager.scoreOnWinOrLose));
+        JButton menuButton = new JButton("Return to menu");
+        JButton tryButton = new JButton("Try again");
+        menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                manager.reload();
+                popUp.dispose();
+                hasPopUp = false;
+                frame.goToMenu();
+            }
+        });
+        tryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                manager.reload();
+                hasPopUp = false;
+                popUp.dispose();
+            }
+        });
+        popUp.add(menuButton);
+        popUp.add(tryButton);
+        popUp.setVisible(true);
+    }
+
+    /**
+     * Metoda pozwalająca zapisać wynik gracza i bezpiecznie wrócić do menu
+     */
+    private void saveAndGoToMenu(){
+        manager.points.bonusForLeftLifes(manager.player, manager.currentLevel);
+        manager.highScores.checkPlayerScore(manager.player);
+        manager.player.resetPlayerScores();
+        manager.player.resetLifes();
+        frame.goToMenu();
+    }
+
+    /**
+     * Metoda update()
+     * Wywolywana ze stalą częstotliwością
+     * Odpowiedzialna za update wszystkich elementów gry - wywołanie manager.update()
+     * Na bieżąco ustala rozmiar okna gry
+     * @see GameManager
+     */
     public void update(){
         manager.update();
 
         width = getWidth();
         height = getHeight();
 
-        if(manager.won || manager.gameOver){
-            JFrame popUp = new JFrame();
-            popUp.setTitle("");
-            popUp.setLayout(new FlowLayout());
-            if(manager.won)
-                popUp.add(new JLabel("Congratlations, You've won!"));
-            else
-                popUp.add(new JLabel("You've lost!"));
-            popUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            popUp.setVisible(true);
+        if((manager.won || manager.gameOver) && !hasPopUp){
+            hasPopUp = true;
+            showPopUp();
         }
     }
 
+    /**
+     * Metoda input()
+     * Wywolywana ze stałą częstotliwością
+     * Odpowiedzialna za obsluge zdarzeń klawiatury w grze - wywolanie manager.inpu()
+     * @see GameManager
+     * @param key obiekt KeyHandler'a
+     * @see KeyHandler
+     */
     public void input(KeyHandler key){
         manager.input(key);
-        if(key.escape.down()) {
-            frame.goToMenu();
-            manager.points.bonusForLeftLifes(manager.player, manager.currentLevel);
-            manager.highScores.checkPlayerScore(manager.player);
-            manager.player.resetPlayerScores();
-            manager.player.resetLifes();
-        }
 
+        if(key.escape.down())
+            saveAndGoToMenu();
     }
 
+    /**
+     * Metoda render()
+     * Wywoływana ze stałą częstotliwościa 60 razy na sekundę
+     * Odpowiedzialna za rysowanie wszystkich obiektów gry do obiektu grafiki - wywołanie manager.render()
+     * Dopasowuje rozmiar wszystkich obiektów do rozmiaru okna dynamicznie za pomoca przekształcenia affinicznego
+     * @see GameManager
+     * @param g obiekt grafiki do którego rysujemy wszstkie obiekty
+     */
     public void render(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
         g2d.clearRect(0,0, getWidth(), getHeight());
@@ -114,6 +213,12 @@ public class Game extends JPanel implements Runnable {
         frameCount++;
     }
 
+    /**
+     * Metoda biblioteki swing, odpowiedzialna za rysowanie componentów graficznych
+     * Wywolywana 60 razy na sekunde za pomoca wywolania repaint()
+     * Wywoluje metode render()
+     * @param g obiekt grafiki do którego rysowane są componenty
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -121,6 +226,10 @@ public class Game extends JPanel implements Runnable {
         g.dispose();
     }
 
+    /**
+     * Metoda biblioteki AWT
+     * Tworzy nowy wątek gry
+     */
     @Override
     public void addNotify(){
         super.addNotify();
@@ -129,6 +238,11 @@ public class Game extends JPanel implements Runnable {
         gameThread.start();
     }
 
+    /**
+     * Metoda run z interfejsu Runnable
+     * Główna pętla gry starająca utrzymać stałą częstotliwość odświeżania i renderowania gry
+     * Wywołuje metody update, input, repaint ze stałą częstotliwością
+     */
     @Override
     public void run() {
         //This value would probably be stored elsewhere.
@@ -150,58 +264,53 @@ public class Game extends JPanel implements Runnable {
         //Simple way of finding FPS.
         int lastSecondTime = (int) (lastUpdateTime / 1000000000);
 
-        boolean paused = false;
-
         while (running)
         {
             double now = System.nanoTime();
             int updateCount = 0;
 
-            if (!paused)
+            //Do as many game updates as we need to, potentially playing catchup.
+            while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER )
             {
-                //Do as many game updates as we need to, potentially playing catchup.
-                while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER )
-                {
-                    update();
-                    input(key);
-                    lastUpdateTime += TIME_BETWEEN_UPDATES;
-                    updateCount++;
-                }
-
-                //If for some reason an update takes forever, we don't want to do an insane number of catchups.
-                //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
-                if ( now - lastUpdateTime > TIME_BETWEEN_UPDATES)
-                {
-                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
-                }
-
+                update();
                 input(key);
-                repaint();
+                lastUpdateTime += TIME_BETWEEN_UPDATES;
+                updateCount++;
+            }
 
-                lastRenderTime = now;
+            //If for some reason an update takes forever, we don't want to do an insane number of catchups.
+            //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
+            if ( now - lastUpdateTime > TIME_BETWEEN_UPDATES)
+            {
+                lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+            }
 
-                //Update the frames we got.
-                int thisSecond = (int) (lastUpdateTime / 1000000000);
-                if (thisSecond > lastSecondTime)
-                {
-                    System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
-                    fps = frameCount;
-                    frameCount = 0;
-                    lastSecondTime = thisSecond;
-                }
+            input(key);
+            repaint();
 
-                //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
-                while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES)
-                {
-                    Thread.yield();
+            lastRenderTime = now;
 
-                    //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
-                    //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
-                    //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
-                    try {Thread.sleep(1);} catch(Exception e) {}
+            //Update the frames we got.
+            int thisSecond = (int) (lastUpdateTime / 1000000000);
+            if (thisSecond > lastSecondTime)
+            {
+                System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
+                fps = frameCount;
+                frameCount = 0;
+                lastSecondTime = thisSecond;
+            }
 
-                    now = System.nanoTime();
-                }
+            //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
+            while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES)
+            {
+                Thread.yield();
+
+                //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
+                //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
+                //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
+                try {Thread.sleep(1);} catch(Exception e) {}
+
+                now = System.nanoTime();
             }
         }
     }

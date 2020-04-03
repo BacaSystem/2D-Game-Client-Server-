@@ -164,10 +164,6 @@ public class GameManager {
                     ship.pause = false;
             }
         }
-        else{
-            if(key.enter.down())
-                reload();
-        }
     }
 
     public void render(Graphics2D g) {

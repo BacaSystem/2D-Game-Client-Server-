@@ -43,7 +43,7 @@ public class Ship {
     /** flaga określająca czy gra jest w trybie pauzy */
     public boolean pause = false;
     /** zmienne reprezentujące przyciski klawiatury */
-    private boolean up,down,right,left;
+    private boolean up = false, down = false, right = false, left = false;
 
     /**
      * Konstruktor klasy statek, przypisuje statkowi startowe wartości podane jako parametry oraz wczytuje jego grafiki
