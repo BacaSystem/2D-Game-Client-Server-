@@ -12,6 +12,9 @@ public final class MenuWindowStates {
     /** string prechowywujący nazwę pliku ze ścieżkami do stałych menu gry. BEZ ROZSZERZENIA */
     private static final String fileName = "menu";
 
+    /** Stała przechowująca tytuł gry*/
+    public static final String GAME_TITLE = GetConfigProperties.getValue(fileName,"gameTitle");
+
     /** stała przechowywująca nazwę akcji przycisku menu */
     public static final String MENU = "MainMenu";
     /** stała przechowywująca nazwę akcji przycisku help */
