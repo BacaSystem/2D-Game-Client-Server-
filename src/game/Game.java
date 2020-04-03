@@ -56,7 +56,7 @@ public class Game extends JPanel implements Runnable {
         manager.input(key);
         if(key.escape.down) {
             frame.goToMenu();
-            manager.player.pointsAtTheEnd(manager.currentLevel);
+            manager.points.pointsAtTheEnd(manager.player, manager.currentLevel);
             manager.highScores.checkPlayerScore(manager.player);
             manager.player.resetPlayerScores();
             manager.player.resetLifes();
@@ -88,7 +88,7 @@ public class Game extends JPanel implements Runnable {
         g2d.drawString("Max Landing Speed: " + manager.ship.getMaxLandingSpeed(), 5, 100);
         g2d.drawString("Speed (X: " +  String.format("%.1f", manager.ship.getSpeedX()) + " Y: " + String.format("%.1f", manager.ship.getSpeedY()) + ")", 5, 120);
         if (!manager.crashed && !manager.landed) {
-            g2d.drawString("Points:" + String.valueOf(manager.player.getLiveScore(manager.ship.getFuel(), manager.currentLevel)), 5,140);
+            g2d.drawString("Points:" + String.valueOf(manager.points.getLiveScore(manager.player, manager.ship.getFuel(), manager.currentLevel)), 5,140);
         } else{
             if(manager.landed && (manager.currentLevel != manager.maxLevels) || (manager.crashed && manager.player.getLifes() != 0)) {
                 g2d.drawString("Points:" + String.valueOf(manager.player.getScore()), 5, 140);

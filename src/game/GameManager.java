@@ -38,6 +38,7 @@ public class GameManager {
 
     public Player player = Player.getInstance();
     public HighScores highScores = HighScores.getInstance();
+    public game.data.Points points;
 
     public GameManager(JPanel game){
         currentLevel = 1;
@@ -113,15 +114,15 @@ public class GameManager {
         while((landed || gameOver) && !savedScore) {
             savedScore = true;
             if (gameOver) {
-                player.pointsAtTheEnd(currentLevel);
+                points.pointsAtTheEnd(player, currentLevel);
                 highScores.checkPlayerScore(player);
                 scoreOnWinOrLose = player.getScore();
                 player.resetPlayerScores();
             } else {
                 if (currentLevel < maxLevels) {
-                    player.addPointsForLevel(ship.getFuel(), currentLevel);
+                    points.addPointsForLevel(player, ship.getFuel(), currentLevel);
                 } else {
-                    player.addPointsAtLastLevel(ship.getFuel(), currentLevel);
+                    points.addPointsAtLastLevel(player, ship.getFuel(), currentLevel);
                     highScores.checkPlayerScore(player);
                     scoreOnWinOrLose = player.getScore();
                     player.resetPlayerScores();
