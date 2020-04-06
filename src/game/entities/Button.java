@@ -21,6 +21,5 @@ public class Button extends JButton {
         this.setActionCommand(buttonAction);
         this.setText(buttonName);
         this.setPreferredSize(new Dimension(MenuWindowStates.BUTTON_WIDTH,MenuWindowStates.BUTTON_HEIGHT));
-        //this.setPreferredSize(new Dimension(width, height));
     }
 }
