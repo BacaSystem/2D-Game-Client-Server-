@@ -33,8 +33,8 @@ public class GetConfigProperties {
                 System.out.println("WARNING, empty key '" + key + "' or doesn't exist in config '" + fileName + "'");
             }
         } catch (Exception e) {
-            System.out.println("Error, File '" + fileName + "' not found" + e);
-        }
+            System.out.println("Error, File '" + fileName + "' not found" + e);   // AB: jesli pliku z konfigurają nie udało się wczytać (np. bo resources nie dodane do classpath) to chyba trzeba zakonczy gre?
+        }                                                                         // gra i tak za chwile się wyłłoży, a ten komunikat zginie w innych komuinikatach
         return result;
     }
 
