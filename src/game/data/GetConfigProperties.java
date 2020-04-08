@@ -22,12 +22,12 @@ public class GetConfigProperties {
      */
     public static String getValue(String fileName, String key) {
         String result = "";
-        String propFileName = fileName + ".properties";
+        String propFileName = fileName + ".PROPERTIES";
         Properties p = new Properties();
-        InputStreamReader streamReader = null;
+        InputStream input = null;
         try {
-            streamReader = new InputStreamReader(GetConfigProperties.class.getClassLoader().getResourceAsStream(propFileName), StandardCharsets.UTF_8);
-            p.load(streamReader);
+            input = new FileInputStream("resources/" + propFileName);
+            p.load(input);
             result = p.getProperty(key);
             if (result == null) {
                 System.out.println("WARNING, empty key '" + key + "' or doesn't exist in config '" + fileName + "'");
