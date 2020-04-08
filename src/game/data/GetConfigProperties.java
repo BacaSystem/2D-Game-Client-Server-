@@ -1,5 +1,7 @@
 package game.data;
 
+import game.window.PopUpExit;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -40,7 +42,9 @@ public class GetConfigProperties {
                 System.out.println("WARNING, empty key '" + key + "' or doesn't exist in config '" + fileName + "'");
             }
         } catch (Exception e) {
-            System.out.println("Error, File '" + fileName + "' not found" + e);
+            String errorText = "Error, File '" + fileName + "' not found";
+            System.out.println(errorText);
+            new PopUpExit(errorText);
         } finally {
             try {
                 if (in != null) in.close();

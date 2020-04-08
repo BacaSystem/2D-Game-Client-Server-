@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public abstract class AbstractVerticalPanel extends JPanel {
     /** Panel wertykalny. Po dodaniu do niego komponentów metodą verticalPanel.add(), pojawią się one jeden pod drugim. */
-    JPanel verticalPanel = new JPanel(new GridLayout(10, 1, 10, 1));
+    protected JPanel verticalPanel = new JPanel(new GridLayout(10, 1, 10, 1));
 
     /**
      * Konstruktor klasy tworzący szkielet widoku vertykalnego
