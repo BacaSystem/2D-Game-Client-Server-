@@ -1,8 +1,7 @@
 package game.launcher;
 
 import configReader.ServerReader;
-import game.Constant.LauncherConst;
-import game.Constant.LoadLevel;
+import game.Constant.*;
 import game.data.HighScores;
 import game.data.Player;
 import game.window.GameWindow;
@@ -154,15 +153,15 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     if(serverSocket!=null) {
                         System.out.println("We're playing online!");
                         setPlayerNick();
+                        downloadConfigData(serverSocket);
                         dispose();
-                        //LoadLevel.getLevel(serverSocket,1);
-                        scoreBoard.setSocket(serverSocket);
-                        ServerReader.getValue(serverSocket,"SCORE_BOARD:Maciek@123");
                         new GameWindow(connectToServer());
                     }
                 }
                 else if(source == offline){
+                    System.out.println("Offline game");
                     setPlayerNick();
+                    downloadConfigData(null);
                     dispose();
                     new GameWindow(null);
                  }
@@ -196,7 +195,12 @@ public class LauncherWindow extends JFrame implements ActionListener {
         return null;
     }
 
-
+    private void downloadConfigData(Socket serverSocket) {
+        DefaultGameSettings.donwloanGameSettings(serverSocket);
+        MenuWindowStates.downloadMenu(serverSocket);
+        GraphicsConstants.donwloanGraphics(serverSocket);
+        scoreBoard.setSocket(serverSocket);
+    }
 
 }
 

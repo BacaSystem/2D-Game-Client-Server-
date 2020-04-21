@@ -27,9 +27,31 @@ public class ServerProtocol {
             serverCommand="LOAD_LEVEL";
         }
 
-
+        String filename;
+        String[] keys;
         String serverMessage;
         switch (serverCommand){
+            case "GAME_SETTINGS":
+                keys = new String[]{"width", "height", "lifes", "numberOfLevels", "fuelLevel", "maxLandingSpeed", "speedAccelerating", "startSpeedX", "startSpeedY", "S"};
+                filename = "server/gameSettings";
+                serverMessage=getCodedContent(filename,keys);
+                break;
+            case "GET_GRAPHICS":
+                keys = new String[]{"ship", "fireUp", "fireDown", "fireLeft", "fireRight", "gameOver", "menuText", "wonText", "landed", "crashed", "destroyed", "paused", "meteor"};
+                filename = "server/gameGraphics";
+                serverMessage=getCodedContent(filename,keys);
+                break;
+            case "GET_MENU_SETTINGS":
+                keys = new String[]{"gameTitle", "newGame", "help", "highScores", "exit", "backToMain", "width", "height","buttonWidth","buttonHeight"};
+                filename = "server/menu";
+                serverMessage=getCodedContent(filename,keys);
+                break;
+            case "LOAD_LEVEL":
+                String text[] = originalCommand.split(":");
+                keys = new String[]{"gravitySpeed", "xStart","yStart","xVertecies","yVertecies","xLanding", "yLanding", "numberOfMeteors", "xMeteors", "yMeteors", "speedMeteors", "K","M"};
+                filename = "server/level" + text[1];
+                serverMessage=getCodedContent(filename,keys);
+                break;
 
             case "LOGIN":
                 serverMessage=login();
@@ -41,26 +63,15 @@ public class ServerProtocol {
                 serverMessage=getHelpLinesNumber();
                 break;
 
-            case "GET_SCOREBOARD_NICKS":
-                serverMessage=getScoresNicks();
+            case "GET_SCOREBOARD":
+                serverMessage=getScoteBoard();
                 break;
-            case "GET_SCOREBOARD_SCORES":
-                serverMessage=getScoresPoints();
-                break;
-            case "GET_SCOREBOARD_SIZE":
-                serverMessage=getScoreBoardSize();
-                break;
+
+
             case "SAVE_SCORES":
                 saveScores(originalCommand);
                 serverMessage="scores Saved";
                 break;
-
-
-            case "LOAD_LEVEL":
-                String text[] = originalCommand.split(":");
-                serverMessage=loadLevel(Integer.parseInt(text[1]));
-                break;
-
 
             case "LOGOUT":
                 serverMessage=logout();
@@ -100,16 +111,13 @@ public class ServerProtocol {
         return "CLOSE_CONNECTION_NOW";
     }
 
-    private static String getScoresNicks() {
-        return GetConfigProperties.getValue("server/scoreBoard", "nicks");
-    }
+    private static String getScoteBoard() {
+        String ScoreBoardSize = GetConfigProperties.getValue("server/scoreBoard", "numerOfRecords");
+        String ScoreBoardNicks = GetConfigProperties.getValue("server/ScoreBoard", "nicks");
+        String ScoreBoardScore = GetConfigProperties.getValue("server/ScoreBoard", "scores");
+        String command = ScoreBoardSize + "@" + ScoreBoardNicks + "#" + ScoreBoardScore;
+        return command;
 
-    private static String getScoresPoints() {
-        return GetConfigProperties.getValue("server/scoreBoard", "scores");
-    }
-
-    private static String getScoreBoardSize() {
-        return GetConfigProperties.getValue("server/scoreBoard", "numerOfRecords");
     }
 
     private static void saveScores(String text) {
@@ -123,22 +131,19 @@ public class ServerProtocol {
         GetConfigProperties.setValue("server/scoreBoard", "scores", text2[1]);
     }
 
-    private static String loadLevel(int levelNumber) {
-        String command = "";
-        int maxLevel = Integer.parseInt(GetConfigProperties.getValue("server/gameSettings","numberOfLevels"));
-        if(levelNumber <= maxLevel) {
-            String keyNames[] = {"gravitySpeed", "xStart","yStart","xVertecies","yVertecies","xLanding", "yLanding", "numberOfMeteors", "xMeteors", "yMeteors", "speedMeteors", "K","M"};
-            for(String key:keyNames) {
-                String info = GetConfigProperties.getValue("server/level" + String.valueOf(levelNumber), key);
-                if(command=="") {
-                    command+=  key + "#" + info;
-                } else {
-                    command+=  "@" + key + "#" + info;
-                }
 
+    private static String getCodedContent(String filename, String[] keys) {
+        StringBuilder command = new StringBuilder();
+        String keyNames[] = keys;
+        for(String key:keyNames) {
+            String info = GetConfigProperties.getValue(filename, key);
+            if(command.toString().equals("")) {
+                command.append(key).append("#").append(info);
+            } else {
+                command.append("@").append(key).append("#").append(info);
             }
         }
-        return command;
+        return command.toString();
     }
 
 }

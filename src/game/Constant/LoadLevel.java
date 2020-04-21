@@ -13,6 +13,7 @@ import java.util.Map;
  * Klasa przechoowywująca poziomy gry
  */
 public class LoadLevel {
+    private static final String serverCommand = "LOAD_LEVEL:";
     /** stała przechowywująca przyspieszenie grawitacyjne */
     public static float GRAVITY_SPEED;
 
@@ -44,45 +45,41 @@ public class LoadLevel {
      * @param Level numer poziomu, który chcemy pobrać
      */
     public static void getLevel(Socket serverSocket, int Level) {
-        String fileName;
-        switch (Level) {
-            case 2:
-                fileName = "level2";
-                break;
-            case 3:
-                fileName = "level3";
-                break;
-            case 4:
-                fileName = "level4";
-                break;
-            case 1:
-            default:
-                fileName = "level1";
-                break;
-        }
         if(serverSocket!=null) {
             System.out.println("Level from server");
-            Map<String,String> levelProps = new HashMap<>();
-            String serverData = ServerReader.getValue(serverSocket, "LOAD_LEVEL:" + String.valueOf(Level));
-            String krotka[] = serverData.split("@");
-            for(String element: krotka) {
-                String prop[] = element.split("#");
-                levelProps.put(prop[0],prop[1]);
-            }
-            GRAVITY_SPEED = Float.parseFloat(levelProps.get("gravitySpeed"));
-            xStart = Integer.parseInt(levelProps.get("xStart"));
-            yStart = Integer.parseInt(levelProps.get("yStart"));
-            xVerticies = Arrays.stream(levelProps.get("xVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
-            yVerticies = Arrays.stream(levelProps.get("yVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
-            xLanding = Arrays.stream(levelProps.get("xLanding").split(";")).mapToInt(Integer::parseInt).toArray();
-            yLanding = Arrays.stream(levelProps.get("yLanding").split(";")).mapToInt(Integer::parseInt).toArray();
-            numOfMeteors = Integer.parseInt(levelProps.get("numberOfMeteors"));
-            speedMeteors = Arrays.stream(levelProps.get("speedMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
-            xMeteors = Arrays.stream(levelProps.get("xMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
-            yMeteors = Arrays.stream(levelProps.get("yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+            Map<String,String> data = ServerReader.getDecodedData(serverSocket,serverCommand + String.valueOf(Level));
+
+            GRAVITY_SPEED = Float.parseFloat(data.get("gravitySpeed"));
+            xStart = Integer.parseInt(data.get("xStart"));
+            yStart = Integer.parseInt(data.get("yStart"));
+            xVerticies = Arrays.stream(data.get("xVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
+            yVerticies = Arrays.stream(data.get("yVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
+            xLanding = Arrays.stream(data.get("xLanding").split(";")).mapToInt(Integer::parseInt).toArray();
+            yLanding = Arrays.stream(data.get("yLanding").split(";")).mapToInt(Integer::parseInt).toArray();
+            numOfMeteors = Integer.parseInt(data.get("numberOfMeteors"));
+            speedMeteors = Arrays.stream(data.get("speedMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+            xMeteors = Arrays.stream(data.get("xMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+            yMeteors = Arrays.stream(data.get("yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
 
 
         } else {
+            String fileName;
+            switch (Level) {
+                case 2:
+                    fileName = "level2";
+                    break;
+                case 3:
+                    fileName = "level3";
+                    break;
+                case 4:
+                    fileName = "level4";
+                    break;
+                case 1:
+                default:
+                    fileName = "level1";
+                    break;
+            }
+
             System.out.println("offline level");
             GRAVITY_SPEED = Float.parseFloat(GetConfigProperties.getValue(fileName, "gravitySpeed"));
             xStart = Integer.parseInt(GetConfigProperties.getValue(fileName, "xStart"));

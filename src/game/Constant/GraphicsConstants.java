@@ -1,42 +1,84 @@
 package game.Constant;
 
 import configReader.GetConfigProperties;
+import configReader.ServerReader;
+
+import java.net.Socket;
+import java.util.Map;
 
 /**
  * Klasa przechoowywująca ścieżki do elementów graficznych gry
  */
 public class GraphicsConstants {
+    private static final String serverCommand = "GET_GRAPHICS";
     /** string prechowywujący nazwę pliku ze ścieżkami do elementów graficznych gry. BEZ ROZSZERZENIA */
     private static final String fileName = "gameGraphics";
 
     /** ścieżka do obrazka statku */
-    public static final String SHIP_IMAGE = GetConfigProperties.getValue(fileName, "ship");
+    public static String SHIP_IMAGE;
     /** ścieżka do obrazku ognia w góre */
-    public static final String FIRE_UP_IMAGE = GetConfigProperties.getValue(fileName, "fireUp");
+    public static String FIRE_UP_IMAGE;
     /** ścieżka do ognia w dół */
-    public static final String FIRE_DOWN_IMAGE = GetConfigProperties.getValue(fileName, "fireDown");
+    public static String FIRE_DOWN_IMAGE;
     /** ścieżka do ognia w lewo */
-    public static final String FIRE_LEFT_IMAGE = GetConfigProperties.getValue(fileName, "fireLeft");
+    public static String FIRE_LEFT_IMAGE;
     /** ścieżka do ognia w prawo */
-    public static final String FIRE_RIGHT_IMAGE = GetConfigProperties.getValue(fileName, "fireRight");
+    public static String FIRE_RIGHT_IMAGE;
     /** ścieżka do obrazka koniec gry */
-    public static final String GAME_OVER_IMAGE = GetConfigProperties.getValue(fileName, "gameOver");
+    public static String GAME_OVER_IMAGE;
     /** ścieżka do obrazka wciśnij enter */
-    public static final String MENU_TEXT_IMAGE = GetConfigProperties.getValue(fileName, "menuText");
+    public static String MENU_TEXT_IMAGE;
     /** ścieżka do obrazka Wygrałeś */
-    public static final String YOU_WON_IMAGE = GetConfigProperties.getValue(fileName, "wonText");
+    public static String YOU_WON_IMAGE;
     /** ścieżka do obrazka wylądowałeś */
-    public static final String LANDED_IMAGE = GetConfigProperties.getValue(fileName, "landed");
+    public static String LANDED_IMAGE;
     /** ścieżka do obrazka rozbiłeś się */
-    public static final String CRASHED_IMAGE = GetConfigProperties.getValue(fileName, "crashed");
+    public static String CRASHED_IMAGE;
     /** ścieżka do obrazka statek został zniszczony */
-    public static final String SHIP_DESTROYED_IMAGE = GetConfigProperties.getValue(fileName, "destroyed");
+    public static String SHIP_DESTROYED_IMAGE;
     /** ścieżka do obrazka pausa */
-    public static final String PAUSE_IMAGE = GetConfigProperties.getValue(fileName, "paused");
+    public static String PAUSE_IMAGE;
     /** ścieżka do obrazka meteorytu */
-    public static final String METEOR_IMAGE = GetConfigProperties.getValue(fileName, "meteor");
+    public static String METEOR_IMAGE;
 
     private GraphicsConstants() {
         throw new AssertionError();
+    }
+
+    public static void donwloanGraphics(Socket serverSocket) {
+        if(serverSocket!=null) {
+            System.out.println("Graphics from server");
+            Map<String,String> data = ServerReader.getDecodedData(serverSocket,serverCommand);
+            SHIP_IMAGE = data.get("ship");
+            FIRE_UP_IMAGE = data.get("fireUp");
+            FIRE_DOWN_IMAGE = data.get("fireDown");
+            FIRE_LEFT_IMAGE= data.get("fireLeft");
+            FIRE_RIGHT_IMAGE= data.get("fireRight");
+            GAME_OVER_IMAGE= data.get("gameOver");
+            MENU_TEXT_IMAGE= data.get("menuText");
+            YOU_WON_IMAGE= data.get("wonText");
+            LANDED_IMAGE= data.get("landed");
+            CRASHED_IMAGE= data.get("crashed");
+            SHIP_DESTROYED_IMAGE= data.get("destroyed");
+            PAUSE_IMAGE= data.get("paused");
+            METEOR_IMAGE= data.get("meteor");
+
+        } else {
+            System.out.println("Offline graphics");
+            SHIP_IMAGE = GetConfigProperties.getValue(fileName, "ship");
+            FIRE_UP_IMAGE = GetConfigProperties.getValue(fileName, "fireUp");
+            FIRE_DOWN_IMAGE = GetConfigProperties.getValue(fileName, "fireDown");
+            FIRE_LEFT_IMAGE = GetConfigProperties.getValue(fileName, "fireLeft");
+            FIRE_RIGHT_IMAGE = GetConfigProperties.getValue(fileName, "fireRight");
+            GAME_OVER_IMAGE = GetConfigProperties.getValue(fileName, "gameOver");
+            MENU_TEXT_IMAGE = GetConfigProperties.getValue(fileName, "menuText");
+            YOU_WON_IMAGE = GetConfigProperties.getValue(fileName, "wonText");
+            LANDED_IMAGE = GetConfigProperties.getValue(fileName, "landed");
+            CRASHED_IMAGE = GetConfigProperties.getValue(fileName, "crashed");
+            SHIP_DESTROYED_IMAGE = GetConfigProperties.getValue(fileName, "destroyed");
+            PAUSE_IMAGE = GetConfigProperties.getValue(fileName, "paused");
+            METEOR_IMAGE = GetConfigProperties.getValue(fileName, "meteor");
+
+        }
     }
 }

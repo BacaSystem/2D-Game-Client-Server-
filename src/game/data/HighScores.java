@@ -23,7 +23,7 @@ public class HighScores {
     private ArrayList<Record> records = new ArrayList<Record>(numberOfRecords+1);
 
     /** atrybut, który przechowywuje liczbę najlepszych wyników pobieranych z configa */
-    private static int numberOfRecords = Integer.parseInt(GetConfigProperties.getValue(fileName, "numerOfRecords"));
+    private static int numberOfRecords;
 
     /** flaga sprawdzająca, czy dane zostały już pobrane z pliku konfiguracyjnego */
     private boolean isDataDonwloaded = false;
@@ -123,12 +123,19 @@ public class HighScores {
             String[] nicks;
             int[] scores;
             if(serverSocket!=null) {
-                nicks = (ServerReader.getValue(serverSocket,"GET_SCOREBOARD_NICKS")).split(",");
-                scores = Arrays.stream(ServerReader.getValue(serverSocket,"GET_SCOREBOARD_SCORES").split(",")).mapToInt(Integer::parseInt).toArray();
-                numberOfRecords = Integer.parseInt(ServerReader.getValue(serverSocket,"GET_SCOREBOARD_SIZE"));
+                System.out.println("ScoreBoard online");
+                String command = ServerReader.getValue(serverSocket, "GET_SCOREBOARD");
+                String[] numAndBoard = command.split("@");
+                String[] nickAndScore = numAndBoard[1].split("#");
+
+                nicks = (nickAndScore[0]).split(",");
+                scores = Arrays.stream(nickAndScore[1].split(",")).mapToInt(Integer::parseInt).toArray();
+                numberOfRecords = Integer.parseInt(numAndBoard[0]);
             } else {
+                System.out.println("ScoreBoard Offline");
                 nicks = (GetConfigProperties.getValue(fileName, "nicks")).split(",");
                 scores = Arrays.stream(GetConfigProperties.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
+                numberOfRecords = Integer.parseInt(GetConfigProperties.getValue(fileName, "numerOfRecords"));
             }
             for(int i=0; i<numberOfRecords; i++) {
                 records.add(new Record(nicks[i], scores[i]));

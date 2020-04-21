@@ -3,6 +3,8 @@ package configReader;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerReader {
     public static String getValue(Socket server, String command) {
@@ -44,5 +46,15 @@ public class ServerReader {
         return value;
     }
 
+    public static Map<String,String> getDecodedData(Socket server, String serverCommand) {
+        Map<String,String> decodedData = new HashMap<>();
+        String serverData = ServerReader.getValue(server, serverCommand);
+        String krotka[] = serverData.split("@");
+        for(String element: krotka) {
+            String prop[] = element.split("#");
+            decodedData.put(prop[0],prop[1]);
+        }
 
+        return decodedData;
+    }
 }
