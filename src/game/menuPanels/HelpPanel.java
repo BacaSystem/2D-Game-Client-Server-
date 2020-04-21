@@ -1,12 +1,13 @@
 package game.menuPanels;
-import configReader.ServerReader;
+import game.configReader.ServerReader;
 import game.Constant.MenuWindowStates;
 import game.entities.Button;
-import configReader.GetConfigProperties;
+import game.configReader.ConfigReader;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,7 +24,7 @@ public class HelpPanel extends AbstractVerticalPanel {
         super();
         serverSocket = server;
         //HERE add components
-        super.verticalPanel.add(new JLabel(GetConfigProperties.getValue("helpText", "tytul"), SwingConstants.CENTER));
+        super.verticalPanel.add(new JLabel(ConfigReader.getValue("helpText", "tytul"), SwingConstants.CENTER));
         //JTextArea help = new JTextArea(getHelp("helptext", "punkt"));
         JTextArea help = new JTextArea(getHelp("helpText", "help"));
         help.setLineWrap(true);
@@ -43,15 +44,21 @@ public class HelpPanel extends AbstractVerticalPanel {
      * @return zwraca wartość spod klucza
      */
     private String getHelp(String fileName,String key) {
+        String text = "";
         if(serverSocket!=null) {
             Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,"GET_HELPTEXT");
-            String text ="";
             text+= data.get("text1")+ "\n" +data.get("text2")+ "\n" +data.get("text3");
             return text;
 
         } else {
             System.out.println("localhelp");
-            return GetConfigProperties.getValue(fileName, key);
+            Map<String,String> data = new HashMap<>();
+            data.put("text1", ConfigReader.getValue(fileName,"text1"));
+            data.put("text2", ConfigReader.getValue(fileName,"text2"));
+            data.put("text3", ConfigReader.getValue(fileName,"text3"));
+
+            text+= data.get("text1")+ "\n" +data.get("text2")+ "\n" +data.get("text3");
+            return text;
         }
 
 

@@ -1,4 +1,4 @@
-package configReader;
+package game.configReader;
 import game.window.PopUpExit;
 
 import java.io.*;
@@ -10,7 +10,7 @@ import java.util.logging.Level;
 /**
  * Klasa zanjmująca się odczytem i zapisem danych z plików konfiguracyjnych
  */
-public class GetConfigProperties {
+public class ConfigReader {
 
     /**
      * Metoda statyczna pobierająca dane z pliku konfiguracyjnego i zwracająca String spod klucza
@@ -21,25 +21,23 @@ public class GetConfigProperties {
      */
     public static String getValue(String fileName, String key) {
         String result = "";
-        String propFileName = fileName + ".properties";
+        String propFileName = "src/game/resources/" +fileName + ".properties";
         Properties p = new Properties();
-        //InputStreamReader streamReader = null;
         BufferedReader in = null;
-        File file = null;
+        File file;
         try {
-            file = new File("resources/" + propFileName);
+            file = new File(propFileName);
 
             in = new BufferedReader(
                     new InputStreamReader(
                             new FileInputStream(file), "UTF8"));
-            //streamReader = new InputStreamReader(GetConfigProperties.class.getClassLoader().getResourceAsStream(propFileName), StandardCharsets.UTF_8);
             p.load(in);
             result = p.getProperty(key);
             if (result == null) {
-                System.out.println("WARNING, empty key '" + key + "' or doesn't exist in config '" + fileName + "'");
+                System.out.println("WARNING, empty key '" + key + "' or doesn't exist in config '" + propFileName + "'");
             }
         } catch (Exception e) {
-            String errorText = "Error, File '" + fileName + "' not found";
+            String errorText = "Error, File '" + propFileName + "' not found";
             System.out.println(errorText);
             new PopUpExit(errorText);
         } finally {
@@ -62,8 +60,8 @@ public class GetConfigProperties {
      */
     public static void setValue(String fileName, String key, String data) {
         FileOutputStream fileOut = null;
-        FileInputStream fileIn = null;
-        String propFileName ="resources/" +fileName +".properties";
+        FileInputStream fileIn;
+        String propFileName ="src/game/resources/" +fileName +".properties";
         try {
             Properties configProperty = new Properties();
 
@@ -75,13 +73,13 @@ public class GetConfigProperties {
             configProperty.store(fileOut, "");
 
         } catch (Exception ex) {
-            Logger.getLogger(GetConfigProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
             try {
                 fileOut.close();
             } catch (IOException ex) {
-                Logger.getLogger(GetConfigProperties.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

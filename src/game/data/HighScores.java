@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Map;
 
-import configReader.GetConfigProperties;
-import configReader.ServerReader;
+import game.configReader.ConfigReader;
+import game.configReader.ServerReader;
 
 /**
  * Klasa przetrzymująca aktualną tablicę wyników gry.
@@ -128,12 +128,12 @@ public class HighScores {
                 Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,"GET_SCOREBOARD");
                 nicks = (data.get("nicks")).split(",");
                 scores = Arrays.stream(data.get("scores").split(",")).mapToInt(Integer::parseInt).toArray();
-                numberOfRecords = Integer.parseInt(ServerReader.getDecodedDataInMap(serverSocket, "GET:server/scoreBoard@numerOfRecords").get("numerOfRecords"));
+                numberOfRecords = Integer.parseInt(ServerReader.getDecodedDataInMap(serverSocket, "GET:scoreBoard@numerOfRecords").get("numerOfRecords"));
             } else {
                 System.out.println("ScoreBoard Offline");
-                nicks = (GetConfigProperties.getValue(fileName, "nicks")).split(",");
-                scores = Arrays.stream(GetConfigProperties.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
-                numberOfRecords = Integer.parseInt(GetConfigProperties.getValue(fileName, "numerOfRecords"));
+                nicks = (ConfigReader.getValue(fileName, "nicks")).split(",");
+                scores = Arrays.stream(ConfigReader.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
+                numberOfRecords = Integer.parseInt(ConfigReader.getValue(fileName, "numerOfRecords"));
             }
             for(int i=0; i<numberOfRecords; i++) {
                 records.add(new Record(nicks[i], scores[i]));
@@ -184,8 +184,8 @@ public class HighScores {
                 System.out.println(wholeCommand);
                 ServerReader.talkWithServer(serverSocket,wholeCommand);
             } else {
-                GetConfigProperties.setValue(fileName, "nicks", nicks);
-                GetConfigProperties.setValue(fileName, "scores", scores);
+                ConfigReader.setValue(fileName, "nicks", nicks);
+                ConfigReader.setValue(fileName, "scores", scores);
             }
             System.out.println("Ranging reloaded");
         }

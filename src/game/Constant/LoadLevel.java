@@ -1,7 +1,7 @@
 package game.Constant;
 
-import configReader.GetConfigProperties;
-import configReader.ServerReader;
+import game.configReader.ConfigReader;
+import game.configReader.ServerReader;
 
 import java.net.Socket;
 import java.util.Arrays;
@@ -79,18 +79,18 @@ public class LoadLevel {
             }
 
             System.out.println("offline level");
-            GRAVITY_SPEED = Float.parseFloat(GetConfigProperties.getValue(fileName, "gravitySpeed"));
-            xStart = Integer.parseInt(GetConfigProperties.getValue(fileName, "xStart"));
-            yStart = Integer.parseInt(GetConfigProperties.getValue(fileName, "yStart"));
-            xVerticies = Arrays.stream(GetConfigProperties.getValue(fileName, "xVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
-            yVerticies = Arrays.stream(GetConfigProperties.getValue(fileName, "yVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
-            xLanding = Arrays.stream(GetConfigProperties.getValue(fileName, "xLanding").split(";")).mapToInt(Integer::parseInt).toArray();
-            yLanding = Arrays.stream(GetConfigProperties.getValue(fileName, "yLanding").split(";")).mapToInt(Integer::parseInt).toArray();
+            GRAVITY_SPEED = Float.parseFloat(ConfigReader.getValue(fileName, "gravitySpeed"));
+            xStart = Integer.parseInt(ConfigReader.getValue(fileName, "xStart"));
+            yStart = Integer.parseInt(ConfigReader.getValue(fileName, "yStart"));
+            xVerticies = Arrays.stream(ConfigReader.getValue(fileName, "xVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
+            yVerticies = Arrays.stream(ConfigReader.getValue(fileName, "yVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
+            xLanding = Arrays.stream(ConfigReader.getValue(fileName, "xLanding").split(";")).mapToInt(Integer::parseInt).toArray();
+            yLanding = Arrays.stream(ConfigReader.getValue(fileName, "yLanding").split(";")).mapToInt(Integer::parseInt).toArray();
 
-            numOfMeteors = Integer.parseInt(GetConfigProperties.getValue(fileName, "numberOfMeteors"));
-            speedMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "speedMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
-            xMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "xMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
-            yMeteors = Arrays.stream(GetConfigProperties.getValue(fileName, "yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+            numOfMeteors = Integer.parseInt(ConfigReader.getValue(fileName, "numberOfMeteors"));
+            speedMeteors = Arrays.stream(ConfigReader.getValue(fileName, "speedMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+            xMeteors = Arrays.stream(ConfigReader.getValue(fileName, "xMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+            yMeteors = Arrays.stream(ConfigReader.getValue(fileName, "yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
 
         }
 

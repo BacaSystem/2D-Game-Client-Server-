@@ -1,9 +1,5 @@
 package server;
-
-import configReader.GetConfigProperties;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
+import server.ConfigReader.ConfigReader;
 
 public class ServerProtocol {
     private static boolean acceptingClients= true;
@@ -41,32 +37,32 @@ public class ServerProtocol {
         switch (serverCommand){
             case "GAME_SETTINGS":
                 keys = new String[]{"width", "height", "lifes", "numberOfLevels", "fuelLevel", "maxLandingSpeed", "speedAccelerating", "startSpeedX", "startSpeedY", "S"};
-                filename = "server/gameSettings";
+                filename = "gameSettings";
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
             case "GET_GRAPHICS":
                 keys = new String[]{"ship", "fireUp", "fireDown", "fireLeft", "fireRight", "gameOver", "menuText", "wonText", "landed", "crashed", "destroyed", "paused", "meteor"};
-                filename = "server/gameGraphics";
+                filename = "gameGraphics";
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
             case "GET_MENU_SETTINGS":
                 keys = new String[]{"gameTitle", "newGame", "help", "highScores", "exit", "backToMain", "width", "height","buttonWidth","buttonHeight"};
-                filename = "server/menu";
+                filename = "menu";
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
             case "LOAD_LEVEL":
                 String text[] = originalCommand.split(":");
                 keys = new String[]{"gravitySpeed", "xStart","yStart","xVertecies","yVertecies","xLanding", "yLanding", "numberOfMeteors", "xMeteors", "yMeteors", "speedMeteors", "K","M"};
-                filename = "server/level" + text[1];
+                filename = "level" + text[1];
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
             case "GET_HELPTEXT":
                 keys = new String[]{"text1","text2","text3"};
-                filename = "server/help";
+                filename = "help";
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
@@ -92,7 +88,7 @@ public class ServerProtocol {
                 break;
 
             case "GET_SCOREBOARD":
-                filename = "server/scoreBoard";
+                filename = "scoreBoard";
                 keys = new String[]{"nicks","scores"};
                 serverMessage=getCodedContent(filename,keys);
                 break;
@@ -101,7 +97,7 @@ public class ServerProtocol {
             case "SAVE_SCORES":
                 String[] trassh = command.split(":");   //trassh[0] -> command, trassh[1] -> data
                 String[] scoreBoardData = trassh[1].split("@"); //-> scoreBoardData[0] -> nicks, scoreBoardData[1] -> scores
-                filename = "server/scoreBoard";
+                filename = "scoreBoard";
                 saveDecodedValue(filename,"nicks",scoreBoardData[0]);
                 saveDecodedValue(filename,"scores",scoreBoardData[1]);
                 serverMessage="Scores Saved";
@@ -141,7 +137,7 @@ public class ServerProtocol {
 
 
     private static String saveDecodedValue(String filename, String key, String data) {
-        GetConfigProperties.setValue(filename,key,data);
+        ConfigReader.setValue(filename,key,data);
         return "value " + data +" saved in file " + filename + " as " + key;
     }
 
@@ -149,7 +145,7 @@ public class ServerProtocol {
         StringBuilder command = new StringBuilder();
         String keyNames[] = keys;
         for(String key:keyNames) {
-            String info = GetConfigProperties.getValue(filename, key);
+            String info = ConfigReader.getValue(filename, key);
             if(command.toString().equals("")) {
                 command.append(key).append("#").append(info);
             } else {

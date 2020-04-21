@@ -1,7 +1,7 @@
 package game.Constant;
 
-import configReader.GetConfigProperties;
-import configReader.ServerReader;
+import game.configReader.ConfigReader;
+import game.configReader.ServerReader;
 
 import java.net.Socket;
 import java.util.Map;
@@ -62,16 +62,16 @@ public class DefaultGameSettings {
         } else {
             System.out.println("Offline Settings");
 
-            WIDTH = parseInt(GetConfigProperties.getValue(fileName, "width"));
-            HEIGHT = parseInt(GetConfigProperties.getValue(fileName, "height"));
-            LIFES = parseInt(GetConfigProperties.getValue(fileName, "lifes"));
-            NUMBEROFLEVELS = parseInt(GetConfigProperties.getValue(fileName, "numberOfLevels"));
-            FUEL = Float.parseFloat(GetConfigProperties.getValue(fileName, "fuelLevel"));
-            S_POINTS = Integer.parseInt(GetConfigProperties.getValue(fileName, "S"));
-            MAX_SPEED_LANDING = Integer.parseInt(GetConfigProperties.getValue(fileName, "maxLandingSpeed"));
-            SPEED_ACCELERATING = Float.parseFloat(GetConfigProperties.getValue(fileName, "speedAccelerating"));
-            START_SPEED_X = Integer.parseInt(GetConfigProperties.getValue(fileName, "startSpeedX"));
-            START_SPEED_Y = Integer.parseInt(GetConfigProperties.getValue(fileName, "startSpeedY"));
+            WIDTH = parseInt(ConfigReader.getValue(fileName, "width"));
+            HEIGHT = parseInt(ConfigReader.getValue(fileName, "height"));
+            LIFES = parseInt(ConfigReader.getValue(fileName, "lifes"));
+            NUMBEROFLEVELS = parseInt(ConfigReader.getValue(fileName, "numberOfLevels"));
+            FUEL = Float.parseFloat(ConfigReader.getValue(fileName, "fuelLevel"));
+            S_POINTS = Integer.parseInt(ConfigReader.getValue(fileName, "S"));
+            MAX_SPEED_LANDING = Integer.parseInt(ConfigReader.getValue(fileName, "maxLandingSpeed"));
+            SPEED_ACCELERATING = Float.parseFloat(ConfigReader.getValue(fileName, "speedAccelerating"));
+            START_SPEED_X = Integer.parseInt(ConfigReader.getValue(fileName, "startSpeedX"));
+            START_SPEED_Y = Integer.parseInt(ConfigReader.getValue(fileName, "startSpeedY"));
 
         }
     }

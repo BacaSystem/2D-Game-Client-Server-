@@ -1,4 +1,4 @@
-package configReader;
+package game.configReader;
 
 import java.io.*;
 import java.net.Socket;

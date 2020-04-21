@@ -1,7 +1,7 @@
 package game.data;
 
 import game.Constant.DefaultGameSettings;
-import configReader.GetConfigProperties;
+import game.configReader.ConfigReader;
 
 /**
  * Klasa odpowiedzialna za przyznawanie punktów graczowi
@@ -17,9 +17,9 @@ public class Points {
      * @param levelNumber numer levelu, za ktory przyznajemy punkty
      */
     public static void addPointsForLevel(Player player, float fuel, int levelNumber) {
-        int K = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "K"));
+        int K = Integer.parseInt(ConfigReader.getValue("level" + levelNumber, "K"));
         float Z = fuel;
-        int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
+        int M = Integer.parseInt(ConfigReader.getValue("level" + levelNumber, "M"));
 
         int addPoints = (int) (Z*M) + K;
         player.addPoints(addPoints);
@@ -56,9 +56,9 @@ public class Points {
         int liveScore = accualScore;
         int Z = (int) fuel;
         int L = player.getLifes();
-        int K = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "K"));
+        int K = Integer.parseInt(ConfigReader.getValue("level" + levelNumber, "K"));
         int S = DefaultGameSettings.S_POINTS;
-        int M = Integer.parseInt(GetConfigProperties.getValue("level" + levelNumber, "M"));
+        int M = Integer.parseInt(ConfigReader.getValue("level" + levelNumber, "M"));
         liveScore+=  (int) (( (float) L/ (float) 3) * S) + (Z*M) + K;
         return liveScore;
     }

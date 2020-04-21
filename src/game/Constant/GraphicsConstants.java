@@ -1,7 +1,7 @@
 package game.Constant;
 
-import configReader.GetConfigProperties;
-import configReader.ServerReader;
+import game.configReader.ConfigReader;
+import game.configReader.ServerReader;
 
 import java.net.Socket;
 import java.util.Map;
@@ -65,19 +65,19 @@ public class GraphicsConstants {
 
         } else {
             System.out.println("Offline graphics");
-            SHIP_IMAGE = GetConfigProperties.getValue(fileName, "ship");
-            FIRE_UP_IMAGE = GetConfigProperties.getValue(fileName, "fireUp");
-            FIRE_DOWN_IMAGE = GetConfigProperties.getValue(fileName, "fireDown");
-            FIRE_LEFT_IMAGE = GetConfigProperties.getValue(fileName, "fireLeft");
-            FIRE_RIGHT_IMAGE = GetConfigProperties.getValue(fileName, "fireRight");
-            GAME_OVER_IMAGE = GetConfigProperties.getValue(fileName, "gameOver");
-            MENU_TEXT_IMAGE = GetConfigProperties.getValue(fileName, "menuText");
-            YOU_WON_IMAGE = GetConfigProperties.getValue(fileName, "wonText");
-            LANDED_IMAGE = GetConfigProperties.getValue(fileName, "landed");
-            CRASHED_IMAGE = GetConfigProperties.getValue(fileName, "crashed");
-            SHIP_DESTROYED_IMAGE = GetConfigProperties.getValue(fileName, "destroyed");
-            PAUSE_IMAGE = GetConfigProperties.getValue(fileName, "paused");
-            METEOR_IMAGE = GetConfigProperties.getValue(fileName, "meteor");
+            SHIP_IMAGE = ConfigReader.getValue(fileName, "ship");
+            FIRE_UP_IMAGE = ConfigReader.getValue(fileName, "fireUp");
+            FIRE_DOWN_IMAGE = ConfigReader.getValue(fileName, "fireDown");
+            FIRE_LEFT_IMAGE = ConfigReader.getValue(fileName, "fireLeft");
+            FIRE_RIGHT_IMAGE = ConfigReader.getValue(fileName, "fireRight");
+            GAME_OVER_IMAGE = ConfigReader.getValue(fileName, "gameOver");
+            MENU_TEXT_IMAGE = ConfigReader.getValue(fileName, "menuText");
+            YOU_WON_IMAGE = ConfigReader.getValue(fileName, "wonText");
+            LANDED_IMAGE = ConfigReader.getValue(fileName, "landed");
+            CRASHED_IMAGE = ConfigReader.getValue(fileName, "crashed");
+            SHIP_DESTROYED_IMAGE = ConfigReader.getValue(fileName, "destroyed");
+            PAUSE_IMAGE = ConfigReader.getValue(fileName, "paused");
+            METEOR_IMAGE = ConfigReader.getValue(fileName, "meteor");
 
         }
     }

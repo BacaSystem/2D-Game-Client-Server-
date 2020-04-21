@@ -1,7 +1,7 @@
 package game.Constant;
 
-import configReader.GetConfigProperties;
-import configReader.ServerReader;
+import game.configReader.ConfigReader;
+import game.configReader.ServerReader;
 
 import java.net.Socket;
 import java.util.Map;
@@ -71,16 +71,16 @@ public final class MenuWindowStates {
             BUTTON_HEIGHT = parseInt(data.get("buttonHeight"));
 
         } else {
-            GAME_TITLE = GetConfigProperties.getValue(fileName,"gameTitle");
-            MENU_BUTTON = GetConfigProperties.getValue(fileName, "backToMain");
-            HELP_BUTTON = GetConfigProperties.getValue(fileName, "help");
-            NEW_GAME_BUTTON = GetConfigProperties.getValue(fileName, "newGame");
-            HIGH_SCORES_BUTTON = GetConfigProperties.getValue(fileName, "highScores");
-            EXIT_BUTTON = GetConfigProperties.getValue(fileName, "exit");
-            WIDTH = parseInt(GetConfigProperties.getValue(fileName, "width"));
-            HEIGHT = parseInt(GetConfigProperties.getValue(fileName, "height"));
-            BUTTON_WIDTH = parseInt(GetConfigProperties.getValue(fileName, "buttonWidth"));
-            BUTTON_HEIGHT = parseInt(GetConfigProperties.getValue(fileName, "buttonHeight"));
+            GAME_TITLE = ConfigReader.getValue(fileName,"gameTitle");
+            MENU_BUTTON = ConfigReader.getValue(fileName, "backToMain");
+            HELP_BUTTON = ConfigReader.getValue(fileName, "help");
+            NEW_GAME_BUTTON = ConfigReader.getValue(fileName, "newGame");
+            HIGH_SCORES_BUTTON = ConfigReader.getValue(fileName, "highScores");
+            EXIT_BUTTON = ConfigReader.getValue(fileName, "exit");
+            WIDTH = parseInt(ConfigReader.getValue(fileName, "width"));
+            HEIGHT = parseInt(ConfigReader.getValue(fileName, "height"));
+            BUTTON_WIDTH = parseInt(ConfigReader.getValue(fileName, "buttonWidth"));
+            BUTTON_HEIGHT = parseInt(ConfigReader.getValue(fileName, "buttonHeight"));
 
         }
     }

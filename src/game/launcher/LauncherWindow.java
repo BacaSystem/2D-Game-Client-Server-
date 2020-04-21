@@ -1,6 +1,5 @@
 package game.launcher;
 
-import configReader.ServerReader;
 import game.Constant.*;
 import game.data.HighScores;
 import game.data.Player;
@@ -155,7 +154,6 @@ public class LauncherWindow extends JFrame implements ActionListener {
                         setPlayerNick();
                         dispose();
                         new GameWindow(connectToServer());
-                        System.out.println(ServerReader.talkWithServer(serverSocket,"PUT:server/menu@key@key"));
                     }
                 }
                 else if(source == offline){
