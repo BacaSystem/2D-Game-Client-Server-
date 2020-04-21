@@ -125,10 +125,10 @@ public class HighScores {
             int[] scores;
             if(serverSocket!=null) {
                 System.out.println("ScoreBoard online");
-                Map<String,String> data = ServerReader.getDecodedData(serverSocket,"GET_SCOREBOARD");
+                Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,"GET_SCOREBOARD");
                 nicks = (data.get("nicks")).split(",");
                 scores = Arrays.stream(data.get("scores").split(",")).mapToInt(Integer::parseInt).toArray();
-                numberOfRecords = Integer.parseInt(ServerReader.getDecodedData(serverSocket, "GET:server/scoreBoard@numerOfRecords").get("numerOfRecords"));
+                numberOfRecords = Integer.parseInt(ServerReader.getDecodedDataInMap(serverSocket, "GET:server/scoreBoard@numerOfRecords").get("numerOfRecords"));
             } else {
                 System.out.println("ScoreBoard Offline");
                 nicks = (GetConfigProperties.getValue(fileName, "nicks")).split(",");

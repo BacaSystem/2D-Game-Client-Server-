@@ -78,7 +78,7 @@ public class ServerProtocol {
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
-            case "PUT:":
+            case "PUT":
                 String trash[] = originalCommand.split(":");
                 String putData[] = trash[1].split("@");
                 filename = putData[0];
@@ -144,7 +144,7 @@ public class ServerProtocol {
         GetConfigProperties.setValue(filename,key,data);
         return "value " + data +" saved in file " + filename + " as " + key;
     }
-    
+
     private static String getCodedContent(String filename, String[] keys) {
         StringBuilder command = new StringBuilder();
         String keyNames[] = keys;

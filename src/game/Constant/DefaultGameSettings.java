@@ -4,7 +4,6 @@ import configReader.GetConfigProperties;
 import configReader.ServerReader;
 
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
@@ -47,7 +46,7 @@ public class DefaultGameSettings {
         if(serverSocket!= null) {
             System.out.println("settings From server");
 
-            Map<String,String> gameSettings = ServerReader.getDecodedData(serverSocket,serverCommand);
+            Map<String,String> gameSettings = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
 
             WIDTH = parseInt(gameSettings.get("width"));
             HEIGHT = parseInt(gameSettings.get("height"));

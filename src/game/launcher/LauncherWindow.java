@@ -117,6 +117,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
         var Nick = nick.getText();
         if (!isTextFieldNickEmpty()) {
             player.setNick(Nick);
+            player.resetLifes();
         }
     }
 
@@ -149,18 +150,18 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 if(source == online){
                     Socket serverSocket = connectToServer();
                     if(serverSocket!=null) {
+                        downloadConfigData(serverSocket);
                         System.out.println("We're playing online!");
                         setPlayerNick();
-                        downloadConfigData(serverSocket);
                         dispose();
                         new GameWindow(connectToServer());
-                        System.out.println(ServerReader.talkWithServer(serverSocket,"PUT:server/menu@klucz@nowy"));
+                        System.out.println(ServerReader.talkWithServer(serverSocket,"PUT:server/menu@key@key"));
                     }
                 }
                 else if(source == offline){
+                    downloadConfigData(null);
                     System.out.println("Offline game");
                     setPlayerNick();
-                    downloadConfigData(null);
                     dispose();
                     new GameWindow(null);
                  }

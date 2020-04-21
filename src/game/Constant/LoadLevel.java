@@ -2,11 +2,9 @@ package game.Constant;
 
 import configReader.GetConfigProperties;
 import configReader.ServerReader;
-import server.Server;
 
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,7 +45,7 @@ public class LoadLevel {
     public static void getLevel(Socket serverSocket, int Level) {
         if(serverSocket!=null) {
             System.out.println("Level from server");
-            Map<String,String> data = ServerReader.getDecodedData(serverSocket,serverCommand + String.valueOf(Level));
+            Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand + String.valueOf(Level));
 
             GRAVITY_SPEED = Float.parseFloat(data.get("gravitySpeed"));
             xStart = Integer.parseInt(data.get("xStart"));

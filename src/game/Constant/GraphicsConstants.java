@@ -48,7 +48,7 @@ public class GraphicsConstants {
     public static void donwloanGraphics(Socket serverSocket) {
         if(serverSocket!=null) {
             System.out.println("Graphics from server");
-            Map<String,String> data = ServerReader.getDecodedData(serverSocket,serverCommand);
+            Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
             SHIP_IMAGE = data.get("ship");
             FIRE_UP_IMAGE = data.get("fireUp");
             FIRE_DOWN_IMAGE = data.get("fireDown");

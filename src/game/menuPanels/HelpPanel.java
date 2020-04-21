@@ -44,7 +44,7 @@ public class HelpPanel extends AbstractVerticalPanel {
      */
     private String getHelp(String fileName,String key) {
         if(serverSocket!=null) {
-            Map<String,String> data = ServerReader.getDecodedData(serverSocket,"GET_HELPTEXT");
+            Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,"GET_HELPTEXT");
             String text ="";
             text+= data.get("text1")+ "\n" +data.get("text2")+ "\n" +data.get("text3");
             return text;

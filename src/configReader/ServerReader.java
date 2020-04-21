@@ -24,7 +24,7 @@ public class ServerReader {
     }
 
 
-    public static Map<String,String> getDecodedData(Socket server, String serverCommand) {
+    public static Map<String,String> getDecodedDataInMap(Socket server, String serverCommand) {
         Map<String,String> decodedData = new HashMap<>();
         String serverData = ServerReader.talkWithServer(server, serverCommand);
         String krotka[] = serverData.split("@");

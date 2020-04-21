@@ -4,7 +4,6 @@ import configReader.GetConfigProperties;
 import configReader.ServerReader;
 
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
@@ -59,7 +58,7 @@ public final class MenuWindowStates {
 
     public static void downloadMenu(Socket serverSocket) {
         if(serverSocket!=null) {
-            Map<String,String> data = ServerReader.getDecodedData(serverSocket,serverCommand);
+            Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
             GAME_TITLE = data.get("gameTitle");
             MENU_BUTTON = data.get("backToMain");
             HELP_BUTTON = data.get("help");

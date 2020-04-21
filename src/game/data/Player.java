@@ -19,7 +19,7 @@ public class Player {
     /**
      * Aktualna liczba żyć gracza, wartość startowa pobierana z pliku konfiguracyjnego
      */
-    private int lifes = DefaultGameSettings.LIFES;
+    private int lifes;
 
     /**
      * Prywatny konstruktor zapobiegający stworzeniu więcej niż jednej instancji gracza
@@ -116,5 +116,6 @@ public class Player {
            lifes--;
         }
     }
+
 
 }
