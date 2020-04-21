@@ -7,23 +7,22 @@ import game.entities.Terrain;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.Socket;
 
 public class LevelPanel extends JPanel implements Runnable, Updatable {
     Terrain terrain;
-    Graphics g;
+    Socket serverSocket;
 
     public LevelPanel() {
-        JPanel panel = new JPanel();
-        panel.setSize(1280,720);
-        g = this.getGraphics();
-        LoadLevel.getLevel(1);
+        LoadLevel.getLevel(serverSocket,2);
         terrain = new Terrain(LoadLevel.xVerticies, LoadLevel.yVerticies);
-
-        //this.add(new JLabel("ELO"));
+        setPreferredSize(new Dimension(400,200));
     }
+
 
     @Override
     public void render(Graphics2D g) {
+        g.scale(0.5,0.5);
         terrain.render(g);
 
     }

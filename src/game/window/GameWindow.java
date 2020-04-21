@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Executable;
+import java.net.Socket;
 
 /**
  * Klasa okna gry. Jest odpowiedzialna za wyświetlanie menu, wszystkich podmenu, a także samej gry
@@ -37,10 +39,15 @@ public class GameWindow extends JFrame implements ActionListener{
     /** panel gry, odpowiedzialny za gameplay */
     private Game gamePanel = null;
 
+    private Socket serverSocket;
+
     /** Konstruktor głównego okna gry, ustala jego rozmiar oraz układa elementy graficzne */
-    public GameWindow() {
+    public GameWindow(Socket socket) {
         setWindowSizeAndFocus();
         MakeUI();
+        if(socket!=null) {
+            serverSocket = socket;
+        }
     }
 
     /**
@@ -153,6 +160,16 @@ public class GameWindow extends JFrame implements ActionListener{
         String action = actionEvent.getActionCommand();
         switch (action) {
             case MenuWindowStates.EXIT:
+                try {
+                    if (serverSocket!=null) {
+                        serverSocket.close();
+                        System.out.println("We've closed server connection");
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("There was a problem with server connection closing");
+                    System.out.println(e);
+                }
                 removeAllPanels();
                 System.exit(0);
                 break;
@@ -166,7 +183,7 @@ public class GameWindow extends JFrame implements ActionListener{
 
             case MenuWindowStates.NEW_GAME:
                 removeAllPanels();
-                gamePanel = new Game(gameWidth, gameHeight, this);
+                gamePanel = new Game(gameWidth, gameHeight, this, serverSocket);
                 setPanelOptions(true,gamePanel);
                 break;
 
@@ -178,7 +195,7 @@ public class GameWindow extends JFrame implements ActionListener{
 
             case MenuWindowStates.HELP:
                 removeAllPanels();
-                helpPanel = new HelpPanel(this);
+                helpPanel = new HelpPanel(this, serverSocket);
                 setPanelOptions(false,helpPanel);
                 break;
 

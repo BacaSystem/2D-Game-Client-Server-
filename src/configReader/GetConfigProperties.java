@@ -1,10 +1,7 @@
-package game.data;
-
+package configReader;
 import game.window.PopUpExit;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -88,4 +85,6 @@ public class GetConfigProperties {
             }
         }
     }
- }
+
+
+}

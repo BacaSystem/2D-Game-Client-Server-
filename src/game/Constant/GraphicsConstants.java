@@ -1,6 +1,6 @@
 package game.Constant;
 
-import game.data.GetConfigProperties;
+import configReader.GetConfigProperties;
 
 /**
  * Klasa przechoowywująca ścieżki do elementów graficznych gry

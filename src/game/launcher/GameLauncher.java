@@ -1,7 +1,5 @@
 package game.launcher;
 
-import game.data.GetConfigProperties;
-
 import javax.swing.*;
 import java.io.IOException;
 /**

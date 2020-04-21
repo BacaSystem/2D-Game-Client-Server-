@@ -15,12 +15,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import javax.swing.JPanel;
 
 /**
  * Klasa manadżera gry, który jest odpowiedzialny za całą logikę i połączenie wszystkich elementów samej rozrywki
  */
 public class GameManager implements Updatable {
+
+    Socket serverSocket;
 
     /** zmienne przechowujące grafiki */
     BufferedImage gameOverImg, startImg, wonImage, crashedImg, landedImg, shipDestroyedImg, pauseImg;
@@ -82,7 +85,8 @@ public class GameManager implements Updatable {
      * Konstruktor klasy manadżera, inicjalizuje wszystkie pola - wywołanie init() oraz ładuje zasoby - wywołanie loadResources()
      * @param game referencja na panel gry
      */
-    public GameManager(JPanel game){
+    public GameManager(JPanel game, Socket server){
+        serverSocket = server;
         currentLevel = 1;
         loadResources();
         loadLevel();
@@ -90,7 +94,7 @@ public class GameManager implements Updatable {
 
     /** Metoda ładująca aktualny poziom */
     private void loadLevel(){
-        LoadLevel.getLevel(currentLevel);
+        LoadLevel.getLevel(serverSocket,currentLevel);
 
         meteors = new MeteorHandler(LoadLevel.numOfMeteors,LoadLevel.xMeteors, LoadLevel.yMeteors, 300, LoadLevel.speedMeteors, LoadLevel.GRAVITY_SPEED);
 

@@ -1,6 +1,6 @@
 package game.Constant;
 
-import game.data.GetConfigProperties;
+import configReader.GetConfigProperties;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.valueOf;

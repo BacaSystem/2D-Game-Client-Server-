@@ -1,6 +1,7 @@
 package game.data;
 
 import game.Constant.DefaultGameSettings;
+import configReader.GetConfigProperties;
 
 /**
  * Klasa odpowiedzialna za przyznawanie punktów graczowi

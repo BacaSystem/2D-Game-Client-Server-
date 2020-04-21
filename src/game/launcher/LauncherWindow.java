@@ -1,6 +1,9 @@
 package game.launcher;
 
+import configReader.ServerReader;
 import game.Constant.LauncherConst;
+import game.Constant.LoadLevel;
+import game.data.HighScores;
 import game.data.Player;
 import game.window.GameWindow;
 
@@ -10,6 +13,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * Klasa okna launchera, rozszerza po JFrame
@@ -28,6 +35,8 @@ public class LauncherWindow extends JFrame implements ActionListener {
 
     /** Wywolanie singletona Player, czyli odwołanie się do obiektu player */
     private Player player = Player.getInstance();
+
+    private HighScores scoreBoard = HighScores.getInstance();
 
     /** Konstruktor klasy okna, ustawia domyślne rozmiary i układa elementy UI w oknie
      * Korystamy w nim z DocumentListnera, aby nasłuchiwać zmiany w polu tekstowym
@@ -141,17 +150,53 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 portText = port.getText();
 
                 if(source == online){
-                    setPlayerNick();
-                    dispose();
-                    new GameWindow();
-
+                    Socket serverSocket = connectToServer();
+                    if(serverSocket!=null) {
+                        System.out.println("We're playing online!");
+                        setPlayerNick();
+                        dispose();
+                        //LoadLevel.getLevel(serverSocket,1);
+                        scoreBoard.setSocket(serverSocket);
+                        ServerReader.getValue(serverSocket,"SCORE_BOARD:Maciek@123");
+                        new GameWindow(connectToServer());
+                    }
                 }
                 else if(source == offline){
                     setPlayerNick();
                     dispose();
-                    new GameWindow();
+                    new GameWindow(null);
                  }
             }
         });
     }
+
+    private Socket connectToServer() {
+        try {
+            BufferedReader br;
+            String IPAddress="localhost";
+            int Port=4010;
+            Socket serverSocket = new Socket(IPAddress, Port);
+            OutputStream os = serverSocket.getOutputStream();
+            PrintWriter pw = new PrintWriter(os, true);
+            pw.println("LOGIN");
+            InputStream is = serverSocket.getInputStream();
+            br = new BufferedReader(new InputStreamReader(is));
+            if(br.readLine().contains("LOG_IN")){
+                System.out.println();
+                return serverSocket;
+            }
+            else{
+                return null;
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Connection could not be opened..");
+            System.out.println("error: "+e);
+        }
+        return null;
+    }
+
+
+
 }
+

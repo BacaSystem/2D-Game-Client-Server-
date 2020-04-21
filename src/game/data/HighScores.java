@@ -1,9 +1,12 @@
 package game.data;
 
-import java.sql.Array;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.ArrayList;
+import configReader.GetConfigProperties;
+import configReader.ServerReader;
+import server.Server;
 
 /**
  * Klasa przetrzymująca aktualną tablicę wyników gry.
@@ -11,6 +14,8 @@ import java.util.ArrayList;
  * Najlepsze wyniki gry pobierane są z plików konfiguracyjnych gry i na bierząco aktualizowane
  */
 public class HighScores {
+    private Socket serverSocket = null;
+
     /** atrybut statyczny przechowywujący nazwę pliku konfiguracyjnego z najlepszymi wynikami gry. Bez rozszerzenia.*/
     private static final String fileName = "highScores";
 
@@ -88,6 +93,11 @@ public class HighScores {
     }
     //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
+    public void setSocket(Socket server) {
+        serverSocket = server;
+    }
+
+
     /**
      * Zwraca najlepsze rekordy
      * @return zwraca listę najlepszych rekordów
@@ -110,14 +120,21 @@ public class HighScores {
      */
     public void downloadData() {
         if (!isDataDonwloaded) {
-            String[] nicks = (GetConfigProperties.getValue(fileName, "nicks")).split(",");
-            int[] scores = Arrays.stream(GetConfigProperties.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
+            String[] nicks;
+            int[] scores;
+            if(serverSocket!=null) {
+                nicks = (ServerReader.getValue(serverSocket,"GET_SCOREBOARD_NICKS")).split(",");
+                scores = Arrays.stream(ServerReader.getValue(serverSocket,"GET_SCOREBOARD_SCORES").split(",")).mapToInt(Integer::parseInt).toArray();
+                numberOfRecords = Integer.parseInt(ServerReader.getValue(serverSocket,"GET_SCOREBOARD_SIZE"));
+            } else {
+                nicks = (GetConfigProperties.getValue(fileName, "nicks")).split(",");
+                scores = Arrays.stream(GetConfigProperties.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
+            }
             for(int i=0; i<numberOfRecords; i++) {
                 records.add(new Record(nicks[i], scores[i]));
-                records.sort(Record::compareTo);
-                Collections.reverse(records);
             }
-
+            records.sort(Record::compareTo);
+            Collections.reverse(records);
             isDataDonwloaded = true;
         }
     }
@@ -156,10 +173,15 @@ public class HighScores {
                 scores = scores + "," + records.get(i).getScore();
             }
 
-            //Adding all records to config file
-            GetConfigProperties.setValue(fileName, "nicks", nicks);
-            GetConfigProperties.setValue(fileName, "scores", scores);
-
+            if(serverSocket!=null) {
+                String wholeCommand = "SAVE_SCORES:";
+                wholeCommand = wholeCommand + nicks + "@" + scores;
+                System.out.println(wholeCommand);
+                ServerReader.getValue(serverSocket,wholeCommand);
+            } else {
+                GetConfigProperties.setValue(fileName, "nicks", nicks);
+                GetConfigProperties.setValue(fileName, "scores", scores);
+            }
             System.out.println("Ranging reloaded");
         }
     }
