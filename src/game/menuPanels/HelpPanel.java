@@ -7,6 +7,7 @@ import configReader.GetConfigProperties;
 import javax.swing.*;
 import java.awt.event.*;
 import java.net.Socket;
+import java.util.Map;
 
 /**
  * Klasa zajmujaca się wyświetlaniem widoku Help Menu
@@ -24,7 +25,9 @@ public class HelpPanel extends AbstractVerticalPanel {
         //HERE add components
         super.verticalPanel.add(new JLabel(GetConfigProperties.getValue("helpText", "tytul"), SwingConstants.CENTER));
         //JTextArea help = new JTextArea(getHelp("helptext", "punkt"));
-        JTextArea help = new JTextArea(getHelp("helpText", "punkt"));
+        JTextArea help = new JTextArea(getHelp("helpText", "help"));
+        help.setLineWrap(true);
+        help.setWrapStyleWord(true);
         help.setEditable(false);
         super.verticalPanel.add(help);
         super.verticalPanel.add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU));
@@ -41,12 +44,11 @@ public class HelpPanel extends AbstractVerticalPanel {
      */
     private String getHelp(String fileName,String key) {
         if(serverSocket!=null) {
-            int intLines = Integer.parseInt(ServerReader.getValue(serverSocket, "GET_HELP_LINES"));
-            System.out.println(intLines);
-            String helpText = ServerReader.getMoreLines(serverSocket,"GET_HELP",intLines);
-            System.out.println("help from server");
+            Map<String,String> data = ServerReader.getDecodedData(serverSocket,"GET_HELPTEXT");
+            String text ="";
+            text+= data.get("text1")+ "\n" +data.get("text2")+ "\n" +data.get("text3");
+            return text;
 
-            return helpText;
         } else {
             System.out.println("localhelp");
             return GetConfigProperties.getValue(fileName, key);

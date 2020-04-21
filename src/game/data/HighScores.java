@@ -4,9 +4,10 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Map;
+
 import configReader.GetConfigProperties;
 import configReader.ServerReader;
-import server.Server;
 
 /**
  * Klasa przetrzymująca aktualną tablicę wyników gry.
@@ -124,13 +125,10 @@ public class HighScores {
             int[] scores;
             if(serverSocket!=null) {
                 System.out.println("ScoreBoard online");
-                String command = ServerReader.getValue(serverSocket, "GET_SCOREBOARD");
-                String[] numAndBoard = command.split("@");
-                String[] nickAndScore = numAndBoard[1].split("#");
-
-                nicks = (nickAndScore[0]).split(",");
-                scores = Arrays.stream(nickAndScore[1].split(",")).mapToInt(Integer::parseInt).toArray();
-                numberOfRecords = Integer.parseInt(numAndBoard[0]);
+                Map<String,String> data = ServerReader.getDecodedData(serverSocket,"GET_SCOREBOARD");
+                nicks = (data.get("nicks")).split(",");
+                scores = Arrays.stream(data.get("scores").split(",")).mapToInt(Integer::parseInt).toArray();
+                numberOfRecords = Integer.parseInt(ServerReader.getDecodedData(serverSocket, "GET:server/scoreBoard@numerOfRecords").get("numerOfRecords"));
             } else {
                 System.out.println("ScoreBoard Offline");
                 nicks = (GetConfigProperties.getValue(fileName, "nicks")).split(",");
@@ -184,7 +182,7 @@ public class HighScores {
                 String wholeCommand = "SAVE_SCORES:";
                 wholeCommand = wholeCommand + nicks + "@" + scores;
                 System.out.println(wholeCommand);
-                ServerReader.getValue(serverSocket,wholeCommand);
+                ServerReader.talkWithServer(serverSocket,wholeCommand);
             } else {
                 GetConfigProperties.setValue(fileName, "nicks", nicks);
                 GetConfigProperties.setValue(fileName, "scores", scores);

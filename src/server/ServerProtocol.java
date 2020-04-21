@@ -26,6 +26,14 @@ public class ServerProtocol {
             originalCommand=command;
             serverCommand="LOAD_LEVEL";
         }
+        if(command.contains("GET:")) {
+            originalCommand=command;
+            serverCommand="GET";
+        }
+        if(command.contains("PUT:")) {
+            originalCommand=command;
+            serverCommand = "PUT";
+        }
 
         String filename;
         String[] keys;
@@ -36,16 +44,19 @@ public class ServerProtocol {
                 filename = "server/gameSettings";
                 serverMessage=getCodedContent(filename,keys);
                 break;
+
             case "GET_GRAPHICS":
                 keys = new String[]{"ship", "fireUp", "fireDown", "fireLeft", "fireRight", "gameOver", "menuText", "wonText", "landed", "crashed", "destroyed", "paused", "meteor"};
                 filename = "server/gameGraphics";
                 serverMessage=getCodedContent(filename,keys);
                 break;
+
             case "GET_MENU_SETTINGS":
                 keys = new String[]{"gameTitle", "newGame", "help", "highScores", "exit", "backToMain", "width", "height","buttonWidth","buttonHeight"};
                 filename = "server/menu";
                 serverMessage=getCodedContent(filename,keys);
                 break;
+
             case "LOAD_LEVEL":
                 String text[] = originalCommand.split(":");
                 keys = new String[]{"gravitySpeed", "xStart","yStart","xVertecies","yVertecies","xLanding", "yLanding", "numberOfMeteors", "xMeteors", "yMeteors", "speedMeteors", "K","M"};
@@ -53,24 +64,47 @@ public class ServerProtocol {
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
+            case "GET_HELPTEXT":
+                keys = new String[]{"text1","text2","text3"};
+                filename = "server/help";
+                serverMessage=getCodedContent(filename,keys);
+                break;
+
+            case "GET":
+                String str1[] = originalCommand.split(":");
+                String str2[] = str1[1].split("@");
+                filename = str2[0];
+                keys = new String[]{str2[1]};
+                serverMessage=getCodedContent(filename,keys);
+                break;
+
+            case "PUT:":
+                String trash[] = originalCommand.split(":");
+                String putData[] = trash[1].split("@");
+                filename = putData[0];
+                String key = putData[1];
+                String data = putData[2];
+                serverMessage=saveDecodedValue(filename,key,data);
+                break;
+
             case "LOGIN":
                 serverMessage=login();
                 break;
-            case "GET_HELP":
-                serverMessage=getHelp();
-                break;
-            case "GET_HELP_LINES":
-                serverMessage=getHelpLinesNumber();
-                break;
 
             case "GET_SCOREBOARD":
-                serverMessage=getScoteBoard();
+                filename = "server/scoreBoard";
+                keys = new String[]{"nicks","scores"};
+                serverMessage=getCodedContent(filename,keys);
                 break;
 
 
             case "SAVE_SCORES":
-                saveScores(originalCommand);
-                serverMessage="scores Saved";
+                String[] trassh = command.split(":");   //trassh[0] -> command, trassh[1] -> data
+                String[] scoreBoardData = trassh[1].split("@"); //-> scoreBoardData[0] -> nicks, scoreBoardData[1] -> scores
+                filename = "server/scoreBoard";
+                saveDecodedValue(filename,"nicks",scoreBoardData[0]);
+                saveDecodedValue(filename,"scores",scoreBoardData[1]);
+                serverMessage="Scores Saved";
                 break;
 
             case "LOGOUT":
@@ -85,12 +119,6 @@ public class ServerProtocol {
         return serverMessage;
     }
 
-    private static String getHelp(){
-        return GetConfigProperties.getValue("server/help","text");
-    }
-    private static String getHelpLinesNumber() {
-        return GetConfigProperties.getValue("server/help","lines");
-    }
 
     private static String login(){
         String serverMessage;
@@ -111,27 +139,12 @@ public class ServerProtocol {
         return "CLOSE_CONNECTION_NOW";
     }
 
-    private static String getScoteBoard() {
-        String ScoreBoardSize = GetConfigProperties.getValue("server/scoreBoard", "numerOfRecords");
-        String ScoreBoardNicks = GetConfigProperties.getValue("server/ScoreBoard", "nicks");
-        String ScoreBoardScore = GetConfigProperties.getValue("server/ScoreBoard", "scores");
-        String command = ScoreBoardSize + "@" + ScoreBoardNicks + "#" + ScoreBoardScore;
-        return command;
 
+    private static String saveDecodedValue(String filename, String key, String data) {
+        GetConfigProperties.setValue(filename,key,data);
+        return "value " + data +" saved in file " + filename + " as " + key;
     }
-
-    private static void saveScores(String text) {
-        String text1[] = text.split(":");
-        // text1[0] to komenda, text2[1] to nicki i wyniki
-        String text2[] = text1[1].split("@");
-        //text2[0] to nicki, text2[1] to wyniki
-        System.out.println(text2[0]);
-        System.out.println(text2[1]);
-        GetConfigProperties.setValue("server/scoreBoard", "nicks", text2[0]);
-        GetConfigProperties.setValue("server/scoreBoard", "scores", text2[1]);
-    }
-
-
+    
     private static String getCodedContent(String filename, String[] keys) {
         StringBuilder command = new StringBuilder();
         String keyNames[] = keys;

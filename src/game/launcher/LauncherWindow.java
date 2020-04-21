@@ -14,8 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 /**
  * Klasa okna launchera, rozszerza po JFrame
@@ -156,6 +154,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                         downloadConfigData(serverSocket);
                         dispose();
                         new GameWindow(connectToServer());
+                        System.out.println(ServerReader.talkWithServer(serverSocket,"PUT:server/menu@klucz@nowy"));
                     }
                 }
                 else if(source == offline){
