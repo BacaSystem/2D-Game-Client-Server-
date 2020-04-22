@@ -2,6 +2,7 @@ package game.Constant;
 
 import game.configReader.ConfigReader;
 import game.configReader.ServerReader;
+import server.Server;
 
 import java.net.Socket;
 import java.util.Map;
@@ -43,23 +44,27 @@ public class DefaultGameSettings {
     }
 
     public static void donwloanGameSettings(Socket serverSocket) {
-        if(serverSocket!= null) {
-            System.out.println("settings From server");
+        if(ServerStatus.isConnected()) {
+            try {
+                Map<String,String> gameSettings = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
 
-            Map<String,String> gameSettings = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
+                WIDTH = parseInt(gameSettings.get("width"));
+                HEIGHT = parseInt(gameSettings.get("height"));
+                LIFES = parseInt(gameSettings.get("lifes"));
+                NUMBEROFLEVELS = parseInt(gameSettings.get("numberOfLevels"));
+                FUEL = Float.parseFloat(gameSettings.get("fuelLevel"));
+                S_POINTS = parseInt(gameSettings.get("S"));
+                MAX_SPEED_LANDING = Integer.parseInt(gameSettings.get("maxLandingSpeed"));
+                SPEED_ACCELERATING = Float.parseFloat(gameSettings.get("speedAccelerating"));
+                START_SPEED_X = Integer.parseInt(gameSettings.get("startSpeedX"));
+                START_SPEED_Y = Integer.parseInt(gameSettings.get("startSpeedY"));
+                System.out.println("settings From server");
+            } catch (Exception e) {
+                ServerStatus.connectionLost();
+            }
+        }
 
-            WIDTH = parseInt(gameSettings.get("width"));
-            HEIGHT = parseInt(gameSettings.get("height"));
-            LIFES = parseInt(gameSettings.get("lifes"));
-            NUMBEROFLEVELS = parseInt(gameSettings.get("numberOfLevels"));
-            FUEL = Float.parseFloat(gameSettings.get("fuelLevel"));
-            S_POINTS = parseInt(gameSettings.get("S"));
-            MAX_SPEED_LANDING = Integer.parseInt(gameSettings.get("maxLandingSpeed"));
-            SPEED_ACCELERATING = Float.parseFloat(gameSettings.get("speedAccelerating"));
-            START_SPEED_X = Integer.parseInt(gameSettings.get("startSpeedX"));
-            START_SPEED_Y = Integer.parseInt(gameSettings.get("startSpeedY"));
-
-        } else {
+        if(!ServerStatus.isConnected()) {
             System.out.println("Offline Settings");
 
             WIDTH = parseInt(ConfigReader.getValue(fileName, "width"));
@@ -72,7 +77,6 @@ public class DefaultGameSettings {
             SPEED_ACCELERATING = Float.parseFloat(ConfigReader.getValue(fileName, "speedAccelerating"));
             START_SPEED_X = Integer.parseInt(ConfigReader.getValue(fileName, "startSpeedX"));
             START_SPEED_Y = Integer.parseInt(ConfigReader.getValue(fileName, "startSpeedY"));
-
         }
     }
 }

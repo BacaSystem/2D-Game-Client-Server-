@@ -46,24 +46,28 @@ public class GraphicsConstants {
     }
 
     public static void donwloanGraphics(Socket serverSocket) {
-        if(serverSocket!=null) {
-            System.out.println("Graphics from server");
-            Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
-            SHIP_IMAGE = data.get("ship");
-            FIRE_UP_IMAGE = data.get("fireUp");
-            FIRE_DOWN_IMAGE = data.get("fireDown");
-            FIRE_LEFT_IMAGE= data.get("fireLeft");
-            FIRE_RIGHT_IMAGE= data.get("fireRight");
-            GAME_OVER_IMAGE= data.get("gameOver");
-            MENU_TEXT_IMAGE= data.get("menuText");
-            YOU_WON_IMAGE= data.get("wonText");
-            LANDED_IMAGE= data.get("landed");
-            CRASHED_IMAGE= data.get("crashed");
-            SHIP_DESTROYED_IMAGE= data.get("destroyed");
-            PAUSE_IMAGE= data.get("paused");
-            METEOR_IMAGE= data.get("meteor");
-
-        } else {
+        if(ServerStatus.isConnected()) {
+            try {
+                Map<String, String> data = ServerReader.getDecodedDataInMap(serverSocket, serverCommand);
+                SHIP_IMAGE = data.get("ship");
+                FIRE_UP_IMAGE = data.get("fireUp");
+                FIRE_DOWN_IMAGE = data.get("fireDown");
+                FIRE_LEFT_IMAGE = data.get("fireLeft");
+                FIRE_RIGHT_IMAGE = data.get("fireRight");
+                GAME_OVER_IMAGE = data.get("gameOver");
+                MENU_TEXT_IMAGE = data.get("menuText");
+                YOU_WON_IMAGE = data.get("wonText");
+                LANDED_IMAGE = data.get("landed");
+                CRASHED_IMAGE = data.get("crashed");
+                SHIP_DESTROYED_IMAGE = data.get("destroyed");
+                PAUSE_IMAGE = data.get("paused");
+                METEOR_IMAGE = data.get("meteor");
+                System.out.println("Graphics from server");
+            } catch (Exception e) {
+                ServerStatus.connectionLost();
+            }
+        }
+        if(!ServerStatus.isConnected()) {
             System.out.println("Offline graphics");
             SHIP_IMAGE = ConfigReader.getValue(fileName, "ship");
             FIRE_UP_IMAGE = ConfigReader.getValue(fileName, "fireUp");
@@ -78,7 +82,6 @@ public class GraphicsConstants {
             SHIP_DESTROYED_IMAGE = ConfigReader.getValue(fileName, "destroyed");
             PAUSE_IMAGE = ConfigReader.getValue(fileName, "paused");
             METEOR_IMAGE = ConfigReader.getValue(fileName, "meteor");
-
         }
     }
 }
