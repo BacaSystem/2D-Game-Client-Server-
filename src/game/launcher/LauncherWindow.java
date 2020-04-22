@@ -151,15 +151,19 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     if(serverSocket!=null) {
                         downloadConfigData(serverSocket);
                         System.out.println("We're playing online!");
+                        ServerStatus.connected(serverSocket);
                         setPlayerNick();
                         dispose();
-                        new GameWindow(connectToServer());
+                        new GameWindow(serverSocket);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "We can't connect to the server, sorry.", "No connection", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else if(source == offline){
                     downloadConfigData(null);
                     System.out.println("Offline game");
                     setPlayerNick();
+                    ServerStatus.connected(null);
                     dispose();
                     new GameWindow(null);
                  }

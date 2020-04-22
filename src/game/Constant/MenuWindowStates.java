@@ -7,7 +7,6 @@ import java.net.Socket;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
-import static java.lang.Integer.valueOf;
 
 /**
  * Klasa przechoowywująca stałe menu gry
@@ -57,20 +56,24 @@ public final class MenuWindowStates {
     }
 
     public static void downloadMenu(Socket serverSocket) {
-        if(serverSocket!=null) {
-            Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
-            GAME_TITLE = data.get("gameTitle");
-            MENU_BUTTON = data.get("backToMain");
-            HELP_BUTTON = data.get("help");
-            NEW_GAME_BUTTON = data.get("newGame");
-            HIGH_SCORES_BUTTON = data.get("highScores");
-            EXIT_BUTTON = data.get("exit");
-            WIDTH = parseInt(data.get("width"));
-            HEIGHT = parseInt(data.get("height"));
-            BUTTON_WIDTH = parseInt(data.get("buttonWidth"));
-            BUTTON_HEIGHT = parseInt(data.get("buttonHeight"));
-
-        } else {
+        if(ServerStatus.isConnected()) {
+            try {
+                Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
+                GAME_TITLE = data.get("gameTitle");
+                MENU_BUTTON = data.get("backToMain");
+                HELP_BUTTON = data.get("help");
+                NEW_GAME_BUTTON = data.get("newGame");
+                HIGH_SCORES_BUTTON = data.get("highScores");
+                EXIT_BUTTON = data.get("exit");
+                WIDTH = parseInt(data.get("width"));
+                HEIGHT = parseInt(data.get("height"));
+                BUTTON_WIDTH = parseInt(data.get("buttonWidth"));
+                BUTTON_HEIGHT = parseInt(data.get("buttonHeight"));
+            } catch (Exception e) {
+                ServerStatus.connectionLost();
+            }
+        }
+        if(!ServerStatus.isConnected()) {
             GAME_TITLE = ConfigReader.getValue(fileName,"gameTitle");
             MENU_BUTTON = ConfigReader.getValue(fileName, "backToMain");
             HELP_BUTTON = ConfigReader.getValue(fileName, "help");
@@ -81,7 +84,6 @@ public final class MenuWindowStates {
             HEIGHT = parseInt(ConfigReader.getValue(fileName, "height"));
             BUTTON_WIDTH = parseInt(ConfigReader.getValue(fileName, "buttonWidth"));
             BUTTON_HEIGHT = parseInt(ConfigReader.getValue(fileName, "buttonHeight"));
-
         }
     }
 }

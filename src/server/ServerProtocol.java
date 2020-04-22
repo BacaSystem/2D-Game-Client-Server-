@@ -3,7 +3,7 @@ import server.ConfigReader.ConfigReader;
 
 public class ServerProtocol {
     private static boolean acceptingClients= true;
-    private static int clientNumber =1;
+    private static int clientNumber =0;
 
 
     public static String serverAction(String command){
@@ -100,7 +100,7 @@ public class ServerProtocol {
                 filename = "scoreBoard";
                 saveDecodedValue(filename,"nicks",scoreBoardData[0]);
                 saveDecodedValue(filename,"scores",scoreBoardData[1]);
-                serverMessage="Scores Saved";
+                serverMessage="Scores Saved" + "\n";
                 break;
 
             case "LOGOUT":
@@ -119,8 +119,8 @@ public class ServerProtocol {
     private static String login(){
         String serverMessage;
         if(acceptingClients) {
-            serverMessage="LOG_IN "+clientNumber+"\n";
             clientNumber++;
+            serverMessage="LOG_IN client "+clientNumber+"\n";
         } else {
             serverMessage="CONNECTION_REJECTED";
         }
@@ -129,7 +129,9 @@ public class ServerProtocol {
 
 
     private static String logout(){
-        return "LOG_OUT";
+        String serverMessage = "LOGGED OUT " + clientNumber + "\n";
+        clientNumber--;
+        return "LOGOUT";
     }
     private static String connectionClosed(){
         return "CLOSE_CONNECTION_NOW";
@@ -138,7 +140,7 @@ public class ServerProtocol {
 
     private static String saveDecodedValue(String filename, String key, String data) {
         ConfigReader.setValue(filename,key,data);
-        return "value " + data +" saved in file " + filename + " as " + key;
+        return "value " + data +" saved in file " + filename + " as " + key + "\n";
     }
 
     private static String getCodedContent(String filename, String[] keys) {
@@ -152,7 +154,7 @@ public class ServerProtocol {
                 command.append("@").append(key).append("#").append(info);
             }
         }
-        return command.toString();
+        return command.toString() +  "\n";
     }
 
 }

@@ -2,6 +2,7 @@ package game.window;
 
 import game.Constant.DefaultGameSettings;
 import game.Constant.MenuWindowStates;
+import game.configReader.ServerReader;
 import game.menuPanels.HelpPanel;
 import game.menuPanels.HighScoresPanel;
 import game.menuPanels.MenuPanel;
@@ -162,6 +163,7 @@ public class GameWindow extends JFrame implements ActionListener{
             case MenuWindowStates.EXIT:
                 try {
                     if (serverSocket!=null) {
+                        ServerReader.talkWithServer(serverSocket,"LOGOUT");
                         serverSocket.close();
                         System.out.println("We've closed server connection");
                     }
@@ -191,6 +193,11 @@ public class GameWindow extends JFrame implements ActionListener{
                 removeAllPanels();
                 highScoresPanel = new HighScoresPanel(this);
                 setPanelOptions(false,highScoresPanel);
+                try {
+                    serverSocket.close();
+                } catch(Exception e) {
+                    System.out.println("elo");
+                }
                 break;
 
             case MenuWindowStates.HELP:

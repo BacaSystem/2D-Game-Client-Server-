@@ -43,24 +43,26 @@ public class LoadLevel {
      * @param Level numer poziomu, który chcemy pobrać
      */
     public static void getLevel(Socket serverSocket, int Level) {
-        if(serverSocket!=null) {
-            System.out.println("Level from server");
-            Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand + String.valueOf(Level));
-
-            GRAVITY_SPEED = Float.parseFloat(data.get("gravitySpeed"));
-            xStart = Integer.parseInt(data.get("xStart"));
-            yStart = Integer.parseInt(data.get("yStart"));
-            xVerticies = Arrays.stream(data.get("xVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
-            yVerticies = Arrays.stream(data.get("yVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
-            xLanding = Arrays.stream(data.get("xLanding").split(";")).mapToInt(Integer::parseInt).toArray();
-            yLanding = Arrays.stream(data.get("yLanding").split(";")).mapToInt(Integer::parseInt).toArray();
-            numOfMeteors = Integer.parseInt(data.get("numberOfMeteors"));
-            speedMeteors = Arrays.stream(data.get("speedMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
-            xMeteors = Arrays.stream(data.get("xMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
-            yMeteors = Arrays.stream(data.get("yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
-
-
-        } else {
+        if(ServerStatus.isConnected()) {
+            try {
+                Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand + String.valueOf(Level));
+                GRAVITY_SPEED = Float.parseFloat(data.get("gravitySpeed"));
+                xStart = Integer.parseInt(data.get("xStart"));
+                yStart = Integer.parseInt(data.get("yStart"));
+                xVerticies = Arrays.stream(data.get("xVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
+                yVerticies = Arrays.stream(data.get("yVertecies").split(";")).mapToInt(Integer::parseInt).toArray();
+                xLanding = Arrays.stream(data.get("xLanding").split(";")).mapToInt(Integer::parseInt).toArray();
+                yLanding = Arrays.stream(data.get("yLanding").split(";")).mapToInt(Integer::parseInt).toArray();
+                numOfMeteors = Integer.parseInt(data.get("numberOfMeteors"));
+                speedMeteors = Arrays.stream(data.get("speedMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+                xMeteors = Arrays.stream(data.get("xMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+                yMeteors = Arrays.stream(data.get("yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
+                System.out.println("Level from server");
+            } catch(Exception e) {
+                ServerStatus.connectionLost();
+            }
+        }
+        if(!ServerStatus.isConnected()) {
             String fileName;
             switch (Level) {
                 case 2:
@@ -91,9 +93,7 @@ public class LoadLevel {
             speedMeteors = Arrays.stream(ConfigReader.getValue(fileName, "speedMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
             xMeteors = Arrays.stream(ConfigReader.getValue(fileName, "xMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
             yMeteors = Arrays.stream(ConfigReader.getValue(fileName, "yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
-
         }
-
         resizeToScreen();
     }
 

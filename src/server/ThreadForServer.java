@@ -33,7 +33,8 @@ public class ThreadForServer implements Runnable{
                         pw.println(serverMessage);
                         pw.flush();
                         System.out.println("TO_CLIENT: " + serverMessage);
-                        if (serverMessage == "LOG_OUT") {
+                        if (serverMessage == "LOGOUT") {
+                            System.out.println("hehe");
                             socket.close();
                         }
                     }
