@@ -193,11 +193,6 @@ public class GameWindow extends JFrame implements ActionListener{
                 removeAllPanels();
                 highScoresPanel = new HighScoresPanel(this);
                 setPanelOptions(false,highScoresPanel);
-                try {
-                    serverSocket.close();
-                } catch(Exception e) {
-                    System.out.println("elo");
-                }
                 break;
 
             case MenuWindowStates.HELP:

@@ -8,7 +8,7 @@ public class ServerStatus {
 
     public static void connectionLost() {
         IS_CONNECTED = false;
-        JOptionPane.showMessageDialog(null, "We've lost connection with server. You're playing offline now.", "Connection issue", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "We've lost connection with the server. You're playing offline now.", "Connection issue", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void connected(Socket socket) {
