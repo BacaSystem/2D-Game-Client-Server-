@@ -60,7 +60,7 @@ public class DefaultGameSettings {
                 START_SPEED_Y = Integer.parseInt(gameSettings.get("startSpeedY"));
                 System.out.println("settings From server");
             } catch (Exception e) {
-                ServerStatus.connectionLost();
+                ServerStatus.connectionLost(serverSocket);
             }
         }
 

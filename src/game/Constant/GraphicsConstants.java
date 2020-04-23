@@ -64,7 +64,7 @@ public class GraphicsConstants {
                 METEOR_IMAGE = data.get("meteor");
                 System.out.println("Graphics from server");
             } catch (Exception e) {
-                ServerStatus.connectionLost();
+                ServerStatus.connectionLost(serverSocket);
             }
         }
         if(!ServerStatus.isConnected()) {

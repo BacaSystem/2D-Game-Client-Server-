@@ -59,7 +59,7 @@ public class LoadLevel {
                 yMeteors = Arrays.stream(data.get("yMeteors").split(";")).mapToInt(Integer::parseInt).toArray();
                 System.out.println("Level from server");
             } catch(Exception e) {
-                ServerStatus.connectionLost();
+                ServerStatus.connectionLost(serverSocket);
             }
         }
         if(!ServerStatus.isConnected()) {

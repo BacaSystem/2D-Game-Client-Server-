@@ -50,7 +50,7 @@ public class HelpPanel extends AbstractVerticalPanel {
                 System.out.println("online help");
                 return text;
             } catch(Exception e) {
-                ServerStatus.connectionLost();
+                ServerStatus.connectionLost(serverSocket);
             }
         }
         if(!ServerStatus.isConnected()) {

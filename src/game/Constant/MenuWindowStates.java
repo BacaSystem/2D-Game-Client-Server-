@@ -70,7 +70,7 @@ public final class MenuWindowStates {
                 BUTTON_WIDTH = parseInt(data.get("buttonWidth"));
                 BUTTON_HEIGHT = parseInt(data.get("buttonHeight"));
             } catch (Exception e) {
-                ServerStatus.connectionLost();
+                ServerStatus.connectionLost(serverSocket);
             }
         }
         if(!ServerStatus.isConnected()) {

@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Map;
 
+import game.Constant.ServerStatus;
 import game.configReader.ConfigReader;
 import game.configReader.ServerReader;
+import server.Server;
 
 /**
  * Klasa przetrzymująca aktualną tablicę wyników gry.
@@ -123,24 +125,40 @@ public class HighScores {
         if (!isDataDonwloaded) {
             String[] nicks;
             int[] scores;
-            if(serverSocket!=null) {
-                System.out.println("ScoreBoard online");
-                Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,"GET_SCOREBOARD");
-                nicks = (data.get("nicks")).split(",");
-                scores = Arrays.stream(data.get("scores").split(",")).mapToInt(Integer::parseInt).toArray();
-                numberOfRecords = Integer.parseInt(ServerReader.getDecodedDataInMap(serverSocket, "GET:scoreBoard@numerOfRecords").get("numerOfRecords"));
-            } else {
+
+            if(ServerStatus.isConnected()) {
+                try {
+                    System.out.println("ScoreBoard online");
+                    Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,"GET_SCOREBOARD");
+                    nicks = (data.get("nicks")).split(",");
+                    scores = Arrays.stream(data.get("scores").split(",")).mapToInt(Integer::parseInt).toArray();
+                    numberOfRecords = Integer.parseInt(ServerReader.getDecodedDataInMap(serverSocket, "GET:scoreBoard@numerOfRecords").get("numerOfRecords"));
+                    for(int i=0; i<numberOfRecords; i++) {
+                        records.add(new Record(nicks[i], scores[i]));
+                    }
+                    records.sort(Record::compareTo);
+                    Collections.reverse(records);
+                    isDataDonwloaded = true;
+
+                } catch(Exception e) {
+                    ServerStatus.connectionLost(serverSocket);
+                }
+            }
+            if(!ServerStatus.isConnected()) {
                 System.out.println("ScoreBoard Offline");
                 nicks = (ConfigReader.getValue(fileName, "nicks")).split(",");
                 scores = Arrays.stream(ConfigReader.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
                 numberOfRecords = Integer.parseInt(ConfigReader.getValue(fileName, "numerOfRecords"));
+                for(int i=0; i<numberOfRecords; i++) {
+                    records.add(new Record(nicks[i], scores[i]));
+                }
+                records.sort(Record::compareTo);
+                Collections.reverse(records);
+                isDataDonwloaded = true;
             }
-            for(int i=0; i<numberOfRecords; i++) {
-                records.add(new Record(nicks[i], scores[i]));
-            }
-            records.sort(Record::compareTo);
-            Collections.reverse(records);
-            isDataDonwloaded = true;
+
+
+
         }
     }
 
@@ -178,12 +196,16 @@ public class HighScores {
                 scores = scores + "," + records.get(i).getScore();
             }
 
-            if(serverSocket!=null) {
-                String wholeCommand = "SAVE_SCORES:";
-                wholeCommand = wholeCommand + nicks + "@" + scores;
-                System.out.println(wholeCommand);
-                ServerReader.talkWithServer(serverSocket,wholeCommand);
-            } else {
+            if(ServerStatus.isConnected()) {
+                try {
+                    String wholeCommand = "SAVE_SCORES:";
+                    wholeCommand+= nicks + "@" + scores;
+                    ServerReader.talkWithServer(serverSocket,wholeCommand);
+                } catch (Exception e) {
+                    ServerStatus.connectionLost(serverSocket);
+                }
+            }
+            if(!ServerStatus.isConnected()) {
                 ConfigReader.setValue(fileName, "nicks", nicks);
                 ConfigReader.setValue(fileName, "scores", scores);
             }
