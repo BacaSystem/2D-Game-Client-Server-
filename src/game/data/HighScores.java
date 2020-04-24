@@ -199,7 +199,7 @@ public class HighScores {
             if(ServerStatus.isConnected()) {
                 try {
                     String wholeCommand = "SAVE_SCORES:";
-                    wholeCommand+= nicks + "@" + scores;
+                    wholeCommand+=  "nicks" + "#" + nicks + "@" + "scores" + "#" + scores;
                     ServerReader.talkWithServer(serverSocket,wholeCommand);
                 } catch (Exception e) {
                     ServerStatus.connectionLost(serverSocket);

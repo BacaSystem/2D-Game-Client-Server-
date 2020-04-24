@@ -1,6 +1,7 @@
 package game.launcher;
 
 import game.Constant.*;
+import game.configReader.ServerReader;
 import game.data.HighScores;
 import game.data.Player;
 import game.window.GameWindow;
@@ -149,9 +150,9 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 if(source == online){
                     Socket serverSocket = connectToServer();
                     if(serverSocket!=null) {
+                        ServerStatus.connect(serverSocket);
                         downloadConfigData(serverSocket);
                         System.out.println("We're playing online!");
-                        ServerStatus.connect(serverSocket);
                         setPlayerNick();
                         dispose();
                         new GameWindow(serverSocket);

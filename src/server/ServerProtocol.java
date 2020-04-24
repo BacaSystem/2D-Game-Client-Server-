@@ -1,6 +1,11 @@
 package server;
 import server.ConfigReader.ConfigReader;
 
+import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ServerProtocol {
     private static boolean acceptingClients= true;
     private static int clientNumber =0;
@@ -10,10 +15,6 @@ public class ServerProtocol {
         String serverCommand = command;
         String originalCommand= command;
         System.out.println(command);
-        if(command.contains("GET_LEVEL:")){
-            originalCommand=command;
-            serverCommand=("GET_LEVEL");
-        }
         if(command.contains("SAVE_SCORES:")){
             originalCommand=command;
             serverCommand="SAVE_SCORES";
@@ -67,20 +68,15 @@ public class ServerProtocol {
                 break;
 
             case "GET":
-                String str1[] = originalCommand.split(":");
-                String str2[] = str1[1].split("@");
-                filename = str2[0];
-                keys = new String[]{str2[1]};
+                filename = getFileNameFormCommand(originalCommand);
+                keys = getKeysFromCommand(originalCommand);
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
             case "PUT":
-                String trash[] = originalCommand.split(":");
-                String putData[] = trash[1].split("@");
-                filename = putData[0];
-                String key = putData[1];
-                String data = putData[2];
-                serverMessage=saveDecodedValue(filename,key,data);
+                filename = getFileNameFormCommand(originalCommand);
+                String data = removeFileNameFromCommand(originalCommand);
+                serverMessage=saveDecodedValue(filename,data);
                 break;
 
             case "LOGIN":
@@ -95,11 +91,8 @@ public class ServerProtocol {
 
 
             case "SAVE_SCORES":
-                String[] trassh = command.split(":");   //trassh[0] -> command, trassh[1] -> data
-                String[] scoreBoardData = trassh[1].split("@"); //-> scoreBoardData[0] -> nicks, scoreBoardData[1] -> scores
                 filename = "scoreBoard";
-                saveDecodedValue(filename,"nicks",scoreBoardData[0]);
-                saveDecodedValue(filename,"scores",scoreBoardData[1]);
+                saveDecodedValue(filename, originalCommand);
                 serverMessage="Scores Saved" + "\n";
                 break;
 
@@ -120,7 +113,7 @@ public class ServerProtocol {
         String serverMessage;
         if(acceptingClients) {
             clientNumber++;
-            serverMessage="LOG_IN client "+clientNumber+"\n";
+            serverMessage="LOG_IN_"+clientNumber+"\n";
         } else {
             serverMessage="CONNECTION_REJECTED";
         }
@@ -129,7 +122,7 @@ public class ServerProtocol {
 
 
     private static String logout(){
-        String serverMessage = "LOGGED OUT " + clientNumber + "\n";
+        //String serverMessage = "LOGGED OUT " + clientNumber + "\n";
         clientNumber--;
         return "LOGOUT";
     }
@@ -138,9 +131,14 @@ public class ServerProtocol {
     }
 
 
-    private static String saveDecodedValue(String filename, String key, String data) {
-        ConfigReader.setValue(filename,key,data);
-        return "value " + data +" saved in file " + filename + " as " + key + "\n";
+    private static String saveDecodedValue(String filename, String command) {
+        String[] trash = command.split(":");    // -> trahs[0] smieci, trash[1] -> dobry text
+        String[] newData = trash[1].split("@"); // -> newData[0] -> lista nickow, newData[1] -> lista scorow
+        for(String bytes: newData) {
+            String[] finalData = bytes.split("#");
+            ConfigReader.setValue(filename, finalData[0],finalData[1]);
+        }
+        return ":  VALUE_SAVED" + "\n";
     }
 
     private static String getCodedContent(String filename, String[] keys) {
@@ -155,6 +153,50 @@ public class ServerProtocol {
             }
         }
         return command.toString() +  "\n";
+    }
+
+
+
+
+
+
+
+    //METODY POMOCNICZE
+
+
+
+    private static String getFileNameFormCommand(String command) {
+        String trash[] = command.split(":");
+        String putData[] = trash[1].split("@");
+        return putData[0];
+    }
+
+    private static String removeFileNameFromCommand(String command) {
+        String returnComamand = "";
+        String[] trash = command.split(":");
+        String[] newTrash = trash[1].split("@");
+        for(int i=1; i<newTrash.length; i++) {
+            if(returnComamand == "") {
+                returnComamand+= trash[0] + ":" + newTrash[i];
+            } else {
+                returnComamand+= "@" + newTrash[i];
+            }
+
+        }
+        return returnComamand;
+    }
+
+    private static String[] getKeysFromCommand(String command) {
+        command = removeFileNameFromCommand(command);
+        String[] x = command.split(":");
+        String[] xx = x[1].split("@");
+        List<String> keys = new ArrayList<>();
+        for(String xxx: xx) {
+            String[] y = xxx.split("#");
+            keys.add(y[0]);
+        }
+        return keys.toArray(new String[keys.size()]);
+
     }
 
 }
