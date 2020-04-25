@@ -40,7 +40,7 @@ public class ServerConnectivity {
                      Proponuję np. wywolać zmodyfikowaną metodę connectionLost z klasy ServerStatus.
                      Pozwoli to zamknać połączenie sieciowe i dokonanie przez użytkownika decyzji,
                      czy chce grać dalej offline, czy woli przerwać działanie aplikacji.
-                     Oczywiście w tym przypadku należy poinformować użytkownika o napotkanym probielmie w komunikacie,
+                     Oczywiście w tym przypadku przydałoby się poinformować użytkownika o napotkanym probielmie w komunikacie,
                      więc należy tę metodę trochę zmodyfikować
              */
         }
