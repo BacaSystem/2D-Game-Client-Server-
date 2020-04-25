@@ -1,8 +1,8 @@
 package game.Constant;
 
+import game.serverConnection.ServerStatus;
 import game.configReader.ConfigReader;
-import game.configReader.ServerReader;
-import server.Server;
+import game.serverConnection.ServerConnectivity;
 
 import java.net.Socket;
 import java.util.Map;
@@ -43,10 +43,14 @@ public class DefaultGameSettings {
         throw new AssertionError();
     }
 
+    /**
+     * Metoda pobierająca ścieżki do plików graficznych
+     * @param serverSocket Socket serwera. Jeśli połączenie jest zestawione, pobiera dane online. Jeśli nie - lokalne.
+     */
     public static void donwloanGameSettings(Socket serverSocket) {
         if(ServerStatus.isConnected()) {
             try {
-                Map<String,String> gameSettings = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
+                Map<String,String> gameSettings = ServerConnectivity.getDecodedDataInMap(serverSocket,serverCommand);
 
                 WIDTH = parseInt(gameSettings.get("width"));
                 HEIGHT = parseInt(gameSettings.get("height"));

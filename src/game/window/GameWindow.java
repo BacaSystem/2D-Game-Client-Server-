@@ -2,7 +2,7 @@ package game.window;
 
 import game.Constant.DefaultGameSettings;
 import game.Constant.MenuWindowStates;
-import game.configReader.ServerReader;
+import game.serverConnection.ServerConnectivity;
 import game.menuPanels.HelpPanel;
 import game.menuPanels.HighScoresPanel;
 import game.menuPanels.MenuPanel;
@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Executable;
 import java.net.Socket;
 
 /**
@@ -163,7 +162,7 @@ public class GameWindow extends JFrame implements ActionListener{
             case MenuWindowStates.EXIT:
                 try {
                     if (serverSocket!=null) {
-                        ServerReader.talkWithServer(serverSocket,"LOGOUT");
+                        ServerConnectivity.talkWithServer(serverSocket,"LOGOUT");
                         serverSocket.close();
                         System.out.println("We've closed server connection");
                     }

@@ -1,7 +1,8 @@
 package game.Constant;
 
+import game.serverConnection.ServerStatus;
 import game.configReader.ConfigReader;
-import game.configReader.ServerReader;
+import game.serverConnection.ServerConnectivity;
 
 import java.net.Socket;
 import java.util.Arrays;
@@ -39,13 +40,14 @@ public class LoadLevel {
     public static int[] yMeteors;
 
     /**
-     * metoda pobierająca konkretny poziom z konkretnego pliku konfiguracyjnego
+     * Metoda pobierająca poziom gry
+     * @param serverSocket Socket serwera. Jeśli połączenie jest zestawione, pobiera dane online. Jeśli nie - lokalne.
      * @param Level numer poziomu, który chcemy pobrać
      */
     public static void getLevel(Socket serverSocket, int Level) {
         if(ServerStatus.isConnected()) {
             try {
-                Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand + String.valueOf(Level));
+                Map<String,String> data = ServerConnectivity.getDecodedDataInMap(serverSocket,serverCommand + String.valueOf(Level));
                 GRAVITY_SPEED = Float.parseFloat(data.get("gravitySpeed"));
                 xStart = Integer.parseInt(data.get("xStart"));
                 yStart = Integer.parseInt(data.get("yStart"));

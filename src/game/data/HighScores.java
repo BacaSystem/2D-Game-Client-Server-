@@ -6,10 +6,9 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Map;
 
-import game.Constant.ServerStatus;
+import game.serverConnection.ServerStatus;
 import game.configReader.ConfigReader;
-import game.configReader.ServerReader;
-import server.Server;
+import game.serverConnection.ServerConnectivity;
 
 /**
  * Klasa przetrzymująca aktualną tablicę wyników gry.
@@ -129,10 +128,10 @@ public class HighScores {
             if(ServerStatus.isConnected()) {
                 try {
                     System.out.println("ScoreBoard online");
-                    Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,"GET_SCOREBOARD");
+                    Map<String,String> data = ServerConnectivity.getDecodedDataInMap(serverSocket,"GET_SCOREBOARD");
                     nicks = (data.get("nicks")).split(",");
                     scores = Arrays.stream(data.get("scores").split(",")).mapToInt(Integer::parseInt).toArray();
-                    numberOfRecords = Integer.parseInt(ServerReader.getDecodedDataInMap(serverSocket, "GET:scoreBoard@numerOfRecords").get("numerOfRecords"));
+                    numberOfRecords = Integer.parseInt(ServerConnectivity.getDecodedDataInMap(serverSocket, "GET:scoreBoard@numerOfRecords").get("numerOfRecords"));
                     for(int i=0; i<numberOfRecords; i++) {
                         records.add(new Record(nicks[i], scores[i]));
                     }
@@ -200,7 +199,7 @@ public class HighScores {
                 try {
                     String wholeCommand = "SAVE_SCORES:";
                     wholeCommand+=  "nicks" + "#" + nicks + "@" + "scores" + "#" + scores;
-                    ServerReader.talkWithServer(serverSocket,wholeCommand);
+                    ServerConnectivity.talkWithServer(serverSocket,wholeCommand);
                 } catch (Exception e) {
                     ServerStatus.connectionLost(serverSocket);
                 }

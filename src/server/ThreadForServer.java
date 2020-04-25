@@ -3,14 +3,26 @@ package server;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Klasa odpowiadająca za dzialanie serwera i nasłuchiwanie żądań przysyłanych do serwera
+ */
 public class ThreadForServer implements Runnable{
-
+    /**
+     * Socket, na jakim serwer ma nasłuchiwać
+     */
     private Socket socket;
 
+    /**
+     * Konstruktor klasy ustawiający nasłuchiwany Socket
+     * @param socket Socket, na jakim serwer ma nasluchiwać
+     */
     public ThreadForServer(Socket socket) {
         this.socket = socket;
     }
 
+    /**
+     * Metoda nasłuchująca żądania plynące do serwera i odsłyająca odpowiedzi do klienta
+     */
     @Override
     public void run() {
         try {

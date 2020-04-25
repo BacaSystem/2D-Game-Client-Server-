@@ -1,7 +1,8 @@
 package game.launcher;
 
 import game.Constant.*;
-import game.configReader.ServerReader;
+import game.serverConnection.ServerConnectivity;
+import game.serverConnection.ServerStatus;
 import game.data.HighScores;
 import game.data.Player;
 import game.window.GameWindow;
@@ -12,7 +13,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 import java.net.Socket;
 
 /**
@@ -148,7 +148,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 portText = port.getText();
 
                 if(source == online){
-                    Socket serverSocket = connectToServer();
+                    Socket serverSocket = ServerConnectivity.connectToServer("localhost", 4010);
                     if(serverSocket!=null) {
                         ServerStatus.connect(serverSocket);
                         downloadConfigData(serverSocket);
@@ -161,41 +161,15 @@ public class LauncherWindow extends JFrame implements ActionListener {
                     }
                 }
                 else if(source == offline){
+                    ServerStatus.connect(null);
                     downloadConfigData(null);
                     System.out.println("Offline game");
                     setPlayerNick();
-                    ServerStatus.connect(null);
                     dispose();
                     new GameWindow(null);
                  }
             }
         });
-    }
-
-    private Socket connectToServer() {
-        try {
-            BufferedReader br;
-            String IPAddress="localhost";
-            int Port=4010;
-            Socket serverSocket = new Socket(IPAddress, Port);
-            OutputStream os = serverSocket.getOutputStream();
-            PrintWriter pw = new PrintWriter(os, true);
-            pw.println("LOGIN");
-            InputStream is = serverSocket.getInputStream();
-            br = new BufferedReader(new InputStreamReader(is));
-            if(br.readLine().contains("LOG_IN")){
-                System.out.println();
-                return serverSocket;
-            }
-            else{
-                return null;
-            }
-        }
-        catch (Exception e) {
-            System.out.println("Connection could not be opened..");
-            System.out.println("error: "+e);
-        }
-        return null;
     }
 
     private void downloadConfigData(Socket serverSocket) {

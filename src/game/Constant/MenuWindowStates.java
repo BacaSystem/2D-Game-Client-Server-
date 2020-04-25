@@ -1,7 +1,8 @@
 package game.Constant;
 
+import game.serverConnection.ServerStatus;
 import game.configReader.ConfigReader;
-import game.configReader.ServerReader;
+import game.serverConnection.ServerConnectivity;
 
 import java.net.Socket;
 import java.util.Map;
@@ -58,7 +59,7 @@ public final class MenuWindowStates {
     public static void downloadMenu(Socket serverSocket) {
         if(ServerStatus.isConnected()) {
             try {
-                Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,serverCommand);
+                Map<String,String> data = ServerConnectivity.getDecodedDataInMap(serverSocket,serverCommand);
                 GAME_TITLE = data.get("gameTitle");
                 MENU_BUTTON = data.get("backToMain");
                 HELP_BUTTON = data.get("help");

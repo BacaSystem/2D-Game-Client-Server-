@@ -1,7 +1,8 @@
 package game.Constant;
 
+import game.serverConnection.ServerStatus;
 import game.configReader.ConfigReader;
-import game.configReader.ServerReader;
+import game.serverConnection.ServerConnectivity;
 
 import java.net.Socket;
 import java.util.Map;
@@ -45,10 +46,15 @@ public class GraphicsConstants {
         throw new AssertionError();
     }
 
+
+    /**
+     * Metoda pobierająca ścieżki do plików graficznych
+     * @param serverSocket Socket serwera. Jeśli połączenie jest zestawione, pobiera dane online. Jeśli nie - lokalne.
+     */
     public static void donwloanGraphics(Socket serverSocket) {
         if(ServerStatus.isConnected()) {
             try {
-                Map<String, String> data = ServerReader.getDecodedDataInMap(serverSocket, serverCommand);
+                Map<String, String> data = ServerConnectivity.getDecodedDataInMap(serverSocket, serverCommand);
                 SHIP_IMAGE = data.get("ship");
                 FIRE_UP_IMAGE = data.get("fireUp");
                 FIRE_DOWN_IMAGE = data.get("fireDown");

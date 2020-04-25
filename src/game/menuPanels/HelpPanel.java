@@ -1,6 +1,6 @@
 package game.menuPanels;
-import game.Constant.ServerStatus;
-import game.configReader.ServerReader;
+import game.serverConnection.ServerStatus;
+import game.serverConnection.ServerConnectivity;
 import game.Constant.MenuWindowStates;
 import game.entities.Button;
 import game.configReader.ConfigReader;
@@ -45,7 +45,7 @@ public class HelpPanel extends AbstractVerticalPanel {
         String text = "";
         if(ServerStatus.isConnected()) {
             try {
-                Map<String,String> data = ServerReader.getDecodedDataInMap(serverSocket,"GET_HELPTEXT");
+                Map<String,String> data = ServerConnectivity.getDecodedDataInMap(serverSocket,"GET_HELPTEXT");
                 text+= data.get("text1")+ "\n" +data.get("text2")+ "\n" +data.get("text3");
                 System.out.println("online help");
                 return text;
