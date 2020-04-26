@@ -71,8 +71,12 @@ public class ServerProtocol {
                 break;
 
             case "GET_HELPTEXT":
-                keys = new String[]{"text1","text2","text3"};
                 filename = "help";
+                int lines = Integer.parseInt(ConfigReader.getValue(filename, "lines"));
+                keys = new String[lines];
+                for(int i=1; i<=lines; i++) {
+                    keys[i-1] = String.valueOf(i);
+                }
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
