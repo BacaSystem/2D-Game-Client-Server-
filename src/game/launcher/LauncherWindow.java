@@ -6,6 +6,7 @@ import game.serverConnection.ServerStatus;
 import game.data.HighScores;
 import game.data.Player;
 import game.window.GameWindow;
+import game.configReader.ConfigReader;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -21,6 +22,9 @@ import java.net.Socket;
  * Obsługuje zdarzenia przychodzące z interfejsu graficznego użytkownika
  */
 public class LauncherWindow extends JFrame implements ActionListener {
+    private String ipDefault = ConfigReader.getValue("ip","ip");
+    private String portDefault = ConfigReader.getValue("ip","port");
+
     /** Przycisk menu */
     private JButton online;
     /** Przycisk menu */
@@ -67,11 +71,13 @@ public class LauncherWindow extends JFrame implements ActionListener {
             //-----------------IP LABEL---------------------
             add(new JLabel(LauncherConst.IP_LABEL));
             ip = (JTextField) add(new JTextField(11));
+            ip.setText(ipDefault);
             //-----------------IP LABEL---------------------
 
             //----------------PORT LABEL--------------------
             add(new JLabel(LauncherConst.PORT_LABEL));
             port = (JTextField) add(new JTextField(11));
+            port.setText(portDefault);
             //----------------PORT LABEL--------------------
 
             offline.addActionListener(this);
@@ -148,7 +154,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                 portText = port.getText();
 
                 if(source == online){
-                    Socket serverSocket = ServerConnectivity.connectToServer("localhost", 4010);
+                    Socket serverSocket = ServerConnectivity.connectToServer(ipText, Integer.parseInt(portText));
                     if(serverSocket!=null) {
                         ServerStatus.connect(serverSocket);
                         downloadConfigData(serverSocket);
