@@ -112,9 +112,7 @@ public class ServerProtocol {
             case "LOGOUT":
                 serverMessage=logout();
                 break;
-            case "CONNECTION_CLOSED":
-                serverMessage=connectionClosed();
-                break;
+
             default:
                 serverMessage="INVALID_COMMAND\n";
         }
@@ -130,7 +128,7 @@ public class ServerProtocol {
         String serverMessage;
         if(acceptingClients) {
             clientNumber++;
-            serverMessage="LOG_IN_"+clientNumber+"\n";
+            serverMessage="LOG_IN "+clientNumber+"\n";
         } else {
             serverMessage="CONNECTION_REJECTED\n";
         }
@@ -168,12 +166,20 @@ public class ServerProtocol {
      * @return
      */
     private static String saveDecodedValue(String filename, String command) {
-        String[] trash = command.split(":");    // -> trahs[0] smieci, trash[1] -> dobry text
-        String[] newData = trash[1].split("@"); // -> newData[0] -> lista nickow, newData[1] -> lista scorow
-        for(String bytes: newData) {
-            String[] finalData = bytes.split("#");
-            ConfigReader.setValue(filename, finalData[0],finalData[1]);
+        try {
+            String[] trash = command.split(":");    // -> trahs[0] smieci, trash[1] -> dobry text
+            String[] newData = trash[1].split("@"); // -> newData[0] -> lista nickow, newData[1] -> lista scorow
+            for(String bytes: newData) {
+                String[] finalData = bytes.split("#");
+                boolean controlFlag = ConfigReader.setValue(filename, finalData[0],finalData[1]);
+                if(!controlFlag) {
+                    return "FATAL_ERROR\n";
+                }
+            }
+        } catch(Exception e) {
+            return "FATAL_ERROR\n";
         }
+
         return ":  VALUE_SAVED" + "\n";
     }
 
@@ -186,16 +192,30 @@ public class ServerProtocol {
      * @return
      */
     private static String getCodedContent(String filename, String[] keys) {
+        boolean controllString = false;
         StringBuilder command = new StringBuilder();
-        String keyNames[] = keys;
-        for(String key:keyNames) {
-            String info = ConfigReader.getValue(filename, key);
-            if(command.toString().equals("")) {
-                command.append(key).append("#").append(info);
-            } else {
-                command.append("@").append(key).append("#").append(info);
+        try {
+            String keyNames[] = keys;
+            for(String key:keyNames) {
+                String info = ConfigReader.getValue(filename, key);
+                if(info == "FATAL_ERROR") {
+                    controllString = true;
+                    System.out.println("FATAL_ERROR on '" + key + "' key");
+                }
+                if(command.toString().equals("")) {
+                    command.append(key).append("#").append(info);
+                } else {
+                    command.append("@").append(key).append("#").append(info);
+                }
             }
+
+        } catch(Exception e) {
+            command = new StringBuilder("FATAL_ERROR");
         }
+        if(controllString) {
+            command = new StringBuilder("FATAL_ERROR");
+        }
+
         return command.toString() +  "\n";
     }
 

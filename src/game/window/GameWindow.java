@@ -8,6 +8,8 @@ import game.menuPanels.HighScoresPanel;
 import game.menuPanels.MenuPanel;
 
 import game.Game;
+import game.serverConnection.ServerStatus;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -160,16 +162,10 @@ public class GameWindow extends JFrame implements ActionListener{
         String action = actionEvent.getActionCommand();
         switch (action) {
             case MenuWindowStates.EXIT:
-                try {
-                    if (serverSocket!=null) {
-                        ServerConnectivity.talkWithServer(serverSocket,"LOGOUT");
-                        serverSocket.close();
-                        System.out.println("We've closed server connection");
-                    }
-
-                } catch (Exception e) {
-                    System.out.println("There was a problem with server connection closing");
-                    System.out.println(e);
+                if(ServerStatus.isConnected()) {
+                    ServerConnectivity.talkWithServer(serverSocket,"LOGOUT");
+                    ServerConnectivity.closeConnection(serverSocket);
+                    System.out.println("We've closed server connection");
                 }
                 removeAllPanels();
                 System.exit(0);

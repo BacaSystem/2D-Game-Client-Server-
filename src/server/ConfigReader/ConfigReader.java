@@ -1,7 +1,5 @@
 package server.ConfigReader;
 
-import game.window.PopUpExit;
-
 import java.io.*;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -35,7 +33,7 @@ public class ConfigReader {
         } catch (Exception e) {
             String errorText = "Error, File '" + fileName + "' not found";
             System.out.println(errorText);
-            new PopUpExit(errorText);
+            result = "FATAL_ERROR";
         } finally {
             try {
                 if (in != null) in.close();
@@ -54,7 +52,7 @@ public class ConfigReader {
      * @param key klucz, pod jakim zostanie zapisana informacja
      * @param data dana, ktora zostanie zapisana w pliku
      */
-    public static void setValue(String fileName, String key, String data) {
+    public static boolean setValue(String fileName, String key, String data) {
         FileOutputStream fileOut = null;
         FileInputStream fileIn = null;
         String propFileName ="src/server/Config/" +fileName + ".properties";
@@ -70,6 +68,7 @@ public class ConfigReader {
 
         } catch (Exception ex) {
             Logger.getLogger(game.configReader.ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         } finally {
 
             try {
@@ -78,5 +77,6 @@ public class ConfigReader {
                 Logger.getLogger(game.configReader.ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return true;
     }
 }

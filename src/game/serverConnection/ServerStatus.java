@@ -20,19 +20,12 @@ public class ServerStatus {
      * @param serverSocket
      */
     public static void connectionLost(Socket serverSocket) {
-        String text = "Server not responding, trying to close connection.";
         int dialogResult = dialogPopUp("Connection issue", "We've lost connection with the server. Do you want to play offline?");
-        //int dialogButton = JOptionPane.YES_NO_OPTION;
-        //int dialogResult = JOptionPane.showConfirmDialog(null, "We've lost connection with the server. Do you want to play offline?", "Connection issue", dialogButton);
 
-        try {
-            serverSocket.close();
-            System.out.println(text + " SUCCES!");
-        } catch(Exception e) {
-            System.out.println(text + " FAILED - server connection already closed");
-        } finally {
-            IS_CONNECTED = false;
-        }
+        ServerConnectivity.closeConnection(serverSocket);
+
+        IS_CONNECTED = false;
+
 
         if(dialogResult == JOptionPane.NO_OPTION) {
             System.out.println("NO");
@@ -43,24 +36,30 @@ public class ServerStatus {
     /**
      * Metoda awaryjna. Powinna zostać wywołana tylko, jeśli klient woła niedozwoloną komendę - jeśli żądanie klienta
      * nie zgadza się z protokołem serwerowym. Zamyka połączenie i pozwala zakończyc grę, lub grać offline.
+     * Zamyka połączenie z serwerem i prosi serwer o zamknięcie połączenia z klientem.
      * @param serverSocket Socket serwera
      * @param command Żądanie klienta
      */
-    public static void wrongCommand(Socket serverSocket, String command) {
+    public static void wrongCommand(Socket serverSocket, String command, String response) {
         String title = "Protocol issue", text;
-        text = "There is no such command in server protocol. Please, read server protocol first.";
-        text+= "\n" + "COMMAND: " + command;
-        text+= "\n" + "Do you want to play offline?";
+        if(response == "INVALID_COMMAND") {
+            text = "There is no such command in server protocol. Please, read server protocol first.";
+            text+= "\n" + "COMMAND: " + command;
+            text+= "\n" + "Do you want to play offline?";
+        } else {
+            text = "FATAL ERROR\n";
+            text+= "Server has a problem with your demand. Connection closed\n";
+            text+= "Contact with server administration\n";
+            text+= "Your demand: " + command;
+        }
+
 
         int dialogResult = dialogPopUp(title,text);
 
-        try {
-            serverSocket.close();
-        } catch(Exception e) {
-            System.out.println("server already closed");
-        } finally {
-            IS_CONNECTED = false;
-        }
+        ServerConnectivity.talkWithServer(serverSocket,"LOGOUT");
+        ServerConnectivity.closeConnection(serverSocket);
+
+        IS_CONNECTED = false;
 
         if(dialogResult == JOptionPane.NO_OPTION) {
             System.exit(1);

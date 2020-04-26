@@ -31,8 +31,8 @@ public class ServerConnectivity {
             System.out.println("There was a problem with your command to server: " + command);
             System.out.println(e);
         }
-        if(value.equals("INVALID_COMMAND")) {
-            ServerStatus.wrongCommand(server,command);
+        if(value == "INVALID_COMMAND" || value =="FATAL_ERROR") {
+            ServerStatus.wrongCommand(server,command, value);
 
             /*TODO ->
                        Co, jeśli nie udalo się pobrać informacji z serwera, lub wprowadzono błędną komendę?
@@ -100,6 +100,14 @@ public class ServerConnectivity {
             System.out.println("error: "+e);
         }
         return null;
+    }
+
+    public static void closeConnection(Socket serverSocket) {
+        try {
+            serverSocket.close();
+        } catch(Exception e) {
+            System.out.println("serverSocket already closed");
+        }
     }
 
 

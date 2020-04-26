@@ -36,19 +36,13 @@ public class ThreadForServer implements Runnable{
                     System.out.println("FROM_CLIENT: " + fromClient);
 
                     String serverMessage = ServerProtocol.serverAction(fromClient);
-                    if(serverMessage=="CLOSE_CONNECTION_NOW"){
+                    pw.println(serverMessage);
+                    pw.flush();
+
+                    System.out.println("TO_CLIENT: " + serverMessage);
+                    if (serverMessage == "LOGOUT") {
+                        System.out.println("user LoggedOut");
                         socket.close();
-                    }
-                    if(serverMessage=="CONNECTION_REJECTED")
-                        socket.close();
-                    else {
-                        pw.println(serverMessage);
-                        pw.flush();
-                        System.out.println("TO_CLIENT: " + serverMessage);
-                        if (serverMessage == "LOGOUT") {
-                            System.out.println("hehe");
-                            socket.close();
-                        }
                     }
                 }
             }
