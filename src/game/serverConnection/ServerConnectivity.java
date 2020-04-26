@@ -25,12 +25,15 @@ public class ServerConnectivity {
             InputStream is = server.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             value = br.readLine();
+            System.out.println(value);
 
         } catch(Exception e) {
             System.out.println("There was a problem with your command to server: " + command);
             System.out.println(e);
         }
-        if(value == "" ||  value == "INVALID_COMMAND") {
+        if(value.equals("INVALID_COMMAND")) {
+            ServerStatus.wrongCommand(server,command);
+
             /*TODO ->
                        Co, jeśli nie udalo się pobrać informacji z serwera, lub wprowadzono błędną komendę?
                        Proponuję np. przerwać połączenie z srwerem (Bo w niektórych sytuacjach, np. przy późniejszej
@@ -98,4 +101,6 @@ public class ServerConnectivity {
         }
         return null;
     }
+
+
 }

@@ -156,6 +156,7 @@ public class LauncherWindow extends JFrame implements ActionListener {
                         setPlayerNick();
                         dispose();
                         new GameWindow(serverSocket);
+                        ServerConnectivity.talkWithServer(serverSocket,"LOL:MOL");
                     } else {
                         JOptionPane.showMessageDialog(null, "We can't connect to the server, sorry.", "No connection", JOptionPane.ERROR_MESSAGE);
                     }

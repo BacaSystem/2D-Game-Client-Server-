@@ -112,7 +112,7 @@ public class ServerProtocol {
                 serverMessage=connectionClosed();
                 break;
             default:
-                serverMessage="INVALID_COMMAND";
+                serverMessage="INVALID_COMMAND\n";
         }
         return serverMessage;
     }
@@ -128,7 +128,7 @@ public class ServerProtocol {
             clientNumber++;
             serverMessage="LOG_IN_"+clientNumber+"\n";
         } else {
-            serverMessage="CONNECTION_REJECTED";
+            serverMessage="CONNECTION_REJECTED\n";
         }
         return serverMessage;
     }
