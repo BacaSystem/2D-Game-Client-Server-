@@ -1,5 +1,5 @@
 package server;
-import server.ConfigReader.ConfigReader;
+import server.configReader.ConfigReader;
 
 import java.net.ServerSocket;
 import java.net.Socket;
