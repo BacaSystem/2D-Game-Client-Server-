@@ -82,7 +82,6 @@ public class LoadLevel {
                     break;
             }
 
-            System.out.println("offline level");
             GRAVITY_SPEED = Float.parseFloat(ConfigReader.getValue(fileName, "gravitySpeed"));
             xStart = Integer.parseInt(ConfigReader.getValue(fileName, "xStart"));
             yStart = Integer.parseInt(ConfigReader.getValue(fileName, "yStart"));
@@ -105,6 +104,7 @@ public class LoadLevel {
 
     /** Metoda dostosowywująca wspołrzędne mapy do rozmiaru ekranu*/
     private static void resizeToScreen(){
+        System.out.println(DefaultGameSettings.WIDTH);
         xVerticies = Arrays.stream(xVerticies).map(x -> (int)(DefaultGameSettings.WIDTH*0.01*x)).toArray();
         yVerticies = Arrays.stream(yVerticies).map(y -> (int)(DefaultGameSettings.HEIGHT*0.01*y)).toArray();
         xLanding = Arrays.stream(xLanding).map(x -> (int)(DefaultGameSettings.WIDTH *0.01*x)).toArray();

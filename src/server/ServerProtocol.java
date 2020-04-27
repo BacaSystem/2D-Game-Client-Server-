@@ -8,8 +8,8 @@ import java.util.List;
  * Klasa protokołu sieciowego, zajmuje się przetwarzaniem komend do serwera i zwracaniem odpowiedzi.
  */
 public class ServerProtocol {
-    private static boolean acceptingClients= true;
-    private static int clientNumber =0;
+    private static boolean acceptingClients = true;
+    private static int clientNumber = 0;
 
 
     /**

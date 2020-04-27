@@ -14,7 +14,6 @@ public class GameLauncher {
 
     public GameLauncher(){
         new LauncherWindow();
-
     }
 
     public static void main (String[] args) throws IOException {
