@@ -1,0 +1,7 @@
+javac src/game/physic/*.java src/game/Constant/*.java src/game/controller/*.java src/game/data/*.java src/game/launcher/*.java src/game/menuPanels/*.java src/game/window/*.java src/game/entities/*.java src/game/configReader/*.java src/game/serverConnection/*.java src/game/*.java
+
+
+javac src/game/
+
+
+java game.launcher.GameLauncher

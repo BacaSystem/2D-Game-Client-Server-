@@ -28,7 +28,7 @@ public class PopUpExit extends AbstractVerticalPanel {
         JFrame popUp = new JFrame();
         {
             popUp.setTitle("Error Window");
-            popUp.setSize(300, 150);
+            popUp.setSize(400, 150);
             popUp.setLocationRelativeTo(null);
             popUp.setResizable(false);
             popUp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

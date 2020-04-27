@@ -11,6 +11,14 @@ import java.util.logging.Level;
  * Klasa zanjmująca się odczytem i zapisem danych z plików konfiguracyjnych
  */
 public class ConfigReader {
+    public static boolean IDE = false;
+
+    public static void useIDE() {
+        IDE = true;
+    }
+    public static void useTerminal() {
+        IDE = false;
+    }
 
     /**
      * Metoda statyczna pobierająca dane z pliku konfiguracyjnego i zwracająca String spod klucza
@@ -21,7 +29,12 @@ public class ConfigReader {
      */
     public static String getValue(String fileName, String key) {
         String result = "";
-        String propFileName = "src/game/resources/" +fileName + ".properties";
+        String propFileName = "";
+        if(!IDE) {
+            propFileName = "./game/resources/" +fileName + ".properties";
+        } else {
+            propFileName = "src/game/resources/" +fileName + ".properties";
+        }
         Properties p = new Properties();
         BufferedReader in = null;
         File file;

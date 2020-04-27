@@ -1,6 +1,7 @@
 package server.configReader;
 
 import java.io.*;
+import java.nio.file.FileSystems;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +16,7 @@ public class ConfigReader {
      */
     public static String getValue(String fileName, String key) {
         String result = "";
-        String propFileName = "server/config/" +fileName + ".properties";
+        String propFileName = "src/server/config/" +fileName + ".properties";
         Properties p = new Properties();
         BufferedReader in = null;
         File file;
@@ -53,9 +54,10 @@ public class ConfigReader {
      * @param data dana, ktora zostanie zapisana w pliku
      */
     public static boolean setValue(String fileName, String key, String data) {
+
         FileOutputStream fileOut = null;
         FileInputStream fileIn = null;
-        String propFileName = "server/config/" +fileName + ".properties";
+        String propFileName = "src/server/config/" +fileName + ".properties";
         try {
             Properties configProperty = new Properties();
 

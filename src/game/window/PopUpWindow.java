@@ -31,7 +31,7 @@ public class PopUpWindow {
         JFrame popUp = new JFrame();
         {
             popUp.setTitle("");
-            popUp.setSize(200,200);
+            popUp.setSize(300,200);
             popUp.setLocationRelativeTo(null);
             popUp.setResizable(false);
             popUp.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

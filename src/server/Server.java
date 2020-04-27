@@ -12,7 +12,7 @@ public class Server {
     /**
      * Nazwa pliku, w którym znajduje się port, na którym ma działać serwer
      */
-    private static String filename = "port";
+    private static String filename = "ip";
     /**
      * Port, na jakim ma działać serwer
      */

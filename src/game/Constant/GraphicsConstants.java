@@ -13,7 +13,7 @@ import java.util.Map;
 public class GraphicsConstants {
     private static final String serverCommand = "GET_GRAPHICS";
     /** string prechowywujący nazwę pliku ze ścieżkami do elementów graficznych gry. BEZ ROZSZERZENIA */
-    private static final String fileName = "gameGraphics";
+    private static String fileName = "gameGraphics";
 
     /** ścieżka do obrazka statku */
     public static String SHIP_IMAGE;
@@ -52,6 +52,11 @@ public class GraphicsConstants {
      * @param serverSocket Socket serwera. Jeśli połączenie jest zestawione, pobiera dane online. Jeśli nie - lokalne.
      */
     public static void donwloanGraphics(Socket serverSocket) {
+        if(ConfigReader.IDE) {
+            fileName = "gameGraphicsIDE";
+        } else {
+            fileName = "gameGraphics";
+        }
         if(ServerStatus.isConnected()) {
             try {
                 Map<String, String> data = ServerConnectivity.getDecodedDataInMap(serverSocket, serverCommand);
