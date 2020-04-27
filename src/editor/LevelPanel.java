@@ -14,9 +14,10 @@ public class LevelPanel extends JPanel implements Runnable, Updatable {
     Socket serverSocket;
 
     public LevelPanel() {
-        LoadLevel.getLevel(serverSocket,2);
+        setSize(1280,720);
+        LoadLevel.getLevel(serverSocket,1);
         terrain = new Terrain(LoadLevel.xVerticies, LoadLevel.yVerticies);
-        setPreferredSize(new Dimension(400,200));
+
     }
 
 
@@ -24,6 +25,7 @@ public class LevelPanel extends JPanel implements Runnable, Updatable {
     public void render(Graphics2D g) {
         g.scale(0.5,0.5);
         terrain.render(g);
+        //g.fillRect(1,1,100,100);
 
     }
 

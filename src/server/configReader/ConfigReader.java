@@ -15,7 +15,7 @@ public class ConfigReader {
      */
     public static String getValue(String fileName, String key) {
         String result = "";
-        String propFileName = "server/config/" +fileName + ".properties";
+        String propFileName = "server/config/" + fileName + ".properties";
         Properties p = new Properties();
         BufferedReader in = null;
         File file;
