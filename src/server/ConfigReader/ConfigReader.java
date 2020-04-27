@@ -1,4 +1,4 @@
-package server.configReader;
+package server.ConfigReader;
 
 import java.io.*;
 import java.util.Properties;
@@ -15,7 +15,7 @@ public class ConfigReader {
      */
     public static String getValue(String fileName, String key) {
         String result = "";
-        String propFileName = "server/config/" +fileName + ".properties";
+        String propFileName = "src/server/Config/" +fileName + ".properties";
         Properties p = new Properties();
         BufferedReader in = null;
         File file;
@@ -55,7 +55,7 @@ public class ConfigReader {
     public static boolean setValue(String fileName, String key, String data) {
         FileOutputStream fileOut = null;
         FileInputStream fileIn = null;
-        String propFileName = "server/config/" +fileName + ".properties";
+        String propFileName ="src/server/Config/" +fileName + ".properties";
         try {
             Properties configProperty = new Properties();
 
