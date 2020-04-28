@@ -6,8 +6,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.ServerSocket;
 
+/**
+ * Klasa okna servera. Prezentuje dane kontaktowe do serwera i pozwala go wyłączyć.
+ */
 public class ServerWindow extends AbstractVerticalPanelServer {
     private static final String filename = "ip";
+
+    /**
+     * Konstruktor okna serwera
+     * @param serverSocket serverSocket. Po wciśnięciu przycisku exit, klasa podejmie próbę zamknięcia tego obiektu.
+     */
     public ServerWindow(ServerSocket serverSocket) {
         super();
         JFrame frame = new JFrame();
