@@ -6,6 +6,7 @@ import game.serverConnection.ServerConnectivity;
 
 import java.net.Socket;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Klasa przechoowywująca ścieżki do elementów graficznych gry

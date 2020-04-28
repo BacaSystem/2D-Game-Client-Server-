@@ -3,6 +3,7 @@ package game;
 import game.Constant.DefaultGameSettings;
 import game.Constant.GraphicsConstants;
 import game.Constant.LoadLevel;
+import game.configReader.ConfigReader;
 import game.data.HighScores;
 import game.data.Player;
 import game.data.Points;
@@ -16,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -118,7 +120,8 @@ public class GameManager implements Updatable {
             shipDestroyedImg = ImageIO.read(new File(GraphicsConstants.SHIP_DESTROYED_IMAGE));
             pauseImg = ImageIO.read((new File(GraphicsConstants.PAUSE_IMAGE)));
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(GameManager.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            //e.printStackTrace();
         }
     }
 

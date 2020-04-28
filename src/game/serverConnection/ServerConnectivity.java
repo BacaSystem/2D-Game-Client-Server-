@@ -1,9 +1,12 @@
 package game.serverConnection;
 
+import game.configReader.ConfigReader;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Klasa odpowiadająca za kontakt z serwerem
@@ -28,8 +31,8 @@ public class ServerConnectivity {
             //System.out.println(value);
 
         } catch(Exception e) {
-            System.out.println("There was a problem with your command to server: " + command);
-            System.out.println(e);
+            Logger.getLogger(ServerConnectivity.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            System.out.println("There was a problem with your command to server: " + command +  "\n");
         }
         if(value == "INVALID_COMMAND" || value =="FATAL_ERROR") {
             if(value =="FATAL_ERROR") {
@@ -101,8 +104,8 @@ public class ServerConnectivity {
             }
         }
         catch (Exception e) {
-            System.out.println("Connection could not be opened..");
-            System.out.println("error: "+e);
+            Logger.getLogger(ServerConnectivity.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            System.out.println("Connection could not be opened..\n");
         }
         return null;
     }
@@ -111,7 +114,8 @@ public class ServerConnectivity {
         try {
             serverSocket.close();
         } catch(Exception e) {
-            System.out.println("serverSocket already closed");
+            Logger.getLogger(ServerConnectivity.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            System.out.println("serverSocket already closed\n");
         }
     }
 

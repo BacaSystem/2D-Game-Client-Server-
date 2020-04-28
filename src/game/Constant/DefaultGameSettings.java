@@ -62,14 +62,14 @@ public class DefaultGameSettings {
                 SPEED_ACCELERATING = Float.parseFloat(gameSettings.get("speedAccelerating"));
                 START_SPEED_X = Integer.parseInt(gameSettings.get("startSpeedX"));
                 START_SPEED_Y = Integer.parseInt(gameSettings.get("startSpeedY"));
-                System.out.println("settings From server");
+                System.out.println("settings From server\n");
             } catch (Exception e) {
                 ServerStatus.connectionLost(serverSocket);
             }
         }
 
         if(!ServerStatus.isConnected()) {
-            System.out.println("Offline Settings");
+            System.out.println("Offline Settings\n");
 
             WIDTH = parseInt(ConfigReader.getValue(fileName, "width"));
             HEIGHT = parseInt(ConfigReader.getValue(fileName, "height"));

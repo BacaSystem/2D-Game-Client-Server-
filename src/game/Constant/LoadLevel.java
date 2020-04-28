@@ -7,6 +7,8 @@ import game.serverConnection.ServerConnectivity;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Klasa przechoowywująca poziomy gry
