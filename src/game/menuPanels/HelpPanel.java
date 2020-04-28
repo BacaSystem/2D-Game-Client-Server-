@@ -49,7 +49,7 @@ public class HelpPanel extends AbstractVerticalPanel {
                         text+="\n";
                     }
                 }
-                System.out.println("online help");
+                System.out.println("online help\n");
 
                 titleLabel = new JLabel(title.get("title"), SwingConstants.CENTER);
                 textArea = new JTextArea(text);
@@ -71,7 +71,7 @@ public class HelpPanel extends AbstractVerticalPanel {
                     text+="\n";
                 }
             }
-            System.out.println("offline help");
+            System.out.println("offline help\n");
 
             titleLabel = new JLabel(title, SwingConstants.CENTER);
             textArea = new JTextArea(text);

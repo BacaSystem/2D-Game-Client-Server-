@@ -1,0 +1,6 @@
+javac src/server/configReader/*.java src/server/*.java
+
+javac src/server/
+
+
+java server.ServerMain

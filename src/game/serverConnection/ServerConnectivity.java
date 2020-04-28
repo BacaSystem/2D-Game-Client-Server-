@@ -25,13 +25,18 @@ public class ServerConnectivity {
             InputStream is = server.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             value = br.readLine();
-            System.out.println(value);
+            //System.out.println(value);
 
         } catch(Exception e) {
             System.out.println("There was a problem with your command to server: " + command);
             System.out.println(e);
         }
         if(value == "INVALID_COMMAND" || value =="FATAL_ERROR") {
+            if(value =="FATAL_ERROR") {
+                System.out.println("FATAL_ERROR");
+            } else {
+                System.out.println("INVALID_COMMAND");
+            }
             ServerStatus.wrongCommand(server,command, value);
 
             /*TODO ->

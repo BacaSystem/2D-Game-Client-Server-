@@ -24,7 +24,7 @@ public class Points {
         int addPoints = (int) (Z*M) + K;
         player.addPoints(addPoints);
 
-        System.out.println("Points added on level " + levelNumber + ": " + player.getScore());
+        System.out.println("Points added on level " + levelNumber + ": " + player.getScore() + "\n");
     }
 
 
@@ -39,7 +39,7 @@ public class Points {
         int S = DefaultGameSettings.S_POINTS;
         if (player.getScore() != 0) {
             player.addPoints((int)((float)L/(float)3 * S));
-            System.out.println("added Extra Points For Ships at level "+ currentLevel +" AND exit to Menu: " + player.getScore());
+            System.out.println("added Extra Points For Ships at level "+ currentLevel +" AND exit to Menu: " + player.getScore() + "\n");
         }
     }
 

@@ -1,12 +1,12 @@
 package server.configReader;
 
 import java.io.*;
-import java.nio.file.FileSystems;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConfigReader {
+    private static boolean IDE = false;
     /**
      * Metoda statyczna pobierająca dane z pliku konfiguracyjnego i zwracająca String spod klucza
      * Metoda ma zabezpieczenia przed próbą otworzenia nieistniejącego pliku i przed wyszukaniem nieistniejącego klucza
@@ -15,8 +15,13 @@ public class ConfigReader {
      * @return zwraca String wartości spod klucza
      */
     public static String getValue(String fileName, String key) {
+        String propFileName = "";
+        if(!IDE) {
+            propFileName = "./server/config/" +fileName + ".properties";
+        } else {
+            propFileName = "src/server/config/" +fileName + ".properties";
+        }
         String result = "";
-        String propFileName = "src/server/config/" +fileName + ".properties";
         Properties p = new Properties();
         BufferedReader in = null;
         File file;
@@ -54,10 +59,14 @@ public class ConfigReader {
      * @param data dana, ktora zostanie zapisana w pliku
      */
     public static boolean setValue(String fileName, String key, String data) {
-
+        String propFileName = "";
+        if(!IDE) {
+            propFileName = "./server/config/" +fileName + ".properties";
+        } else {
+            propFileName = "src/server/config/" +fileName + ".properties";
+        }
         FileOutputStream fileOut = null;
         FileInputStream fileIn = null;
-        String propFileName = "src/server/config/" +fileName + ".properties";
         try {
             Properties configProperty = new Properties();
 
@@ -69,16 +78,23 @@ public class ConfigReader {
             configProperty.store(fileOut, "");
 
         } catch (Exception ex) {
-            Logger.getLogger(game.configReader.ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(server.configReader.ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         } finally {
 
             try {
                 fileOut.close();
             } catch (IOException ex) {
-                Logger.getLogger(game.configReader.ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(server.configReader.ConfigReader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return true;
+    }
+
+    public static void useIDE() {
+        IDE = true;
+    }
+    public static void useTerminal() {
+        IDE = false;
     }
 }

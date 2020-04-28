@@ -104,7 +104,6 @@ public class LoadLevel {
 
     /** Metoda dostosowywująca wspołrzędne mapy do rozmiaru ekranu*/
     private static void resizeToScreen(){
-        System.out.println(DefaultGameSettings.WIDTH);
         xVerticies = Arrays.stream(xVerticies).map(x -> (int)(DefaultGameSettings.WIDTH*0.01*x)).toArray();
         yVerticies = Arrays.stream(yVerticies).map(y -> (int)(DefaultGameSettings.HEIGHT*0.01*y)).toArray();
         xLanding = Arrays.stream(xLanding).map(x -> (int)(DefaultGameSettings.WIDTH *0.01*x)).toArray();
