@@ -1,9 +1,0 @@
-javac physic/*.java Constant/*.java controller/*.java data/*.java launcher/*.java view/*.java window/*.java entities/*.java configReader/*.java serverConnection/*.java interfaces/*.java manager/*.java *.java
-
-
-javac src/game/
-
-
-java game.launcher.GameLauncher
-
-jar cvmf MANIFEST.MF lunar.jar physic/*.java Constant/*.java controller/*.java data/*.java launcher/*.java view/*.java window/*.java entities/*.java configReader/*.java serverConnection/*.java interfaces/*.java manager/*.java *.java
