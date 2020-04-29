@@ -58,6 +58,7 @@ public class GraphicsConstants {
         } else {
             fileName = "gameGraphics";
         }
+        /*
         if(ServerStatus.isConnected()) {
             try {
                 Map<String, String> data = ServerConnectivity.getDecodedDataInMap(serverSocket, serverCommand);
@@ -80,6 +81,8 @@ public class GraphicsConstants {
             }
         }
         if(!ServerStatus.isConnected()) {
+        */
+
             System.out.println("Offline graphics");
             SHIP_IMAGE = ConfigReader.getValue(fileName, "ship");
             FIRE_UP_IMAGE = ConfigReader.getValue(fileName, "fireUp");
@@ -94,6 +97,6 @@ public class GraphicsConstants {
             SHIP_DESTROYED_IMAGE = ConfigReader.getValue(fileName, "destroyed");
             PAUSE_IMAGE = ConfigReader.getValue(fileName, "paused");
             METEOR_IMAGE = ConfigReader.getValue(fileName, "meteor");
-        }
+        //}
     }
 }
