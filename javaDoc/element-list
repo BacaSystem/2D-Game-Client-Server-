@@ -4,6 +4,6 @@ game.controller
 game.data
 game.entities
 game.launcher
-game.menuPanels
+game.view
 game.physic
 game.window

@@ -1,7 +1,9 @@
-package game;
+package game.view;
 
 import game.Constant.DefaultGameSettings;
+import game.interfaces.Updatable;
 import game.controller.KeyHandler;
+import game.manager.GameManager;
 import game.window.GameWindow;
 import game.window.PopUpWindow;
 
@@ -14,7 +16,7 @@ import java.net.Socket;
  * Głowna klasa panelu gry
  * Odpowiedzialna za renderowanie oraz update'owanie gry ze stałą częstotliwością
  */
-public class Game extends JPanel implements Runnable, Updatable {
+public class GameView extends JPanel implements Runnable, Updatable {
     Socket serverSocket;
 
     /** zmienna określająca szerokość okna */
@@ -31,7 +33,7 @@ public class Game extends JPanel implements Runnable, Updatable {
      * @see  GameWindow*/
     private GameWindow frame;
     /** obiekt managera gry - odpowiedzialny za logikę gry
-     * @see GameManager*/
+     * @see GameManager */
     private GameManager manager;
     /** obiekt KeyHandlera - odpowiedzialny za czytanie zdarzeń klawiatury
      * @see KeyHandler*/
@@ -54,7 +56,7 @@ public class Game extends JPanel implements Runnable, Updatable {
      * @param height początkowa wysokość okna
      * @param frame referencja do okna gry
      */
-    public Game(int width, int height, GameWindow frame, Socket server) {
+    public GameView(int width, int height, GameWindow frame, Socket server) {
         this.serverSocket = server;
         this.width = width;
         this.height = height;

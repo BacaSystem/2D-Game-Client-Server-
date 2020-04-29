@@ -1,4 +1,4 @@
-package game.menuPanels;
+package game.view;
 import game.data.HighScores;
 import game.Constant.MenuWindowStates;
 import game.entities.Button;

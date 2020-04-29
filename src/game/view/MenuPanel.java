@@ -1,4 +1,4 @@
-package game.menuPanels;
+package game.view;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

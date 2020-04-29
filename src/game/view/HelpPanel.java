@@ -1,4 +1,4 @@
-package game.menuPanels;
+package game.view;
 import game.serverConnection.ServerStatus;
 import game.serverConnection.ServerConnectivity;
 import game.Constant.MenuWindowStates;

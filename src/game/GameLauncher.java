@@ -1,11 +1,10 @@
-package game.launcher;
+package game;
 
 import game.configReader.ConfigReader;
+import game.launcher.LauncherWindow;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.util.Scanner;
 
 /**
  * Klasa główna launchera gry. Wywołuje konstruktor okna launchera. Zawiera main()!

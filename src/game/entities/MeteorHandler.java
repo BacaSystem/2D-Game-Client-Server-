@@ -1,7 +1,7 @@
 package game.entities;
 
 import game.controller.KeyHandler;
-import game.Updatable;
+import game.interfaces.Updatable;
 
 import java.awt.*;
 import java.util.ArrayList;

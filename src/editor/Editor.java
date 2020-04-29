@@ -1,14 +1,6 @@
 package editor;
-import game.Constant.LoadLevel;
-import game.Updatable;
-import game.controller.KeyHandler;
-import game.entities.*;
-
-import game.Constant.LauncherConst;
-import game.launcher.GameLauncher;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 public class Editor  {

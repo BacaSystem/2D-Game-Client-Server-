@@ -1,7 +1,7 @@
 package editor;
 
 import game.Constant.LoadLevel;
-import game.Updatable;
+import game.interfaces.Updatable;
 import game.controller.KeyHandler;
 import game.entities.Terrain;
 

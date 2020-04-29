@@ -1,6 +1,4 @@
-javac src/server/configReader/*.java src/server/*.java
-
-javac src/server/
+javac server/configReader/*.java server/*.java
 
 
 java server.ServerMain

@@ -7,7 +7,7 @@ package game.entities;
 import game.Constant.DefaultGameSettings;
 import game.Constant.GraphicsConstants;
 import game.controller.KeyHandler;
-import game.Updatable;
+import game.interfaces.Updatable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

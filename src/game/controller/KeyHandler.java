@@ -1,8 +1,7 @@
 package game.controller;
 
 
-import game.Game;
-import game.window.GameWindow;
+import game.view.GameView;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -67,7 +66,7 @@ public class KeyHandler implements KeyListener {
      * Konstruktor klasy, dodaje KeyListener do gry
      * @param game panel gry do którego wprowadzamy obsługe zdarzeń tym Hanlderem
      */
-    public KeyHandler(Game game){
+    public KeyHandler(GameView game){
         game.addKeyListener(this);
         game.setFocusable(true);
     }

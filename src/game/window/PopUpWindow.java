@@ -5,9 +5,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import game.GameManager;
+import game.manager.GameManager;
 import game.controller.KeyHandler;
-import game.Game;
+import game.view.GameView;
 
 /**
  * Klasa tworząca okienko Pop Up po zakończeniu gry z informacją na temat jego wyniku */
@@ -27,7 +27,7 @@ public class PopUpWindow {
      * @param game Panel gry
      *             by móc ustawić status flagi, czy okienko jest nadal otwarte
      */
-    public  PopUpWindow(GameWindow frame, GameManager manager, KeyHandler key, Game game){
+    public  PopUpWindow(GameWindow frame, GameManager manager, KeyHandler key, GameView game){
         JFrame popUp = new JFrame();
         {
             popUp.setTitle("");

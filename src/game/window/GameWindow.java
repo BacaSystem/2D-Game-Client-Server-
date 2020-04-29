@@ -3,11 +3,11 @@ package game.window;
 import game.Constant.DefaultGameSettings;
 import game.Constant.MenuWindowStates;
 import game.serverConnection.ServerConnectivity;
-import game.menuPanels.HelpPanel;
-import game.menuPanels.HighScoresPanel;
-import game.menuPanels.MenuPanel;
+import game.view.GameView;
+import game.view.HelpPanel;
+import game.view.HighScoresPanel;
+import game.view.MenuPanel;
 
-import game.Game;
 import game.serverConnection.ServerStatus;
 
 import javax.swing.*;
@@ -39,7 +39,7 @@ public class GameWindow extends JFrame implements ActionListener{
     /** panel pomocy, zawiera krótką instrukcję gry */
     private HelpPanel helpPanel = null;
     /** panel gry, odpowiedzialny za gameplay */
-    private Game gamePanel = null;
+    private GameView gamePanel = null;
 
     private Socket serverSocket;
 
@@ -180,7 +180,7 @@ public class GameWindow extends JFrame implements ActionListener{
 
             case MenuWindowStates.NEW_GAME:
                 removeAllPanels();
-                gamePanel = new Game(gameWidth, gameHeight, this, serverSocket);
+                gamePanel = new GameView(gameWidth, gameHeight, this, serverSocket);
                 setPanelOptions(true,gamePanel);
                 break;
 

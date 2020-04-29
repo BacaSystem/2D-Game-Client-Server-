@@ -1,9 +1,9 @@
-package game;
+package game.manager;
 
 import game.Constant.DefaultGameSettings;
 import game.Constant.GraphicsConstants;
 import game.Constant.LoadLevel;
-import game.configReader.ConfigReader;
+import game.interfaces.Updatable;
 import game.data.HighScores;
 import game.data.Player;
 import game.data.Points;
@@ -31,19 +31,19 @@ public class GameManager implements Updatable {
     BufferedImage gameOverImg, startImg, wonImage, crashedImg, landedImg, shipDestroyedImg, pauseImg;
 
     /** aktualny poziom oraz maksymalna liczba poziomów */
-    int currentLevel, maxLevels;
+    public int currentLevel, maxLevels;
     /** flaga określająca przegraną */
     public boolean gameOver = false;
     /** flaga określająca wygraną */
     public boolean won = false;
     /** flaga określająca rozbicie statku */
-    boolean crashed = false;
+    public boolean crashed = false;
     /** flaga określająca pomyślne lądowanie */
-    boolean landed = false;
+    public boolean landed = false;
     /** flaga określająca rozpoczęcie gry */
-    boolean started = false;
+    public boolean started = false;
     /** flaga określająca zapis wyniku */
-    boolean savedScore = false;
+    public boolean savedScore = false;
 
     /** wynik zgromadzony do wygranej lub przegranej */
     public int scoreOnWinOrLose = 0;

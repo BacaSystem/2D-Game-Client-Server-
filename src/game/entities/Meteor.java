@@ -2,12 +2,11 @@ package game.entities;
 
 import game.Constant.GraphicsConstants;
 import game.controller.KeyHandler;
-import game.Updatable;
+import game.interfaces.Updatable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 

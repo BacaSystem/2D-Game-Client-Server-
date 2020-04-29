@@ -74,7 +74,12 @@ public class ConfigReader {
     public static void setValue(String fileName, String key, String data) {
         FileOutputStream fileOut = null;
         FileInputStream fileIn;
-        String propFileName ="src/game/resources/" +fileName +".properties";
+        String propFileName = "";
+        if(!IDE) {
+            propFileName = "./game/resources/" +fileName + ".properties";
+        } else {
+            propFileName = "src/game/resources/" +fileName + ".properties";
+        }
         try {
             Properties configProperty = new Properties();
 

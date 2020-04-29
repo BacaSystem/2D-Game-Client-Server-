@@ -1,4 +1,4 @@
-package game.menuPanels;
+package game.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
