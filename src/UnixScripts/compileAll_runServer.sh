@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ../
 echo "Server compilling..."
 
 javac server/configReader/*.java server/*.java
