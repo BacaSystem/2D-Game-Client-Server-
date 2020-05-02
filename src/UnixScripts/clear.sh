@@ -4,6 +4,7 @@ cd ../
 
 JAVADOC_FOLDER_GAME="../dokumentacja/game"
 JAVADOC_FOLDER_SERVER="../dokumentacja/server"
+OUT_FOLDER="../out"
 
 
 #delete game class files
@@ -18,3 +19,4 @@ rm -f Game.jar Server.jar
 #delete game javadoc
 rm -r $JAVADOC_FOLDER_GAME/* $JAVADOC_FOLDER_GAME/*/
 rm -r $JAVADOC_FOLDER_SERVER/* $JAVADOC_FOLDER_SERVER/*/
+rm -r $OUT_FOLDER/*/
