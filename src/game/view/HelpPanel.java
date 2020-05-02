@@ -6,6 +6,7 @@ import game.entities.Button;
 import game.configReader.ConfigReader;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.net.Socket;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Klasa zajmujaca się wyświetlaniem widoku Help Menu
  * Rozszerza klasę JPanel
  */
-public class HelpPanel extends AbstractVerticalPanel {
+public class HelpPanel extends JPanel {
     /** Nazwa pliku, w której należy szukać lokalnego tekstu pomocy */
     private final String fileName = "helpText";
     /**
@@ -24,9 +25,11 @@ public class HelpPanel extends AbstractVerticalPanel {
      * @param serverSocket socket servera, może być null
      */
     public HelpPanel(ActionListener menuListner, Socket serverSocket) {
-        super();
-        getHelp(fileName, serverSocket, super.verticalPanel);
-        super.verticalPanel.add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        getHelp(fileName,serverSocket,panel);
+        panel.add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU), BorderLayout.SOUTH);
+        this.add(panel);
     }
 
     /**
@@ -53,7 +56,7 @@ public class HelpPanel extends AbstractVerticalPanel {
                 System.out.println("online help\n");
 
                 titleLabel = new JLabel(title.get("title"), SwingConstants.CENTER);
-                textArea = new JTextArea(text);
+                textArea = new JTextArea(text,1,45);
 
             } catch(Exception e) {
                 ServerStatus.connectionLost(serverSocket);
@@ -75,13 +78,13 @@ public class HelpPanel extends AbstractVerticalPanel {
             System.out.println("offline help\n");
 
             titleLabel = new JLabel(title, SwingConstants.CENTER);
-            textArea = new JTextArea(text);
+            textArea = new JTextArea(text,1,45);
         }
 
-        panel.add(titleLabel);
+        panel.add(titleLabel, BorderLayout.NORTH);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
-        panel.add(textArea);
+        panel.add(textArea, BorderLayout.CENTER);
     }
 }
