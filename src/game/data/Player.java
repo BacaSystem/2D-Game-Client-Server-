@@ -55,7 +55,7 @@ public class Player {
 
     /**
      * Metoda pobierająca aktualny nick gracza
-     * @return
+     * @return zwraca aktualny nick gracza
      */
     public String getNick() {
         return this.nick;

@@ -21,6 +21,7 @@ public class HelpPanel extends AbstractVerticalPanel {
     /**
      * Konstruktor tworzący komponenty do wyświetlenia w panelu pomocy
      * @param menuListner Listner z menu nasluchujący wciśnięcia przycisków
+     * @param serverSocket socket servera, może być null
      */
     public HelpPanel(ActionListener menuListner, Socket serverSocket) {
         super();

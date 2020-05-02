@@ -57,6 +57,8 @@ public class ConfigReader {
      * @param fileName nazwa pliku BEZ ROZSZERZEŃ, w ktorym zostanie zapisana informacja
      * @param key klucz, pod jakim zostanie zapisana informacja
      * @param data dana, ktora zostanie zapisana w pliku
+     * @return zwraca flagę boolean - true jeśli czytanie zakończone powodzeniem
+     *                                false jeśli zakończone niepowodzeniem
      */
     public static boolean setValue(String fileName, String key, String data) {
         String propFileName = "";

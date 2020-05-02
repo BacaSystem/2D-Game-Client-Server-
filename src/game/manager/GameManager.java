@@ -86,6 +86,7 @@ public class GameManager implements Updatable {
     /**
      * Konstruktor klasy manadżera, inicjalizuje wszystkie pola - wywołanie init() oraz ładuje zasoby - wywołanie loadResources()
      * @param game referencja na panel gry
+     * @param server socket servera, może być null
      */
     public GameManager(JPanel game, Socket server){
         serverSocket = server;

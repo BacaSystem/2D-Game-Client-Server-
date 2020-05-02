@@ -55,6 +55,7 @@ public class GameView extends JPanel implements Runnable, Updatable {
      * @param width początkowa szerokość okna
      * @param height początkowa wysokość okna
      * @param frame referencja do okna gry
+     * @param server socket servera, może być null
      */
     public GameView(int width, int height, GameWindow frame, Socket server) {
         this.serverSocket = server;

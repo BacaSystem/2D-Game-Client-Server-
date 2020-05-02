@@ -17,7 +17,7 @@ public class ServerStatus {
      * Próbuje zamknąć połączenie ze strony klienta (jeśli takowe jest jeszcze otwarte)
      * Wywołuje komunikat o niespodziwanej utracie połączenia i daje użytkownikowi możliwość używanie programu dalej
      * w trybie offline, lub zamknięcie programu.
-     * @param serverSocket
+     * @param serverSocket socket servera
      */
     public static void connectionLost(Socket serverSocket) {
         int dialogResult = dialogPopUp("Connection issue", "We've lost connection with the server. Do you want to play offline?");
@@ -39,6 +39,7 @@ public class ServerStatus {
      * Zamyka połączenie z serwerem i prosi serwer o zamknięcie połączenia z klientem.
      * @param serverSocket Socket serwera
      * @param command Żądanie klienta
+     * @param response odpowiedź zwrócona przez server
      */
     public static void wrongCommand(Socket serverSocket, String command, String response) {
         String title = "Protocol issue", text;

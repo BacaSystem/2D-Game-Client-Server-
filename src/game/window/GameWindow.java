@@ -43,7 +43,9 @@ public class GameWindow extends JFrame implements ActionListener{
 
     private Socket serverSocket;
 
-    /** Konstruktor głównego okna gry, ustala jego rozmiar oraz układa elementy graficzne */
+    /** Konstruktor głównego okna gry, ustala jego rozmiar oraz układa elementy graficzne
+     * @param socket socket servera, może być null
+     */
     public GameWindow(Socket socket) {
         setWindowSizeAndFocus();
         MakeUI();
