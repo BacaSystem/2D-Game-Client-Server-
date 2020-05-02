@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#going to previous directory
 cd ../
 
 JAVADOC_FOLDER_GAME="../dokumentacja/game"
@@ -18,5 +19,9 @@ rm -f Game.jar Server.jar
 
 #delete game javadoc
 rm -r $JAVADOC_FOLDER_GAME/* $JAVADOC_FOLDER_GAME/*/
+
+#delete server javadoc
 rm -r $JAVADOC_FOLDER_SERVER/* $JAVADOC_FOLDER_SERVER/*/
+
+#clear out folder
 rm -r $OUT_FOLDER/*/
