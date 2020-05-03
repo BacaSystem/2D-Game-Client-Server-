@@ -22,8 +22,15 @@ import java.net.Socket;
  * Obsługuje zdarzenia przychodzące z interfejsu graficznego użytkownika
  */
 public class LauncherWindow extends JFrame implements ActionListener {
-    private String ipDefault = ConfigReader.getValue("ip","ip");
-    private String portDefault = ConfigReader.getValue("ip","port");
+    /**
+     * Nazwa pliku konfiguracyjnego z danymi serwera
+     */
+    String serverFileName = "ip";
+
+    /** Domyślna wartosc pola IP */
+    private String ipDefault = ConfigReader.getValue(serverFileName,"ip");
+    /** Domyślna wartosc pola port */
+    private String portDefault = ConfigReader.getValue(serverFileName,"port");
 
     /** Przycisk menu */
     private JButton online;

@@ -49,14 +49,6 @@ public class ServerProtocol {
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
-            /*case "GET_GRAPHICS":
-                keys = new String[]{"ship", "fireUp", "fireDown", "fireLeft", "fireRight", "gameOver", "menuText", "wonText", "landed", "crashed", "destroyed", "paused", "meteor"};
-                filename = "gameGraphics";
-                serverMessage=getCodedContent(filename,keys);
-                break;
-
-             */
-
             case "GET_MENU_SETTINGS":
                 keys = new String[]{"gameTitle", "newGame", "help", "highScores", "exit", "backToMain", "width", "height","buttonWidth","buttonHeight"};
                 filename = "menu";
