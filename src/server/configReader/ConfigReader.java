@@ -50,7 +50,6 @@ public class ConfigReader {
         return result;
     }
 
-    // NA RAZIE NIE POTRZEBNA, ALE MOŻE SIE PRZYDA
 
     /**
      * Metoda zapisująca dane do pliku konfiguracyjnego
