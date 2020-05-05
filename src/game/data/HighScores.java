@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import game.serverConnection.ServerStatus;
 import game.configReader.ConfigReader;
@@ -155,9 +156,6 @@ public class HighScores {
                 Collections.reverse(records);
                 isDataDonwloaded = true;
             }
-
-
-
         }
     }
 
@@ -174,41 +172,58 @@ public class HighScores {
         this.downloadData();
         String nicks = "";
         String scores = "";
-        if(player.getScore() >= records.get(numberOfRecords - 1).getScore()) {
+        String response = null;
 
-            //Adding player result (if better than worst result in array
-            //then sorting from max to minimum and deleting worst score
-            records.add(new Record(player.getNick(), player.getScore()));
-            records.sort(Record::compareTo);
-            Collections.reverse(records);
-            records.remove(numberOfRecords);
-
-            //Adding first record to string
-            if (!records.isEmpty()) {
-                nicks = nicks + records.get(0).getNick();
-                scores = scores + records.get(0).getScore();
-            }
-
-            //adding rest of records to string splitted by ','
-            for(int i=1; i<numberOfRecords; i++) {
-                nicks = nicks + "," + records.get(i).getNick();
-                scores = scores + "," + records.get(i).getScore();
-            }
-
-            if(ServerStatus.isConnected()) {
-                try {
-                    String wholeCommand = "SAVE_SCORES:";
-                    wholeCommand+=  "nicks" + "#" + nicks + "@" + "scores" + "#" + scores;
-                    ServerConnectivity.talkWithServer(serverSocket,wholeCommand);
-                } catch (Exception e) {
-                    ServerStatus.connectionLost(serverSocket);
+        if (serverSocket.isConnected()) {
+            try {
+                System.out.println("wlazlem w zapisywanie wyniku gracza");
+                String command = "SAVE_SCORES:" + player.getNick() + "@" + player.getScore();
+                response = ServerConnectivity.talkWithServer(serverSocket, command);
+                System.out.println(response);
+                if(response.contains("SCORE_SAVED")) {
+                    System.out.println("ranking reloading");
+                    records = new ArrayList<>();
+                    isDataDonwloaded = false;
+                    this.downloadData();
+                    saveScoreBoardToFile("by server");
                 }
+            } catch (Exception e) {
+                ServerStatus.connectionLost(serverSocket);
             }
-            if(!ServerStatus.isConnected()) {
-                ConfigReader.setValue(fileName, "nicks", nicks);
-                ConfigReader.setValue(fileName, "scores", scores);
-            }
-            System.out.println("Ranging reloaded");
         }
+        if(!ServerStatus.isConnected()) {
+            if (player.getScore() >= records.get(numberOfRecords - 1).getScore()) {
+
+                //Adding player result (if better than worst result in array
+                //then sorting from max to minimum and deleting worst score
+                records.add(new Record(player.getNick(), player.getScore()));
+                records.sort(Record::compareTo);
+                Collections.reverse(records);
+                records.remove(numberOfRecords);
+
+                saveScoreBoardToFile("by game");
+
+
+            }
+        }
+    }
+
+    private void saveScoreBoardToFile(String byWho) {
+        String nicks = "";
+        String scores = "";
+        //Adding first record to string
+        if (!records.isEmpty()) {
+            nicks = nicks + records.get(0).getNick();
+            scores = scores + records.get(0).getScore();
+        }
+
+        //adding rest of records to string splitted by ','
+        for (int i = 1; i < numberOfRecords; i++) {
+            nicks = nicks + "," + records.get(i).getNick();
+            scores = scores + "," + records.get(i).getScore();
+        }
+        ConfigReader.setValue(fileName, "nicks", nicks);
+        ConfigReader.setValue(fileName, "scores", scores);
+        System.out.println("Ranging reloaded " + byWho + " and saved in local file");
     }
 }

@@ -62,7 +62,7 @@ public class GameWindow extends JFrame implements ActionListener{
 
         this.setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Lunar Lander");
+        setTitle(MenuWindowStates.GAME_TITLE);
         setWindowSize(false);
         setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         setLocationRelativeTo(null);

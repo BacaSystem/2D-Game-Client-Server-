@@ -25,11 +25,9 @@ public class HelpPanel extends JPanel {
      * @param serverSocket socket servera, może być null
      */
     public HelpPanel(ActionListener menuListner, Socket serverSocket) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        getHelp(fileName,serverSocket,panel);
-        panel.add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU), BorderLayout.SOUTH);
-        this.add(panel);
+        this.setLayout(new BorderLayout());
+        getHelp(fileName,serverSocket,this);
+        this.add(new Button(menuListner, MenuWindowStates.MENU_BUTTON, MenuWindowStates.MENU), BorderLayout.SOUTH);
     }
 
     /**

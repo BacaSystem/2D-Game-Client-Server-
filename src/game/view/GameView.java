@@ -29,6 +29,8 @@ public class GameView extends JPanel implements Runnable, Updatable {
     /** flaga określająca wyświetlenie końcowego menu */
     public boolean hasPopUp = false;
 
+    private boolean escClicked = false;
+
     /** obiiekt okna gry
      * @see  GameWindow*/
     private GameWindow frame;
@@ -84,10 +86,12 @@ public class GameView extends JPanel implements Runnable, Updatable {
      * Metoda pozwalająca zapisać wynik gracza i bezpiecznie wrócić do menu
      */
     private void saveAndGoToMenu(){
+        System.out.println("GameViewClass saveAndGoToMenu method");
         manager.points.bonusForLeftLifes(manager.player, manager.currentLevel);
         manager.highScores.checkPlayerScore(manager.player);
         manager.player.resetPlayerScores();
         manager.player.resetLifes();
+
         frame.goToMenu();
     }
 
@@ -122,7 +126,11 @@ public class GameView extends JPanel implements Runnable, Updatable {
         manager.input(key);
 
         if(key.escape.down())
-            saveAndGoToMenu();
+            if(!escClicked) {
+                saveAndGoToMenu();
+                escClicked = true;
+            }
+
     }
 
     /**

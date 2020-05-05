@@ -91,14 +91,14 @@ public class ServerProtocol {
             case "GET_SCOREBOARD":
                 filename = "scoreBoard";
                 keys = new String[]{"nicks","scores"};
+                ScoreBoard scoreBoard = ScoreBoard.getInstance();
+                scoreBoard.downloadData();
                 serverMessage=getCodedContent(filename,keys);
                 break;
 
 
             case "SAVE_SCORES":
-                filename = "scoreBoard";
-                saveDecodedValue(filename, originalCommand);
-                serverMessage="Scores Saved" + "\n";
+                serverMessage=updateScoreBoard(originalCommand);
                 break;
 
             case "LOGOUT":
@@ -211,6 +211,25 @@ public class ServerProtocol {
         return command.toString() +  "\n";
     }
 
+    /**
+     * Metoda zajmująca się aktualizowaniem tablicy wyników
+     * @param command Komenda nadesłana do serwera
+     * @return Zwraca informację o tym, czy tablica wynikow została zaktualizowana, czy nie
+     */
+    private static String updateScoreBoard(String command) {
+        String[] data = getNickAndScoreFromString(command);
+        ScoreBoard scoreBoard = ScoreBoard.getInstance();
+
+        String response = scoreBoard.checkPlayerScore(data);
+
+        if(response == "SCORE_SAVED") {
+            return "SCORE_SAVED\n";
+        } else {
+            return "SCORE_TOO_LOW\n";
+        }
+
+    }
+
 
 
 
@@ -271,6 +290,17 @@ public class ServerProtocol {
         }
         return keys.toArray(new String[keys.size()]);
 
+    }
+
+    /**
+     * Priwatna metoda pomocnicza przetwarzająca otrzymane na tablicę zawierającą wynik i punkty gracza
+     * @param string komenda nadeslana do serwera
+     * @return tablica przechowywująca na 1 miejscu nick, a na drugim miejscu punkty gracza
+     */
+    private static String[] getNickAndScoreFromString(String string) {
+        String[] trash = string.split(":");
+        String[] data = trash[1].split("@");
+        return data;
     }
 
 }

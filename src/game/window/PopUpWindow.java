@@ -7,11 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import game.manager.GameManager;
 import game.controller.KeyHandler;
+import game.view.AbstractVerticalPanel;
 import game.view.GameView;
 
 /**
  * Klasa tworząca okienko Pop Up po zakończeniu gry z informacją na temat jego wyniku */
-public class PopUpWindow {
+public class PopUpWindow extends AbstractVerticalPanel {
     /**
      * Kontruktor tworzący PopUpa
      * Implementuje dwa przyciski z ActionListenerem
