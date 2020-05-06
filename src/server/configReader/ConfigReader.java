@@ -53,7 +53,7 @@ public class ConfigReader {
 
     /**
      * Metoda zapisująca dane do pliku konfiguracyjnego
-     * @param fileName nazwa pliku BEZ ROZSZERZEŃ, w ktorym zostanie zapisana informacja
+     * @param fileName nazwa pliku BEZ ROZSZERZEN, w ktorym zostanie zapisana informacja
      * @param key klucz, pod jakim zostanie zapisana informacja
      * @param data dana, ktora zostanie zapisana w pliku
      * @return zwraca flagę boolean - true jeśli czytanie zakończone powodzeniem
