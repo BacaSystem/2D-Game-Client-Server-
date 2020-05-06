@@ -141,20 +141,26 @@ public class HighScores {
                     isDataDonwloaded = true;
 
                 } catch(Exception e) {
+                    System.out.println(e);
                     ServerStatus.connectionLost(serverSocket);
                 }
             }
             if(!ServerStatus.isConnected()) {
-                System.out.println("ScoreBoard Offline");
-                nicks = (ConfigReader.getValue(fileName, "nicks")).split(",");
-                scores = Arrays.stream(ConfigReader.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
-                numberOfRecords = Integer.parseInt(ConfigReader.getValue(fileName, "numerOfRecords"));
-                for(int i=0; i<numberOfRecords; i++) {
-                    records.add(new Record(nicks[i], scores[i]));
+                try {
+                    System.out.println("ScoreBoard Offline");
+                    nicks = (ConfigReader.getValue(fileName, "nicks")).split(",");
+                    scores = Arrays.stream(ConfigReader.getValue(fileName,"scores").split(",")).mapToInt(Integer::parseInt).toArray();
+                    numberOfRecords = Integer.parseInt(ConfigReader.getValue(fileName, "numerOfRecords"));
+                    for(int i=0; i<numberOfRecords; i++) {
+                        records.add(new Record(nicks[i], scores[i]));
+                    }
+                    records.sort(Record::compareTo);
+                    Collections.reverse(records);
+                    isDataDonwloaded = true;
+                } catch(Exception e) {
+                    System.out.println(e);
                 }
-                records.sort(Record::compareTo);
-                Collections.reverse(records);
-                isDataDonwloaded = true;
+
             }
         }
     }
@@ -169,12 +175,13 @@ public class HighScores {
      * @param player gracz, ktorego wynik sprawdzamy, czy powinien znaleźć się na tablicy wyników
      */
     public void checkPlayerScore(Player player) {
+        System.out.println("checkPlayerScore Method");
         this.downloadData();
         String nicks = "";
         String scores = "";
         String response = null;
 
-        if (serverSocket.isConnected()) {
+        if (ServerStatus.isConnected()) {
             try {
                 System.out.println("wlazlem w zapisywanie wyniku gracza");
                 String command = "SAVE_SCORES:" + player.getNick() + "@" + player.getScore();
@@ -188,22 +195,22 @@ public class HighScores {
                     saveScoreBoardToFile("by server");
                 }
             } catch (Exception e) {
+                System.out.println(e);
                 ServerStatus.connectionLost(serverSocket);
             }
         }
         if(!ServerStatus.isConnected()) {
-            if (player.getScore() >= records.get(numberOfRecords - 1).getScore()) {
+            try {
+                if (player.getScore() >= records.get(numberOfRecords - 1).getScore()) {
 
-                //Adding player result (if better than worst result in array
-                //then sorting from max to minimum and deleting worst score
-                records.add(new Record(player.getNick(), player.getScore()));
-                records.sort(Record::compareTo);
-                Collections.reverse(records);
-                records.remove(numberOfRecords);
-
-                saveScoreBoardToFile("by game");
-
-
+                    records.add(new Record(player.getNick(), player.getScore()));
+                    records.sort(Record::compareTo);
+                    Collections.reverse(records);
+                    records.remove(numberOfRecords);
+                    saveScoreBoardToFile("by game");
+                }
+            } catch(Exception e) {
+                System.out.println(e);
             }
         }
     }
