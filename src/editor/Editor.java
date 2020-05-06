@@ -9,7 +9,10 @@ public class Editor  {
         SwingUtilities.invokeLater(new Runnable() { // Run new Thread
             @Override
             public void run() {
-                new Frame();
+                //new Frame();
+                InputDialog dialog = new InputDialog();
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
     }

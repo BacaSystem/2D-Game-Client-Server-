@@ -66,18 +66,18 @@ public class ConfigReader {
 
     /**
      * Metoda zapisująca dane do pliku konfiguracyjnego
-     * @param fileName nazwa pliku BEZ ROZSZERZEŃ, w ktorym zostanie zapisana informacja
+     * @param nameFile nazwa pliku BEZ ROZSZERZEN, w ktorym zostanie zapisana informacja
      * @param key klucz, pod jakim zostanie zapisana informacja
      * @param data dana, ktora zostanie zapisana w pliku
      */
-    public static void setValue(String fileName, String key, String data) {
+    public static void setValue(String nameFile, String key, String data) {
         FileOutputStream fileOut = null;
         FileInputStream fileIn;
         String propFileName = "";
         if(!IDE) {
-            propFileName = "./game/resources/" +fileName + ".properties";
+            propFileName = "./game/resources/" +nameFile + ".properties";
         } else {
-            propFileName = "src/game/resources/" +fileName + ".properties";
+            propFileName = "src/game/resources/" +nameFile + ".properties";
         }
         try {
             Properties configProperty = new Properties();
