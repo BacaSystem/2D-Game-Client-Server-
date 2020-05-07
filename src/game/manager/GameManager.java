@@ -178,18 +178,10 @@ public class GameManager implements Updatable {
             }
         }
 
-        if(landed && currentLevel == maxLevels)
-            won = true;
-
-        if(player.getLifes() == 0 && crashed)
-            gameOver = true;
-
-
-
         while((landed || gameOver) && !savedScore) {
             savedScore = true;
             if (gameOver) {
-                //System.out.println("GameManager Class update method first if");
+                System.out.println("GameManager Class update method first if");
                 highScores.checkPlayerScore(player);
                 scoreOnWinOrLose = player.getScore();
                 player.resetPlayerScores();
@@ -197,7 +189,7 @@ public class GameManager implements Updatable {
                 if (currentLevel < maxLevels) {
                     Points.addPointsForLevel(player, ship.getFuel(), currentLevel);
                 } else {
-                    //System.out.println("GameManager Class update method second if");
+                    System.out.println("GameManager Class update method second if");
                     Points.addPointsForLevel(player,ship.getFuel(), currentLevel);
                     Points.bonusForLeftLifes(player,currentLevel);
                     highScores.checkPlayerScore(player);
@@ -206,6 +198,13 @@ public class GameManager implements Updatable {
                 }
             }
         }
+
+        if(landed && currentLevel == maxLevels)
+            won = true;
+
+        if(player.getLifes() == 0 && crashed)
+            gameOver = true;
+
     }
 
     /**
