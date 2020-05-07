@@ -20,7 +20,6 @@ public class PopUpExit extends AbstractVerticalPanel {
     public PopUpExit(String exeptionText) {
         super();
 
-        //JFrame contruct
         JFrame popUp = new JFrame();
         {
             popUp.setTitle("Error Window");

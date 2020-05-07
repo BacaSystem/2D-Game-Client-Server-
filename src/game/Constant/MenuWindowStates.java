@@ -13,6 +13,7 @@ import static java.lang.Integer.parseInt;
  * Klasa przechoowywująca stałe menu gry
  */
 public final class MenuWindowStates {
+    /** string przechowujący komende do serwera */
     private static final String serverCommand = "GET_MENU_SETTINGS";
     /** string prechowywujący nazwę pliku ze ścieżkami do stałych menu gry. BEZ ROZSZERZENIA */
     private static final String fileName = "menu";
@@ -56,6 +57,10 @@ public final class MenuWindowStates {
         throw new AssertionError();
     }
 
+    /**
+     * Metoda pobierająca menu gry
+     * @param serverSocket Socket serwera. Jeśli połączenie jest zestawione, pobiera dane online. Jeśli nie - lokalne.
+     */
     public static void downloadMenu(Socket serverSocket) {
         if(ServerStatus.isConnected()) {
             try {

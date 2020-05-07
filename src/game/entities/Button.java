@@ -15,7 +15,7 @@ public class Button extends JButton {
      * @param buttonName nazwa przycisku
      * @param buttonAction nazwa akcji przycisku
      */
-    public Button(/*int width, int height */ActionListener menuListener, String buttonName, String buttonAction) {
+    public Button(ActionListener menuListener, String buttonName, String buttonAction) {
         this.setFocusable(false);
         this.addActionListener(menuListener);
         this.setActionCommand(buttonAction);

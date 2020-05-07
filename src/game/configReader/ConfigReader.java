@@ -11,6 +11,7 @@ import java.util.logging.Level;
  * Klasa zanjmująca się odczytem i zapisem danych z plików konfiguracyjnych
  */
 public class ConfigReader {
+    /** flaga okreslająca czy program uruchomiony jest poprzez IDE czy nie */
     public static boolean IDE = false;
 
     public static void useIDE() {

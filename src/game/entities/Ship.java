@@ -220,16 +220,16 @@ public class Ship extends Entity implements Updatable {
     @Override
     public void render(Graphics2D g2d) {
 
-        if (down) // Draw fly image
+        if (down)
              g2d.drawImage(fireDown, x, y, null);
 
-        if (up) // Draw fly image
+        if (up)
             g2d.drawImage(fireUp, x, y, null);
 
-        if (left) // Draw fly image
+        if (left)
             g2d.drawImage(fireLeft, x, y, null);
 
-        if (right) // Draw fly image
+        if (right)
             g2d.drawImage(fireRight, x, y, null);
 
         g2d.drawImage(image, x, y, null);

@@ -19,7 +19,7 @@ public interface Updatable {
      */
      void update();
     /**
-     * Metoda odpowiedzialna za obsługe zdarzeń z klawiatury, wywoływana razem z updtae()
+     * Metoda odpowiedzialna za obsługe zdarzeń z klawiatury, wywoływana razem z update()
      * @param key KeyHandler - obiekt obsługujący zdarzenia klawiatury
      */
      void input(KeyHandler key);

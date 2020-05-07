@@ -25,6 +25,7 @@ import javax.swing.JPanel;
  */
 public class GameManager implements Updatable {
 
+    /** socket serwera do ewentualnej komunikacji z klientem */
     Socket serverSocket;
 
     /** zmienne przechowujące grafiki */
@@ -85,10 +86,9 @@ public class GameManager implements Updatable {
 
     /**
      * Konstruktor klasy manadżera, inicjalizuje wszystkie pola - wywołanie init() oraz ładuje zasoby - wywołanie loadResources()
-     * @param game referencja na panel gry
      * @param server socket servera, może być null
      */
-    public GameManager(JPanel game, Socket server){
+    public GameManager(Socket server){
         serverSocket = server;
         currentLevel = 1;
         loadResources();
@@ -122,7 +122,6 @@ public class GameManager implements Updatable {
             pauseImg = ImageIO.read((new File(GraphicsConstants.PAUSE_IMAGE)));
         } catch (IOException e) {
             Logger.getLogger(GameManager.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
-            //e.printStackTrace();
         }
     }
 
@@ -248,7 +247,7 @@ public class GameManager implements Updatable {
 
     /**
      * Metoda render()
-     * Wywoływana ze stałą częstotliwościa 60 razy na sekundę
+     * Wywoływana ze stałą częstotliwościa 30 razy na sekundę
      * Odpowiedzialna za rysowanie wszystkich obiektów gry do obiektu grafiki
      * @param g obiekt grafiki do którego rysujemy wszstkie obiekty
      */

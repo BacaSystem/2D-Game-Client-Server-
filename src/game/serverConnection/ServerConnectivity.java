@@ -28,8 +28,6 @@ public class ServerConnectivity {
             InputStream is = server.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             value = br.readLine();
-            //System.out.println(value);
-
         } catch(Exception e) {
             Logger.getLogger(ServerConnectivity.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
             System.out.println("There was a problem with your command to server: " + command +  "\n");
@@ -41,19 +39,6 @@ public class ServerConnectivity {
                 System.out.println("INVALID_COMMAND");
             }
             ServerStatus.wrongCommand(server,command, value);
-
-            /*TODO ->
-                       Co, jeśli nie udalo się pobrać informacji z serwera, lub wprowadzono błędną komendę?
-                       Proponuję np. przerwać połączenie z srwerem (Bo w niektórych sytuacjach, np. przy późniejszej
-                       próbie przypisania jakiegoś inta pustym/nieprawidłowym Stringiem program może się posypać).
-
-            FIXME ->
-                     Proponuję np. wywolać zmodyfikowaną metodę connectionLost z klasy ServerStatus.
-                     Pozwoli to zamknać połączenie sieciowe i dokonanie przez użytkownika decyzji,
-                     czy chce grać dalej offline, czy woli przerwać działanie aplikacji.
-                     Oczywiście w tym przypadku przydałoby się poinformować użytkownika o napotkanym probielmie w komunikacie,
-                     więc należy tę metodę trochę zmodyfikować
-             */
         }
         return value;
     }
@@ -87,8 +72,6 @@ public class ServerConnectivity {
     public static Socket connectToServer(String IPAddress, int port) {
         try {
             BufferedReader br;
-            //String IPAddress="localhost";
-            //int port=4010;
             Socket serverSocket = new Socket(IPAddress, port);
             OutputStream os = serverSocket.getOutputStream();
             PrintWriter pw = new PrintWriter(os, true);

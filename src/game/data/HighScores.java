@@ -17,6 +17,8 @@ import game.serverConnection.ServerConnectivity;
  * Najlepsze wyniki gry pobierane są z plików konfiguracyjnych gry i na bierząco aktualizowane
  */
 public class HighScores {
+
+    /** socket serwera do ewentualnej komunikacji z klientem */
     private Socket serverSocket = null;
 
     /** atrybut statyczny przechowywujący nazwę pliku konfiguracyjnego z najlepszymi wynikami gry. Bez rozszerzenia.*/
@@ -96,10 +98,13 @@ public class HighScores {
     }
     //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
+    /**
+     * Metoda inicjująca socket serwera
+     * @param server socket serwera z którym się łączymy
+     */
     public void setSocket(Socket server) {
         serverSocket = server;
     }
-
 
     /**
      * Zwraca najlepsze rekordy

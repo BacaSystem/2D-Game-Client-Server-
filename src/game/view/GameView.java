@@ -17,6 +17,7 @@ import java.net.Socket;
  * Odpowiedzialna za renderowanie oraz update'owanie gry ze stałą częstotliwością
  */
 public class GameView extends JPanel implements Runnable, Updatable {
+    /** socket serwera do komunikacji z klientem */
     Socket serverSocket;
 
     /** zmienna określająca szerokość okna */
@@ -28,7 +29,7 @@ public class GameView extends JPanel implements Runnable, Updatable {
     public boolean running = false;
     /** flaga określająca wyświetlenie końcowego menu */
     public boolean hasPopUp = false;
-
+    /** flaga określająca wciśnięcie przycisku escape */
     private boolean escClicked = false;
 
     /** obiiekt okna gry
@@ -44,9 +45,6 @@ public class GameView extends JPanel implements Runnable, Updatable {
     /** wątek gry */
     private Thread gameThread;
 
-    /** obiekt grafiki, do którego rysjemy inne obiekty */
-    private Graphics g;
-
     /** zmienna określająca aktualną ilość klatek na sekundę */
     private int fps = 30;
     public int frameCount = 0;
@@ -57,7 +55,7 @@ public class GameView extends JPanel implements Runnable, Updatable {
      * @param width początkowa szerokość okna
      * @param height początkowa wysokość okna
      * @param frame referencja do okna gry
-     * @param server socket servera, może być null
+     * @param server socket serwera, może być null
      */
     public GameView(int width, int height, GameWindow frame, Socket server) {
         this.serverSocket = server;
@@ -70,15 +68,14 @@ public class GameView extends JPanel implements Runnable, Updatable {
 
     /**
      * Metoda inicjująca niezbędne elementy
-     * Tworzy obiekt grafiki, managera oraz KeyHandlera
+     * Tworzy obiekt managera oraz KeyHandlera
      * @see GameManager
      * @see KeyHandler
      */
     public void init(){
         running = true;
-        g = this.getGraphics();
         key = new KeyHandler(this);
-        manager = new GameManager(this, serverSocket);
+        manager = new GameManager(serverSocket);
     }
 
 
@@ -163,6 +160,7 @@ public class GameView extends JPanel implements Runnable, Updatable {
         g2d.drawString("Fuel tank: " + manager.ship.getFuel(), 5, 80);
         g2d.drawString("Max Landing Speed: " + manager.ship.getMaxLandingSpeed(), 5, 100);
         g2d.drawString("Speed (X: " +  String.format("%.1f", manager.ship.getSpeedX()) + " Y: " + String.format("%.1f", manager.ship.getSpeedY()) + ")", 5, 120);
+
         if (!manager.crashed && !manager.landed) {
             g2d.drawString("Points:" + String.valueOf(manager.points.getLiveScore(manager.player, manager.ship.getFuel(), manager.currentLevel)), 5,140);
         } else {
@@ -172,6 +170,7 @@ public class GameView extends JPanel implements Runnable, Updatable {
                g2d.drawString("Points:" + String.valueOf(manager.scoreOnWinOrLose),5,140);
             }
         }
+
         manager.render(g2d);
 
         g2d.setTransform(saveTransform);
@@ -181,8 +180,8 @@ public class GameView extends JPanel implements Runnable, Updatable {
     /**
      * Metoda biblioteki swing, odpowiedzialna za rysowanie componentów graficznych
      * Wywolywana 30 razy na sekunde za pomoca wywolania repaint()
-     * Wywoluje metode render()
-     * @param g obiekt grafiki do którego rysowane są componenty
+     * Wywoluje metode render(Graphics g)
+     * @param g obiekt grafiki (kontekst graficzny) do którego rysowane są componenty
      */
     @Override
     protected void paintComponent(Graphics g) {
@@ -210,23 +209,15 @@ public class GameView extends JPanel implements Runnable, Updatable {
      */
     @Override
     public void run() {
-        //This value would probably be stored elsewhere.
         final double GAME_HERTZ = 30.0;
-        //Calculate how many ns each frame should take for our target game hertz.
         final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
-        //At the very most we will update the game this many times before a new render.
-        //If you're worried about visual hitches more than perfect timing, set this to 1.
         final int MAX_UPDATES_BEFORE_RENDER = 5;
-        //We will need the last update time.
         double lastUpdateTime = System.nanoTime();
-        //Store the last time we rendered.
         double lastRenderTime = System.nanoTime();
 
-        //If we are able to get as high as this FPS, don't render again.
         final double TARGET_FPS = 30;
         final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 
-        //Simple way of finding FPS.
         int lastSecondTime = (int) (lastUpdateTime / 1000000000);
 
         while (running)
@@ -234,7 +225,6 @@ public class GameView extends JPanel implements Runnable, Updatable {
             double now = System.nanoTime();
             int updateCount = 0;
 
-            //Do as many game updates as we need to, potentially playing catchup.
             while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER )
             {
                 update();
@@ -243,36 +233,25 @@ public class GameView extends JPanel implements Runnable, Updatable {
                 updateCount++;
             }
 
-            //If for some reason an update takes forever, we don't want to do an insane number of catchups.
-            //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
             if ( now - lastUpdateTime > TIME_BETWEEN_UPDATES)
-            {
                 lastUpdateTime = now - TIME_BETWEEN_UPDATES;
-            }
 
             input(key);
             repaint();
 
             lastRenderTime = now;
 
-            //Update the frames we got.
             int thisSecond = (int) (lastUpdateTime / 1000000000);
             if (thisSecond > lastSecondTime)
             {
-                //System.out.println("NEW SECOND " + thisSecond + " " + frameCount);
                 fps = frameCount;
                 frameCount = 0;
                 lastSecondTime = thisSecond;
             }
 
-            //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
             while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES)
             {
                 Thread.yield();
-
-                //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
-                //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
-                //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
                 try {Thread.sleep(1);} catch(Exception e) {}
 
                 now = System.nanoTime();

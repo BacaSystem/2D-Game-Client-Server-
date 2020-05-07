@@ -5,7 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
- * Klasa abstracyjna dziedzicząca po JPanelu, tworząca wydok vertykalny komponentów,
+ * Klasa abstracyjna dziedzicząca po JPanelu, tworząca widok wertykalny komponentów,
  * które zostaną dodane do paneu vetricalPanel.
  */
 public abstract class AbstractVerticalPanel extends JPanel {

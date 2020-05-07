@@ -40,11 +40,11 @@ public class GameWindow extends JFrame implements ActionListener{
     private HelpPanel helpPanel = null;
     /** panel gry, odpowiedzialny za gameplay */
     private GameView gamePanel = null;
-
+    /** socket serwera, z którym ewentualnie klient się komunikuje */
     private Socket serverSocket;
 
     /** Konstruktor głównego okna gry, ustala jego rozmiar oraz układa elementy graficzne
-     * @param socket socket servera, może być null
+     * @param socket socket servera, może być null gdy nie chcemy łączyć się z serwerem
      */
     public GameWindow(Socket socket) {
         setWindowSizeAndFocus();

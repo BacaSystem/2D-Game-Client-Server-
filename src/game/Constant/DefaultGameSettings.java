@@ -13,6 +13,7 @@ import static java.lang.Integer.parseInt;
  * Klasa przechoowywująca domyślne stałe gry
  */
 public class DefaultGameSettings {
+    /** string przechowujący komende do serwera */
     private static final String serverCommand = "GAME_SETTINGS";
     /** string prechowywujący nazwę pliku z ogolnymi stałymi gry. BEZ ROZSZERZENIA */
     private static final String fileName = "defaultGameSettings";

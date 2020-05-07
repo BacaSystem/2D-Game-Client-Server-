@@ -11,7 +11,10 @@ import game.view.AbstractVerticalPanel;
 import game.view.GameView;
 
 /**
- * Klasa tworząca okienko Pop Up po zakończeniu gry z informacją na temat jego wyniku */
+ * Klasa tworząca okienko Pop Up po zakończeniu gry z informacją na temat jego wyniku
+ * Klasa dziedziczy po AbstractVerticalPanel
+ * @see AbstractVerticalPanel
+ */
 public class PopUpWindow extends AbstractVerticalPanel {
     /**
      * Kontruktor tworzący PopUpa
@@ -24,7 +27,7 @@ public class PopUpWindow extends AbstractVerticalPanel {
      * @param manager Manager gry
      *                by móc wykonać przeładowanie gry
      * @param key KeyHandler gry
-     *            by mój zresetować wciśnięte klawisze podczas rozbicia się/ wygrania
+     *            by móc zresetować wciśnięte klawisze podczas rozbicia się/ wygrania
      * @param game Panel gry
      *             by móc ustawić status flagi, czy okienko jest nadal otwarte
      */

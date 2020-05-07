@@ -23,7 +23,8 @@ public class Collision {
     /** referencja do obiektu lądowiska
      * @see LandingSpace */
     private LandingSpace landing;
-    /** lista obiektów meteorytów */
+    /** lista obiektów meteorytów
+     * @see Meteor */
     private List<Meteor> meteors;
 
     /**

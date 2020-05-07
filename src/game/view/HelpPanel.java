@@ -22,7 +22,7 @@ public class HelpPanel extends JPanel {
     /**
      * Konstruktor tworzący komponenty do wyświetlenia w panelu pomocy
      * @param menuListner Listner z menu nasluchujący wciśnięcia przycisków
-     * @param serverSocket socket servera, może być null
+     * @param serverSocket socket serwera, może być null
      */
     public HelpPanel(ActionListener menuListner, Socket serverSocket) {
         this.setLayout(new BorderLayout());
@@ -33,7 +33,7 @@ public class HelpPanel extends JPanel {
     /**
      * Metoda tworząca widok pomocy
      * @param fileName nazwa pliku pomocy
-     * @param serverSocket Socket serweru. W przypadku wersji online może być null.
+     * @param serverSocket Socket serwera. W przypadku wersji online może być null.
      * @param  panel JPanel vertykalny, do którego dodany zostanie widok
      */
     private void getHelp(String fileName, Socket serverSocket, JPanel panel) {

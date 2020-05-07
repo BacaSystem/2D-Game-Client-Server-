@@ -14,6 +14,7 @@ import java.util.logging.Logger;
  * Klasa przechoowywująca poziomy gry
  */
 public class LoadLevel {
+    /** string przechowujący komende do serwera */
     private static final String serverCommand = "LOAD_LEVEL:";
     /** stała przechowywująca przyspieszenie grawitacyjne */
     public static float GRAVITY_SPEED;

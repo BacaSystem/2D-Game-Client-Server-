@@ -184,11 +184,11 @@ public class LauncherWindow extends JFrame implements ActionListener {
             }
         });
     }
-
+/** metoda pobierająca dane konfiguracyjne z serwera */
     private void downloadConfigData(Socket serverSocket) {
         DefaultGameSettings.donwloanGameSettings(serverSocket);
         MenuWindowStates.downloadMenu(serverSocket);
-        GraphicsConstants.donwloanGraphics(serverSocket);
+        GraphicsConstants.donwloanGraphics();
         scoreBoard.setSocket(serverSocket);
     }
 
