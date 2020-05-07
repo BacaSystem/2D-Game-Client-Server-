@@ -12,8 +12,6 @@ import java.util.logging.Logger;
  * Klasa przechoowywująca ścieżki do elementów graficznych gry
  */
 public class GraphicsConstants {
-    /** string przechowujący komende do serwera */
-    private static final String serverCommand = "GET_GRAPHICS";
     /** string prechowywujący nazwę pliku ze ścieżkami do elementów graficznych gry. BEZ ROZSZERZENIA */
     private static String fileName = "gameGraphics";
 
