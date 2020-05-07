@@ -26,7 +26,7 @@ public class Server {
         try {
             port = Integer.parseInt(ConfigReader.getValue(filename,"port"));
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Server is working now");
+            System.out.println("Server is working now and waiting for clients");
             new ServerWindow(serverSocket);
             while (true) {
                 socket = serverSocket.accept();
