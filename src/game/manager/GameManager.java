@@ -10,6 +10,7 @@ import game.data.Points;
 import game.entities.*;
 import game.controller.KeyHandler;
 import game.physic.Collision;
+import game.data.Points;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -80,9 +81,9 @@ public class GameManager implements Updatable {
      */
     public HighScores highScores = HighScores.getInstance();
     /** atrubut przechowywujcy referencję na klasę punktów
-     * @see game.data.Points
+     * @see Points
      */
-    public game.data.Points points;
+    public Points points;
 
     /**
      * Konstruktor klasy manadżera, inicjalizuje wszystkie pola - wywołanie init() oraz ładuje zasoby - wywołanie loadResources()

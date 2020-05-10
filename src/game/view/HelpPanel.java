@@ -83,6 +83,7 @@ public class HelpPanel extends JPanel {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
+        textArea.setBackground(Color.WHITE);
         panel.add(textArea, BorderLayout.CENTER);
     }
 }

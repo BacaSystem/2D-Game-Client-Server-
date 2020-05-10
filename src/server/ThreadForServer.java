@@ -25,6 +25,7 @@ public class ThreadForServer implements Runnable{
      */
     @Override
     public void run() {
+
         try {
             while (true) {
                 InputStream inputStream = socket.getInputStream();
