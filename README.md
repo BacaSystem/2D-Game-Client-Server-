@@ -2,4 +2,4 @@
 
 **Gra Lunar Lander**
 
-Etap 1 - Funkcjonalność i zasady. Punktacja.
+Projekt gry Lunar lander stworzony na potrzeby przedmiotu Programowanie Zdarzeniowe, w technologi programowania zdarzeniowego w Java'ie
